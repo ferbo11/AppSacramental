@@ -286,3 +286,54 @@ La siguiente fase deberá continuar con la configuración y diseño de la aplica
 | **Patrocinador**                   | Párroco de la Iglesia El Calvario                    |
 | **Fecha del Acta de Constitución** | 17/08/2026                                           |
 | **Estado del Acta**                | Pendiente de aprobación                              |
+
+---
+
+# Fase 2 — Estructura de navegación e interfaz base
+
+## Descripción de la Fase 2
+
+Durante esta fase se inició el desarrollo de la interfaz web del sistema, tomando como referencia el mockup definido para el proyecto.
+
+El objetivo principal fue establecer una estructura visual uniforme para la aplicación y separar las interfaces correspondientes a cada sacramento, preparando posteriormente su conexión con las respectivas funcionalidades y bases de datos.
+
+La interfaz mantiene una línea visual basada en:
+
+- Azul oscuro para la navegación principal.
+- Azul claro para elementos activos y acciones principales.
+- Fondo claro para el área de trabajo.
+- Tarjetas y contenedores blancos.
+- Botones diferenciados para acciones importantes.
+- Diseño adaptable a diferentes tamaños de pantalla.
+
+---
+
+## Objetivo de la Fase 2
+
+Establecer la estructura inicial de navegación e interfaces del sistema, separando los templates HTML y archivos CSS de acuerdo con cada aplicación sacramental.
+
+En esta fase se realizó:
+
+- Creación de la interfaz principal del sistema.
+- Creación de las interfaces individuales para los sacramentos.
+- Separación de los archivos HTML y CSS.
+- Creación de directorios específicos para los recursos estáticos de cada sacramento.
+- Definición de la estructura visual común para las interfaces sacramentales.
+- Creación de la interfaz inicial de Bautismo.
+- Incorporación de los campos correspondientes al registro de Bautismo.
+- Incorporación del buscador.
+- Incorporación del botón para regresar.
+- Incorporación del botón para imprimir/generar la constancia en PDF.
+- Incorporación de una imagen de fondo para las interfaces.
+- Configuración inicial de las URLs y vistas de Django.
+- Verificación de la navegación hacia la interfaz de Bautismo.
+
+---
+
+## Página principal
+
+Se creó la página principal del sistema en:
+
+```text
+templates/
+└── index.html

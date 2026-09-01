@@ -1,0 +1,199 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Parroquia El Calvario - Matrimonio</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'matrimonio/css/matrimonio.css' %}">
+</head>
+
+<body>
+
+    <!-- Barra lateral -->
+    <div class="sidebar">
+
+        <h2>Parroquia El Calvario</h2>
+
+        <a href="#" class="nav-item active">
+            <i class="fas fa-baby"></i>
+            Matrimonio
+        </a>
+
+        <a href="#" class="nav-item">
+            <i class="fas fa-file-pdf"></i>
+            Historial de Constancias
+        </a>
+
+        <a href="#" class="nav-item">
+            <i class="fas fa-cog"></i>
+            Configuración
+        </a>
+
+    </div>
+
+
+    <!-- Contenido principal -->
+    <div class="main-content">
+
+        <!-- Encabezado -->
+        <div class="header">
+
+            <div>
+                <h1>Registros de Matrimonio</h1>
+                <p>Cobán, Alta Verapaz, Guatemala, C.A.</p>
+            </div>
+
+            <a href="{% url 'index' %}" class="btn-back">
+                <i class="fas fa-arrow-left"></i>
+                Regresar
+            </a>
+
+        </div>
+
+
+        <!-- Barra de búsqueda -->
+        <div class="search-container">
+
+            <div class="search-wrapper">
+
+                <i class="fas fa-search"></i>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    class="search-input"
+                    placeholder="Buscar por nombre o apellido..."
+                >
+
+            </div>
+
+            <button type="button" class="btn-search">
+                <i class="fas fa-search"></i>
+                Buscar
+            </button>
+
+        </div>
+
+
+        <!-- Información de matrimonio -->
+        <div class="card">
+
+            <div class="card-header">
+                <h2>Información del Novio y la Novia</h2>
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="nombre_novio">
+                        Nombre del Novio:
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nombre_novio"
+                        name="nombre_novio"
+                        placeholder="Nombre del novio"
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="apellidos_novio">
+                        Apellidos del Novio:
+                    </label>
+
+                    <input
+                        type="text"
+                        id="apellidos_novio"
+                        name="apellidos_novio"
+                        placeholder="Apellidos del novio"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="nombre_novia">
+                        Nombre de la Novia:
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nombre_novia"
+                        name="nombre_novia"
+                        placeholder="Nombre de la novia"
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="apellidos_novia">
+                        Apellidos de la Novia:
+                    </label>
+
+                    <input
+                        type="text"
+                        id="apellidos_novia"
+                        name="apellidos_novia"
+                        placeholder="Apellidos de la novia"
+                    >
+                </div>
+
+                        name="apellidos"
+                        placeholder="Apellidos"
+                    >
+                </div>
+
+                <div>
+                    for="fecha_matrimonio">
+                        Fecha del Matrimonio:
+                    </label>    
+                </div>
+
+                <div class="form-group">
+                    <label for="fecha_matrimonio">
+                        Fecha del Matrimonio:
+                    </label>
+
+                    <input
+                        type="date"
+                        id="fecha_matrimonio"
+                        name="fecha_matrimonio"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="Padrinos">
+                        Padrinos:
+                    </label>     
+                    
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- Acciones -->
+        <div class="actions">
+
+            <button type="button" class="btn-pdf">
+                <i class="fas fa-file-pdf"></i>
+                Imprimir PDF
+            </button>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

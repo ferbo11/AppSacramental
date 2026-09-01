@@ -1,0 +1,223 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Parroquia El Calvario - Bautismo</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'bautismo/css/bautismo.css' %}">
+</head>
+
+<body>
+
+    <!-- Barra lateral -->
+    <div class="sidebar">
+
+        <h2>Parroquia El Calvario</h2>
+
+        <a href="#" class="nav-item active">
+            <i class="fas fa-baby"></i>
+            Bautismo
+        </a>
+
+        <a href="#" class="nav-item">
+            <i class="fas fa-file-pdf"></i>
+            Historial de Constancias
+        </a>
+
+        <a href="#" class="nav-item">
+            <i class="fas fa-cog"></i>
+            Configuración
+        </a>
+
+    </div>
+
+
+    <!-- Contenido principal -->
+    <div class="main-content">
+
+        <!-- Encabezado -->
+        <div class="header">
+
+            <div>
+                <h1>Registro de Bautismo</h1>
+                <p>Cobán, Alta Verapaz, Guatemala, C.A.</p>
+            </div>
+
+            <a href="{% url 'index' %}" class="btn-back">
+                <i class="fas fa-arrow-left"></i>
+                Regresar
+            </a>
+
+        </div>
+
+
+        <!-- Barra de búsqueda -->
+        <div class="search-container">
+
+            <div class="search-wrapper">
+
+                <i class="fas fa-search"></i>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    class="search-input"
+                    placeholder="Buscar por nombre o apellido..."
+                >
+
+            </div>
+
+            <button type="button" class="btn-search">
+                <i class="fas fa-search"></i>
+                Buscar
+            </button>
+
+        </div>
+
+
+        <!-- Información del bautizado -->
+        <div class="card">
+
+            <div class="card-header">
+                <h2>Información del Bautizado</h2>
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="nombre">
+                        Nombre del Bautizado (a):
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nombre"
+                        name="nombre"
+                        placeholder="Nombre"
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="apellidos">
+                        Apellidos:
+                    </label>
+
+                    <input
+                        type="text"
+                        id="apellidos"
+                        name="apellidos"
+                        placeholder="Apellidos"
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="fecha_nacimiento">
+                        Fecha de nacimiento:
+                    </label>
+
+                    <input
+                        type="date"
+                        id="fecha_nacimiento"
+                        name="fecha_nacimiento"
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="lugar_nacimiento">
+                        Lugar de nacimiento:
+                    </label>
+
+                    <input
+                        type="text"
+                        id="lugar_nacimiento"
+                        name="lugar_nacimiento"
+                        placeholder="Lugar de nacimiento"
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="padre">
+                        Nombre del Padre:
+                    </label>
+
+                    <input
+                        type="text"
+                        id="padre"
+                        name="padre"
+                        placeholder="Nombre del padre"
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="madre">
+                        Nombre de la Madre:
+                    </label>
+
+                    <input
+                        type="text"
+                        id="madre"
+                        name="madre"
+                        placeholder="Nombre de la madre"
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="padrinos">
+                        Padrinos:
+                    </label>
+
+                    <input
+                        type="text"
+                        id="padrinos"
+                        name="padrinos"
+                        placeholder="Nombre de los padrinos"
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="fecha_bautizo">
+                        Fecha del Bautismo:
+                    </label>
+
+                    <input
+                        type="date"
+                        id="fecha_bautizo"
+                        name="fecha_bautizo"
+                    >
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Acciones -->
+        <div class="actions">
+
+            <button type="button" class="btn-pdf">
+                <i class="fas fa-file-pdf"></i>
+                Imprimir PDF
+            </button>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

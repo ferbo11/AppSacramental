@@ -1,0 +1,136 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Parroquia El Calvario - Gestión de Sacramentos</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS propio -->
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+
+<body>
+
+    <!-- Barra lateral -->
+    <div class="sidebar">
+
+        <h2>Parroquia El Calvario</h2>
+
+        <a href="#" class="nav-item active">
+            <i class="fas fa-file-pdf"></i>
+            Historial de Constancias
+        </a>
+
+        <a href="#" class="nav-item">
+            <i class="fas fa-cog"></i>
+            Configuración
+        </a>
+
+    </div>
+
+
+    <!-- Contenido principal -->
+    <div class="main-content">
+
+        <div class="header">
+
+            <div>
+                <h1>Gestión de Sacramentos</h1>
+                <p>Cobán, Alta Verapaz, Guatemala, C.A.</p>
+            </div>
+
+            <a href="#" class="btn-logout">
+                <i class="fas fa-sign-out-alt"></i>
+                Salir
+            </a>
+
+        </div>
+
+
+        <!-- Sacramentos -->
+        <div class="tabs">
+
+            <a href="{% url 'bautismo' %}" class="tab active">
+                Bautizos
+            </a>
+
+            <a href="{% url 'comunion' %}" class="tab">
+                Primera Comunión
+            </a>
+
+            <a href="{% url 'confirmacion' %}" class="tab">
+                Confirmación
+            </a>
+
+            <a href="{% url 'matrimonio' %}" class="tab">
+                Matrimonios
+            </a>
+
+        </div>
+
+
+        <!-- Historial -->
+        <div class="search-container">
+
+            <div class="search-wrapper">
+
+                <i class="fas fa-search"></i>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    class="search-input"
+                    placeholder="Buscar una constancia..."
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- Tabla del historial -->
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Sacramento</th>
+                        <th>Nombre</th>
+                        <th>Usuario</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td colspan="5" class="empty-state">
+
+                            <i class="fas fa-file-pdf"></i>
+
+                            <p>
+                                No hay constancias generadas para mostrar.
+                            </p>
+
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

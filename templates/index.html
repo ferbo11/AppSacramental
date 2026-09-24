@@ -14,11 +14,16 @@
 
     <!-- CSS propio -->
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
-    <!-- Barra lateral -->
+    <!-- ================================
+         BARRA LATERAL
+         ================================ -->
     <div class="sidebar">
 
         <h2>Parroquia El Calvario</h2>
@@ -33,12 +38,20 @@
             Configuración
         </a>
 
+        <a href="#" class="nav-item">
+            <i class="fas fa-calendar"></i>
+            Agenda 
+        </a>
+
     </div>
 
 
-    <!-- Contenido principal -->
+    <!-- ================================
+         CONTENIDO PRINCIPAL
+         ================================ -->
     <div class="main-content">
 
+        <!-- Encabezado -->
         <div class="header">
 
             <div>
@@ -46,7 +59,7 @@
                 <p>Cobán, Alta Verapaz, Guatemala, C.A.</p>
             </div>
 
-            <a href="#" class="btn-logout">
+            <a href="{% url 'logout' %}" class="btn-logout">
                 <i class="fas fa-sign-out-alt"></i>
                 Salir
             </a>
@@ -54,7 +67,9 @@
         </div>
 
 
-        <!-- Sacramentos -->
+        <!-- ================================
+             SACRAMENTOS
+             ================================ -->
         <div class="tabs">
 
             <a href="{% url 'bautismo' %}" class="tab active">
@@ -76,7 +91,9 @@
         </div>
 
 
-        <!-- Historial -->
+        <!-- ================================
+             BUSCADOR
+             ================================ -->
         <div class="search-container">
 
             <div class="search-wrapper">
@@ -95,12 +112,102 @@
         </div>
 
 
-        <!-- Tabla del historial -->
+        <!-- ================================
+             GRÁFICA PRINCIPAL
+             ================================ -->
+        <div class="chart-card">
+
+            <div class="chart-header">
+
+                <div>
+                    <h2>Constancias emitidas</h2>
+
+                    <p>
+                        Total de constancias emitidas por sacramento
+                    </p>
+                </div>
+
+                <div class="chart-icon">
+                    <i class="fas fa-chart-column"></i>
+                </div>
+
+            </div>
+
+            <div class="chart-container chart-large">
+                <canvas id="constanciasChart"></canvas>
+            </div>
+
+        </div>
+
+
+        <!-- ================================
+             SEGUNDA Y TERCERA GRÁFICA
+             ================================ -->
+        <div class="charts-grid">
+
+            <!-- Emisiones por mes -->
+            <div class="chart-card">
+
+                <div class="chart-header">
+
+                    <div>
+                        <h2>Emisiones por mes</h2>
+
+                        <p>
+                            Constancias emitidas durante el año
+                        </p>
+                    </div>
+
+                    <div class="chart-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="emisionesMesChart"></canvas>
+                </div>
+
+            </div>
+
+
+            <!-- Distribución -->
+            <div class="chart-card">
+
+                <div class="chart-header">
+
+                    <div>
+                        <h2>Distribución</h2>
+
+                        <p>
+                            Distribución de constancias por sacramento
+                        </p>
+                    </div>
+
+                    <div class="chart-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="distribucionChart"></canvas>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================
+             TABLA DEL HISTORIAL
+             ================================ -->
         <div class="table-container">
 
             <table>
 
                 <thead>
+
                     <tr>
                         <th>Fecha</th>
                         <th>Sacramento</th>
@@ -108,11 +215,13 @@
                         <th>Usuario</th>
                         <th>Acciones</th>
                     </tr>
+
                 </thead>
 
                 <tbody>
 
                     <tr>
+
                         <td colspan="5" class="empty-state">
 
                             <i class="fas fa-file-pdf"></i>
@@ -122,6 +231,7 @@
                             </p>
 
                         </td>
+
                     </tr>
 
                 </tbody>
@@ -131,6 +241,10 @@
         </div>
 
     </div>
+
+
+    <!-- JavaScript -->
+    <script src="{% static 'js/index.js' %}"></script>
 
 </body>
 </html>

@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
+@login_required(login_url='/login/')
 
 
 def index(request):
@@ -15,3 +18,4 @@ def confirmacion(request):
 
 def matrimonio(request):
     return render(request, 'matrimonio/matrimonio.html')
+

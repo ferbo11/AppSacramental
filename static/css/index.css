@@ -1,30 +1,316 @@
+:root {
+    --primary: #1e293b;
+    --secondary: #475569;
+    --accent: #0ea5e9;
+    --background: #f8fafc;
+    --border: #e2e8f0;
+    --text: #334155;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text);
+    display: flex;
+    min-height: 100vh;
+
+    background-image:
+        linear-gradient(
+            rgba(248, 250, 252, 0.85),
+            rgba(248, 250, 252, 0.85)
+        ),
+        url("/static/img/fondo.png");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+
+/* =========================
+   SIDEBAR
+   ========================= */
+
+.sidebar {
+    width: 240px;
+    min-height: 100vh;
+    background-color: var(--primary);
+    color: white;
+    padding: 25px 0;
+    flex-shrink: 0;
+}
+
+.sidebar h2 {
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 0 15px 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 16px 24px;
+
+    color: #cbd5e1;
+    text-decoration: none;
+
+    transition: 0.2s;
+}
+
+.nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+}
+
+.nav-item.active {
+    background-color: var(--accent);
+    color: white;
+}
+
+
+/* =========================
+   CONTENIDO
+   ========================= */
+
+.main-content {
+    flex: 1;
+    padding: 40px;
+
+    max-width: 1400px;
+
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    color: var(--primary);
+
+    font-size: 1.75rem;
+
+    margin-bottom: 5px;
+}
+
+.header p {
+    color: var(--secondary);
+}
+
+
+/* =========================
+   BOTÓN SALIR
+   ========================= */
+
+.btn-logout {
+    background-color: var(--primary);
+
+    color: white;
+
+    padding: 10px 16px;
+
+    border-radius: 6px;
+
+    text-decoration: none;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    transition: 0.2s;
+}
+
+.btn-logout:hover {
+    background-color: #334155;
+}
+
+
+/* =========================
+   TABS / SACRAMENTOS
+   ========================= */
+
+.tabs {
+    display: flex;
+
+    gap: 8px;
+
+    margin-bottom: 25px;
+
+    border-bottom: 1px solid var(--border);
+
+    padding-bottom: 8px;
+}
+
+.tab {
+    padding: 10px 18px;
+
+    border-radius: 6px;
+
+    color: var(--secondary);
+
+    text-decoration: none;
+
+    font-size: 0.9rem;
+
+    transition: 0.2s;
+}
+
+.tab:hover {
+    background-color: rgba(14, 165, 233, 0.08);
+
+    color: var(--accent);
+}
+
+.tab.active {
+    background-color: var(--accent);
+
+    color: white;
+}
+
+
+/* =========================
+   BUSCADOR
+   ========================= */
+
+.search-container {
+    background-color: white;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    padding: 20px;
+
+    margin-bottom: 25px;
+
+    display: flex;
+
+    gap: 12px;
+
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.search-wrapper {
+    position: relative;
+
+    flex: 1;
+}
+
+.search-wrapper i {
+    position: absolute;
+
+    left: 15px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #94a3b8;
+}
+
+.search-input {
+    width: 100%;
+
+    padding: 12px 15px 12px 45px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    outline: none;
+
+    font-size: 0.95rem;
+}
+
+.search-input:focus {
+    border-color: var(--accent);
+}
+
+
+/* =========================
+   TARJETAS
+   ========================= */
+
+.card {
+    background-color: white;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 20px 25px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.card-header h2 {
+    color: var(--primary);
+
+    font-size: 1.1rem;
+}
+
+
 /* ========================================
    GRÁFICAS DEL DASHBOARD
    ======================================== */
 
 .chart-card {
     background: #ffffff;
+
     border: 1px solid var(--border);
+
     border-radius: 12px;
+
     padding: 24px;
+
     margin-top: 24px;
+
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .chart-header {
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
+
     margin-bottom: 20px;
 }
 
 .chart-header h2 {
     margin: 0 0 6px;
+
     color: var(--primary);
 }
 
 .chart-header p {
     margin: 0;
+
     color: var(--secondary);
+
     font-size: 14px;
 }
 
@@ -33,12 +319,14 @@
     height: 45px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
     border-radius: 8px;
 
     background: var(--primary);
+
     color: white;
 
     font-size: 18px;
@@ -46,7 +334,9 @@
 
 .chart-container {
     position: relative;
+
     width: 100%;
+
     height: 320px;
 }
 
@@ -69,19 +359,256 @@
 
 
 /* ========================================
+   TABLA
+   ======================================== */
+
+.table-container {
+    background: white;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    margin-top: 24px;
+
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.table-container table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+.table-container th {
+    background-color: var(--primary);
+
+    color: white;
+
+    padding: 14px 16px;
+
+    text-align: left;
+
+    font-size: 0.85rem;
+
+    font-weight: 600;
+}
+
+.table-container td {
+    padding: 14px 16px;
+
+    border-bottom: 1px solid var(--border);
+
+    color: var(--text);
+
+    font-size: 0.9rem;
+}
+
+.table-container tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.table-container tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+
+/* =========================
+   ESTADO VACÍO
+   ========================= */
+
+.empty-state {
+    text-align: center !important;
+
+    padding: 45px 20px !important;
+
+    color: var(--secondary) !important;
+}
+
+.empty-state i {
+    font-size: 35px;
+
+    margin-bottom: 12px;
+
+    color: #94a3b8;
+}
+
+.empty-state p {
+    margin-top: 8px;
+
+    color: var(--secondary);
+}
+
+
+/* ========================================
+   FORMULARIOS
+   ======================================== */
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 22px;
+
+    padding: 25px;
+}
+
+.form-group {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: 600;
+
+    color: var(--primary);
+
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    width: 100%;
+
+    padding: 11px 13px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 6px;
+
+    outline: none;
+
+    font-size: 0.9rem;
+
+    color: var(--text);
+}
+
+.form-group input:focus {
+    border-color: var(--accent);
+}
+
+
+/* =========================
+   PDF
+   ========================= */
+
+.actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-top: 20px;
+}
+
+.btn-pdf {
+    background-color: #ef4444;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 6px;
+
+    padding: 11px 18px;
+
+    cursor: pointer;
+
+    font-size: 0.9rem;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+.btn-pdf:hover {
+    background-color: #dc2626;
+}
+
+
+/* ========================================
    RESPONSIVE
    ======================================== */
 
 @media (max-width: 900px) {
 
+    .sidebar {
+        width: 200px;
+    }
+
+    .main-content {
+        padding: 25px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
     .charts-grid {
         grid-template-columns: 1fr;
+    }
+
+    .tabs {
+        overflow-x: auto;
+    }
+
+    .tab {
+        white-space: nowrap;
     }
 
 }
 
 
 @media (max-width: 600px) {
+
+    body {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        min-height: auto;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .header {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+
+    .btn-logout {
+        width: 100%;
+
+        justify-content: center;
+    }
+
+    .tabs {
+        flex-direction: column;
+
+        border-bottom: none;
+    }
+
+    .tab {
+        width: 100%;
+
+        text-align: center;
+    }
+
+    .search-container {
+        flex-direction: column;
+    }
 
     .chart-card {
         padding: 16px;
@@ -93,6 +620,14 @@
 
     .chart-large {
         height: 320px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .table-container table {
+        min-width: 650px;
     }
 
 }

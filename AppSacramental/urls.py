@@ -16,13 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import index, bautismo, comunion, confirmacion, matrimonio
+from .views import index, bautismo, comunion, confirmacion, matrimonio, Hbautismo, Hcomunion, Hconfirmacion, Hmatrimonio
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
     path('bautismo/', bautismo, name='bautismo'),
-    path('comunion/', comunion, name='comunion'),
+    path('bautismo/historial/', Hbautismo, name='historial_bautismo'),
+    path('comunion/', comunion, name='comunion'),    
     path('confirmacion/', confirmacion, name='confirmacion'),
     path('matrimonio/', matrimonio, name='matrimonio'),
     path('login/', include('usuarios.urls'))

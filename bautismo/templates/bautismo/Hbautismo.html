@@ -1,0 +1,144 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Parroquia El Calvario - Bautismo</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static '/css/index.css' %}">
+</head>
+
+<body>
+
+    <!-- Barra lateral -->
+    <div class="sidebar">
+
+        <h2>Parroquia El Calvario</h2>
+
+        <a href="{% url 'bautismo' %}" class="nav-item">
+            <i class="fas fa-baby"></i>
+            Bautismo
+        </a>
+
+        <a href="{% url 'historial_bautismo' %}" class="nav-item active">
+            <i class="fas fa-file-pdf"></i>
+            Historial de Constancias
+        </a>
+
+        <a href="#" class="nav-item">
+            <i class="fas fa-cog"></i>
+            Configuración
+        </a>
+
+    </div>
+
+
+    <!-- Contenido principal -->
+    <div class="main-content">
+
+        <!-- Encabezado -->
+        <div class="header">
+
+            <div>
+                <h1>Historrial de Bautismo</h1>
+                <p>Cobán, Alta Verapaz, Guatemala, C.A.</p>
+            </div>
+
+            <a href="{% url 'bautismo' %}" class="btn-back">
+                <i class="fas fa-arrow-left"></i>
+                Regresar
+            </a>
+
+        </div>
+
+
+        <!-- Barra de búsqueda -->
+        <div class="search-container">
+
+            <div class="search-wrapper">
+
+                <i class="fas fa-search"></i>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    class="search-input"
+                    placeholder="Buscar por nombre o apellido..."
+                >
+
+            </div>
+
+            <button type="button" class="btn-search">
+                <i class="fas fa-search"></i>
+                Buscar
+            </button>
+
+        </div>
+
+        <!-- Acciones -->
+        <div class="actions">
+
+            <button type="button" class="btn-pdf">
+                <i class="fas fa-file-pdf"></i>
+                Imprimir PDF
+            </button>
+
+        </div>
+        <!-- ================================
+             TABLA DEL HISTORIAL
+             ================================ -->
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Sacramento</th>
+                        <th>Nombre</th>
+                        <th>Usuario</th>
+                        <th>Acciones</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td colspan="5" class="empty-state">
+
+                            <i class="fas fa-file-pdf"></i>
+
+                            <p>
+                                No hay constancias generadas para mostrar.
+                            </p>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    </div>
+    <!-- JavaScript -->
+    <script src="{% static 'js/index.js' %}"></script>
+
+</body>
+</html>

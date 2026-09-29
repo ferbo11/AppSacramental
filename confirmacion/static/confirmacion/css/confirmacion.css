@@ -63,6 +63,38 @@ body {
     color: white;
 }
 
+/* =========================
+   SIDEBAR OCULTA
+   ========================= */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -215px;
+
+    height: 100vh;
+
+    z-index: 1000;
+
+    transition: left 0.3s ease;
+}
+
+/* Zona sensible del borde izquierdo */
+.sidebar::after {
+    content: "";
+    position: absolute;
+
+    top: 0;
+    right: -25px;
+
+    width: 25px;
+    height: 100%;
+}
+
+/* Mostrar sidebar al pasar el mouse */
+.sidebar:hover {
+    left: 0;
+}
 
 /* =========================
    CONTENIDO PRINCIPAL

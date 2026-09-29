@@ -13,7 +13,7 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="{% static 'bautismo/css/bautismo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
 </head>
 
 <body>
@@ -23,12 +23,12 @@
 
         <h2>Parroquia El Calvario</h2>
 
-        <a href="#" class="nav-item active">
+        <a href="{% url 'bautismo' %}" class="nav-item active">
             <i class="fas fa-baby"></i>
             Bautismo
         </a>
 
-        <a href="#" class="nav-item">
+        <a href="{% url 'historial_bautismo' %}" class="nav-item">
             <i class="fas fa-file-pdf"></i>
             Historial de Constancias
         </a>

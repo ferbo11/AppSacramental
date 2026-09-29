@@ -21,29 +21,29 @@
 
 <body>
 
-    <!-- ================================
-         BARRA LATERAL
-         ================================ -->
-    <div class="sidebar">
+  <!-- ================================
+     BARRA LATERAL
+     ================================ -->
+<div class="sidebar">
 
-        <h2>Parroquia El Calvario</h2>
+    <h2>Parroquia El Calvario</h2>
 
-        <a href="#" class="nav-item active">
-            <i class="fas fa-file-pdf"></i>
-            Historial de Constancias
-        </a>
+    <a href="{% url 'index' %}" class="nav-item active">
+        <i class="fas fa-file-pdf"></i>
+        <span>Historial de Constancias</span>
+    </a>
 
-        <a href="#" class="nav-item">
-            <i class="fas fa-cog"></i>
-            Configuración
-        </a>
+    <a href="#" class="nav-item">
+        <i class="fas fa-cog"></i>
+        <span>Configuración</span>
+    </a>
 
-        <a href="#" class="nav-item">
-            <i class="fas fa-calendar"></i>
-            Agenda 
-        </a>
+    <a href="#" class="nav-item">
+        <i class="fas fa-calendar"></i>
+        <span>Agenda</span>
+    </a>
 
-    </div>
+</div>
 
 
     <!-- ================================
@@ -55,7 +55,7 @@
         <div class="header">
 
             <div>
-                <h1>Gestión de Sacramentos</h1>
+                <h1>Gestión de Sacramentos de la Parroquía el Calvario</h1>
                 <p>Cobán, Alta Verapaz, Guatemala, C.A.</p>
             </div>
 
@@ -68,11 +68,11 @@
 
 
         <!-- ================================
-             SACRAMENTOS
+             BOTONES DE SACRAMENTOS
              ================================ -->
         <div class="tabs">
 
-            <a href="{% url 'bautismo' %}" class="tab active">
+            <a href="{% url 'bautismo' %}" class="tab">
                 Bautizos
             </a>
 
@@ -239,12 +239,19 @@
             </table>
 
         </div>
+            <!--LICENCIA-->
+    <footer>
+        <p>
+            &copy; SISTEMAS UMG 2026 GRUPO SEMINARIO.
+        </p>
+    </footer>
 
     </div>
 
 
     <!-- JavaScript -->
     <script src="{% static 'js/index.js' %}"></script>
+
 
 </body>
 </html>

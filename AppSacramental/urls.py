@@ -24,7 +24,10 @@ urlpatterns = [
     path('bautismo/', bautismo, name='bautismo'),
     path('bautismo/historial/', Hbautismo, name='historial_bautismo'),
     path('comunion/', comunion, name='comunion'),    
+    path('comunion/historial/', Hcomunion, name='historial_comunion'),
     path('confirmacion/', confirmacion, name='confirmacion'),
+    path('confirmacion/historial/', Hconfirmacion, name='historial_confirmacion'),
     path('matrimonio/', matrimonio, name='matrimonio'),
+    path('matrimonio/historial/', Hmatrimonio, name='historial_matrimonio'),
     path('login/', include('usuarios.urls'))
 ]

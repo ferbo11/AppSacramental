@@ -13,6 +13,18 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    background-color: var(--background);
+    color: var(--text);
+    display: flex;
+    min-height: 100vh;
+
+    background-image:
+        linear-gradient(
+            rgba(248, 250, 252, 0.85),
+            rgba(248, 250, 252, 0.85)
+        ),
+        url("/static/img/fondo.png");
 }
 
 .login-container {

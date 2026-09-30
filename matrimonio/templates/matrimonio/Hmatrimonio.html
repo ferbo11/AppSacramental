@@ -6,14 +6,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Parroquia El Calvario - Bautismo</title>
+    <title>Parroquia El Calvario - Matrimonio</title>
 
     <!-- Font Awesome -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="{% static '/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'matrimonio/css/matrimonio.css' %}">
 </head>
 
 <body>
@@ -23,12 +23,12 @@
 
         <h2>Parroquia El Calvario</h2>
 
-        <a href="{% url 'bautismo' %}" class="nav-item">
-            <i class="fas fa-baby"></i>
-            Bautismo
+        <a href="{% url 'matrimonio' %}" class="nav-item">
+            <i class="fas fa-ring"></i>
+            Matrimonio
         </a>
 
-        <a href="{% url 'historial_bautismo' %}" class="nav-item active">
+        <a href="{% url 'historial_matrimonio' %}" class="nav-item active">
             <i class="fas fa-file-pdf"></i>
             Historial de Constancias
         </a>
@@ -48,11 +48,11 @@
         <div class="header">
 
             <div>
-                <h1>Historrial de Bautismo</h1>
+                <h1>Historrial de Matrimonio</h1>
                 <p>Cobán, Alta Verapaz, Guatemala, C.A.</p>
             </div>
 
-            <a href="{% url 'bautismo' %}" class="btn-back">
+            <a href="{% url 'matrimonio' %}" class="btn-back">
                 <i class="fas fa-arrow-left"></i>
                 Regresar
             </a>
@@ -135,8 +135,6 @@
 
     </div>
 
-
-    </div>
 
 </body>
 </html>

@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import index, bautismo, comunion, confirmacion, matrimonio, Hbautismo, Hcomunion, Hconfirmacion, Hmatrimonio
+from .views import index, bautismo, comunion, confirmacion, matrimonio, Hbautismo, Hcomunion, Hconfirmacion, Hmatrimonio, agenda, congig
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,5 +29,7 @@ urlpatterns = [
     path('confirmacion/historial/', Hconfirmacion, name='historial_confirmacion'),
     path('matrimonio/', matrimonio, name='matrimonio'),
     path('matrimonio/historial/', Hmatrimonio, name='historial_matrimonio'),
-    path('login/', include('usuarios.urls'))
+    path('login/', include('usuarios.urls')),
+    path('agenda/', agenda, name='agenda'),
+    path('config/', congig, name='config')  
 ]

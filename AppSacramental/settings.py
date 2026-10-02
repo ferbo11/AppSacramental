@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'comunion',
     'confirmacion',
     'matrimonio',
-    'reportes',
+    'agenda',
+    'config'
 ]
 
 MIDDLEWARE = [

@@ -2,256 +2,497 @@
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Parroquia El Calvario - Gestión de Sacramentos</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <!-- Font Awesome -->
+    <title>
+        Parroquia El Calvario - Gestión de Sacramentos
+    </title>
+
+
+    <!-- =================================
+         FONT AWESOME
+         ================================= -->
+
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- CSS propio -->
-    <link rel="stylesheet" href="{% static 'css/index.css' %}">
 
-    <!-- Chart.js -->
+    <!-- =================================
+         CSS PRINCIPAL
+         ================================= -->
+
+    <link rel="stylesheet"
+          href="{% static 'css/index.css' %}">
+
+
+    <!-- =================================
+         CHART.JS
+         ================================= -->
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
+
 
 <body>
 
-  <!-- ================================
-     BARRA LATERAL
-     ================================ -->
-<div class="sidebar">
 
-    <h2>Parroquia El Calvario</h2>
+    <!-- =================================
+         BARRA LATERAL
+         ================================= -->
 
-    <a href="{% url 'index' %}" class="nav-item active">
-        <i class="fas fa-file-pdf"></i>
-        <span>Historial de Constancias</span>
-    </a>
-
-    <a href="#" class="nav-item">
-        <i class="fas fa-cog"></i>
-        <span>Configuración</span>
-    </a>
-
-    <a href="#" class="nav-item">
-        <i class="fas fa-calendar"></i>
-        <span>Agenda</span>
-    </a>
-
-</div>
+    <div class="sidebar">
 
 
-    <!-- ================================
+        <!-- LOGO -->
+
+        <div class="sidebar-brand">
+
+            <img src="{% static 'img/Calvario.png' %}"
+                 alt="Parroquia El Calvario">
+
+            <span>
+                Parroquia El Calvario
+            </span>
+
+        </div>
+
+
+        <!-- HISTORIAL -->
+
+        <a href="{% url 'index' %}"
+           class="nav-item active">
+
+            <i class="fas fa-file-pdf"></i>
+
+            <span>
+                Historial de Constancias
+            </span>
+
+        </a>
+
+
+        <!-- CONFIGURACIÓN -->
+
+        <a href="{% url 'config' %}"
+           class="nav-item">
+
+            <i class="fas fa-cog"></i>
+
+            <span>
+                Configuración
+            </span>
+
+        </a>
+
+
+        <!-- AGENDA -->
+
+        <a href="{% url 'agenda' %}"
+           class="nav-item">
+
+            <i class="fas fa-calendar"></i>
+
+            <span>
+                Agenda
+            </span>
+
+        </a>
+
+
+    </div>
+
+
+
+    <!-- =================================
          CONTENIDO PRINCIPAL
-         ================================ -->
+         ================================= -->
+
     <div class="main-content">
 
-        <!-- Encabezado -->
+
+        <!-- =================================
+             ENCABEZADO
+             ================================= -->
+
         <div class="header">
 
+
             <div>
-                <h1>Gestión de Sacramentos de la Parroquía el Calvario</h1>
-                <p>Cobán, Alta Verapaz, Guatemala, C.A.</p>
+
+                <h1>
+                    Gestión de Sacramentos de la Parroquia El Calvario
+                </h1>
+
+                <p>
+                    Cobán, Alta Verapaz, Guatemala, C.A.
+                </p>
+
             </div>
 
-            <a href="{% url 'logout' %}" class="btn-logout">
+
+            <!-- BOTÓN SALIR -->
+
+            <a href="{% url 'logout' %}"
+               class="btn-logout">
+
                 <i class="fas fa-sign-out-alt"></i>
+
                 Salir
+
             </a>
+
 
         </div>
 
 
-        <!-- ================================
-             BOTONES DE SACRAMENTOS
-             ================================ -->
+
+        <!-- =================================
+             TARJETAS DE SACRAMENTOS
+             ================================= -->
+
         <div class="tabs">
 
-            <a href="{% url 'bautismo' %}" class="tab">
-                Bautizos
+
+            <!-- BAUTISMO -->
+
+            <a href="{% url 'bautismo' %}"
+               class="tab">
+
+                <i class="fas fa-droplet"></i>
+
+                <span>
+                    Bautizos
+                </span>
+
             </a>
 
-            <a href="{% url 'comunion' %}" class="tab">
-                Primera Comunión
+
+            <!-- PRIMERA COMUNIÓN -->
+
+            <a href="{% url 'comunion' %}"
+               class="tab">
+
+                <i class="fas fa-bread-slice"></i>
+
+                <span>
+                    Primera Comunión
+                </span>
+
             </a>
 
-            <a href="{% url 'confirmacion' %}" class="tab">
-                Confirmación
+
+            <!-- CONFIRMACIÓN -->
+
+            <a href="{% url 'confirmacion' %}"
+               class="tab">
+
+                <i class="fas fa-cross"></i>
+
+                <span>
+                    Confirmación
+                </span>
+
             </a>
 
-            <a href="{% url 'matrimonio' %}" class="tab">
-                Matrimonios
+
+            <!-- MATRIMONIO -->
+
+            <a href="{% url 'matrimonio' %}"
+               class="tab">
+
+                <i class="fas fa-ring"></i>
+
+                <span>
+                    Matrimonios
+                </span>
+
             </a>
+
 
         </div>
 
 
-        <!-- ================================
-             BUSCADOR
-             ================================ -->
-        <div class="search-container">
 
-            <div class="search-wrapper">
-
-                <i class="fas fa-search"></i>
-
-                <input
-                    type="text"
-                    id="searchInput"
-                    class="search-input"
-                    placeholder="Buscar una constancia..."
-                >
-
-            </div>
-
-        </div>
-
-
-        <!-- ================================
+        <!-- =================================
              GRÁFICA PRINCIPAL
-             ================================ -->
+             ================================= -->
+
         <div class="chart-card">
+
 
             <div class="chart-header">
 
+
                 <div>
-                    <h2>Constancias emitidas</h2>
+
+                    <h2>
+                        Constancias emitidas
+                    </h2>
 
                     <p>
                         Total de constancias emitidas por sacramento
                     </p>
+
                 </div>
+
 
                 <div class="chart-icon">
+
                     <i class="fas fa-chart-column"></i>
+
                 </div>
 
+
             </div>
 
+
             <div class="chart-container chart-large">
+
                 <canvas id="constanciasChart"></canvas>
+
             </div>
+
 
         </div>
 
 
-        <!-- ================================
-             SEGUNDA Y TERCERA GRÁFICA
-             ================================ -->
+
+        <!-- =================================
+             GRÁFICAS SECUNDARIAS
+             ================================= -->
+
         <div class="charts-grid">
 
-            <!-- Emisiones por mes -->
+
+            <!-- =================================
+                 EMISIONES POR MES
+                 ================================= -->
+
             <div class="chart-card">
+
 
                 <div class="chart-header">
 
+
                     <div>
-                        <h2>Emisiones por mes</h2>
+
+                        <h2>
+                            Emisiones por mes
+                        </h2>
 
                         <p>
                             Constancias emitidas durante el año
                         </p>
+
                     </div>
+
 
                     <div class="chart-icon">
+
                         <i class="fas fa-chart-line"></i>
+
                     </div>
 
+
                 </div>
 
+
                 <div class="chart-container">
+
                     <canvas id="emisionesMesChart"></canvas>
+
                 </div>
+
 
             </div>
 
 
-            <!-- Distribución -->
+
+            <!-- =================================
+                 DISTRIBUCIÓN
+                 ================================= -->
+
             <div class="chart-card">
+
 
                 <div class="chart-header">
 
+
                     <div>
-                        <h2>Distribución</h2>
+
+                        <h2>
+                            Distribución
+                        </h2>
 
                         <p>
                             Distribución de constancias por sacramento
                         </p>
+
                     </div>
+
 
                     <div class="chart-icon">
+
                         <i class="fas fa-chart-pie"></i>
+
                     </div>
 
+
                 </div>
+
 
                 <div class="chart-container">
+
                     <canvas id="distribucionChart"></canvas>
+
                 </div>
 
+
             </div>
+
 
         </div>
 
 
-        <!-- ================================
-             TABLA DEL HISTORIAL
-             ================================ -->
+
+        <!-- =================================
+             HISTORIAL DE CONSTANCIAS
+             ================================= -->
+
         <div class="table-container">
 
+
+            <!-- ENCABEZADO DE LA TABLA -->
+
+            <div class="table-header">
+
+
+                <div>
+
+                    <h2>
+                        Historial de Constancias
+                    </h2>
+
+                    <p>
+                        Registro de constancias generadas en la parroquia
+                    </p>
+
+                </div>
+
+
+                <div class="table-icon">
+
+                    <i class="fas fa-file-lines"></i>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- TABLA -->
+
             <table>
+
 
                 <thead>
 
                     <tr>
-                        <th>Fecha</th>
-                        <th>Sacramento</th>
-                        <th>Nombre</th>
-                        <th>Usuario</th>
-                        <th>Acciones</th>
+
+                        <th>
+                            Fecha
+                        </th>
+
+                        <th>
+                            Sacramento
+                        </th>
+
+                        <th>
+                            Nombre
+                        </th>
+
+                        <th>
+                            Usuario
+                        </th>
+
+                        <th>
+                            Acciones
+                        </th>
+
                     </tr>
 
                 </thead>
 
+
+
                 <tbody>
+
+
+                    <!-- =================================
+                         ESTADO VACÍO
+                         ================================= -->
 
                     <tr>
 
-                        <td colspan="5" class="empty-state">
+                        <td colspan="5"
+                            class="empty-state">
+
 
                             <i class="fas fa-file-pdf"></i>
+
 
                             <p>
                                 No hay constancias generadas para mostrar.
                             </p>
 
+
                         </td>
 
                     </tr>
 
+
                 </tbody>
+
 
             </table>
 
+
         </div>
-            <!--LICENCIA-->
-    <footer>
-        <p>
-            &copy; SISTEMAS UMG 2026 GRUPO SEMINARIO.
-        </p>
-    </footer>
+
+
+
+        <!-- =================================
+             FOOTER
+             ================================= -->
+
+        <footer>
+
+            <p>
+                &copy; SISTEMAS UMG 2026 GRUPO SEMINARIO.
+            </p>
+
+        </footer>
+
 
     </div>
 
 
-    <!-- JavaScript -->
+
+    <!-- =================================
+         JAVASCRIPT
+         ================================= -->
+
     <script src="{% static 'js/index.js' %}"></script>
 
 
 </body>
+
 </html>

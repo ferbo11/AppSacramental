@@ -2,180 +2,310 @@
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Parroquia El Calvario - Primera Comunión</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <!-- Font Awesome -->
+    <title>
+        Parroquia El Calvario - Primera Comunion
+    </title>
+
+
+    <!-- =================================
+         FONT AWESOME
+         ================================= -->
+
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="{% static 'comunion/css/comunion.css' %}">
+
+    <!-- =================================
+         CSS PROPIO
+         ================================= -->
+
+    <link rel="stylesheet"
+          href="{% static 'comunion/css/comunion.css' %}">
+
 </head>
+
 
 <body>
 
-    <!-- Barra lateral -->
+
+    <!-- =================================
+         BARRA LATERAL
+         ================================= -->
+
     <div class="sidebar">
 
-        <h2>Parroquia El Calvario</h2>
 
-        <a href="#" class="nav-item active">
-            <i class="fas fa-cross"></i>
-            Primera Comunión
+        <div class="sidebar-brand">
+
+            <img src="{% static 'img/Calvario.png' %}"
+                 alt="Parroquia El Calvario">
+
+            <span>
+                Parroquia El Calvario
+            </span>
+
+        </div>
+
+
+        <!-- PRIMERA COMUNIÓN -->
+
+        <a href="{% url 'comunion' %}"
+           class="nav-item active">
+
+            <i class="fas fa-bible"></i>
+
+            <span>
+                Primera Comunión    
+            </span>
+
         </a>
 
-        <a href="{% url 'historial_comunion' %}" class="nav-item">
+
+        <!-- HISTORIAL -->
+
+        <a href="{% url 'historial_comunion' %}"
+           class="nav-item">
+
             <i class="fas fa-file-pdf"></i>
-            Historial de Constancias
+
+            <span>
+                Historial de Constancias
+            </span>
+
         </a>
 
-        <a href="#" class="nav-item">
+
+        <!-- CONFIGURACIÓN -->
+
+        <a href="{% url 'config' %}"
+           class="nav-item">
+
             <i class="fas fa-cog"></i>
-            Configuración
+
+            <span>
+                Configuración
+            </span>
+
         </a>
+
 
     </div>
 
 
-    <!-- Contenido principal -->
+
+    <!-- =================================
+         CONTENIDO PRINCIPAL
+         ================================= -->
+
     <div class="main-content">
 
-        <!-- Encabezado -->
+
+        <!-- =================================
+             ENCABEZADO
+             ================================= -->
+
         <div class="header">
 
+
             <div>
-                <h1>Registros de Primera Comunión</h1>
-                <p>Cobán, Alta Verapaz, Guatemala, C.A.</p>
+
+                <h1>
+                    Registro de Primera Comunión        
+                </h1>
+
+                <p>
+                    Cobán, Alta Verapaz, Guatemala, C.A.
+                </p>
+
             </div>
 
-            <a href="{% url 'index' %}" class="btn-back">
+
+            <a href="{% url 'index' %}"
+               class="btn-back">
+
                 <i class="fas fa-arrow-left"></i>
+
                 Regresar
+
             </a>
 
-        </div>
-
-
-        <!-- Barra de búsqueda -->
-        <div class="search-container">
-
-            <div class="search-wrapper">
-
-                <i class="fas fa-search"></i>
-
-                <input
-                    type="text"
-                    id="searchInput"
-                    class="search-input"
-                    placeholder="Buscar por nombre o apellido..."
-                >
-
-            </div>
-
-            <button type="button" class="btn-search">
-                <i class="fas fa-search"></i>
-                Buscar
-            </button>
 
         </div>
 
 
-        <!-- Información de primera comunión -->
+
+        <!-- =================================
+             BÚSQUEDA 
+             ================================= -->
+
         <div class="card">
 
+
             <div class="card-header">
-                <h2>Información del Comulgado</h2>
+
+                <div>
+
+                    <h2>
+                        Buscar 
+                    </h2>
+
+                    <p>
+                        Ingrese el nombre y apellido del niño/niña
+                    </p>
+
+                </div>
+
+
+                <div class="card-icon">
+
+                    <i class="fas fa-magnifying-glass"></i>
+
+                </div>
+
             </div>
 
-            <div class="form-grid">
+
+
+            <!-- FORMULARIO DE BÚSQUEDA -->
+
+            <form method="GET"
+                  class="search-form">
+
 
                 <div class="form-group">
+
                     <label for="nombre">
-                        Nombre del Comulgado (a):
+                        Nombre
                     </label>
 
                     <input
                         type="text"
                         id="nombre"
                         name="nombre"
-                        placeholder="Nombre"
+                        placeholder="Ingrese el nombre"
+                        autocomplete="off"
                     >
+
                 </div>
 
 
                 <div class="form-group">
+
                     <label for="apellidos">
-                        Apellidos:
+                        Apellidos
                     </label>
 
                     <input
                         type="text"
                         id="apellidos"
                         name="apellidos"
-                        placeholder="Apellidos"
+                        placeholder="Ingrese los apellidos"
+                        autocomplete="off"
                     >
+
                 </div>
 
 
-                <div class="form-group">
-                    <label for="padre">
-                        Nombre del Padre:
-                    </label>
+                <button type="submit"
+                        class="btn-search">
 
-                    <input
-                        type="text"
-                        id="padre"
-                        name="padre"
-                        placeholder="Nombre del padre"
-                    >
+                    <i class="fas fa-search"></i>
+
+                    Buscar Niño/Niña
+
+                </button>
+
+
+            </form>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             RESULTADO DE BÚSQUEDA
+             ================================= -->
+
+        <div class="card">
+
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        Resultado de búsqueda
+                    </h2>
+
+                    <p>
+                        Registro encontrado
+                    </p>
+
                 </div>
 
 
-                <div class="form-group">
-                    <label for="madre">
-                        Nombre de la Madre:
-                    </label>
+                <div class="card-icon">
 
-                    <input
-                        type="text"
-                        id="madre"
-                        name="madre"
-                        placeholder="Nombre de la madre"
-                    >
+                    <i class="fas fa-user"></i>
+
                 </div>
-
-
-                <div class="form-group">
-                    <label for="fecha_comunion">
-                        Fecha de la Primera Comunión:
-                    </label>
-
-                    <input
-                        type="date"
-                        id="fecha_comunion"
-                        name="fecha_comunion"
-                    >
 
             </div>
 
+
+
+            <div class="result-container">
+
+
+                <!--
+                    AQUÍ DJANGO MOSTRARÁ
+                    EL REGISTRO ENCONTRADO
+                -->
+
+                <div class="empty-result">
+
+                    <i class="fas fa-user-search"></i>
+
+                    <p>
+                        Realice una búsqueda para consultar
+                        el registro de Primera Comunión
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
         </div>
 
 
-        <!-- Acciones -->
-        <div class="actions">
 
-            <button type="button" class="btn-pdf">
-                <i class="fas fa-file-pdf"></i>
-                Imprimir PDF
-            </button>
+        <!-- =================================
+             FOOTER
+             ================================= -->
 
-        </div>
+        <footer>
+
+            <p>
+                &copy; SISTEMAS UMG 2026 GRUPO SEMINARIO.
+            </p>
+
+        </footer>
+
 
     </div>
 
+
 </body>
+
 </html>

@@ -1,92 +1,421 @@
+/* =========================================================
+   LOGIN.CSS
+   Parroquia El Calvario
+   ========================================================= */
+
+
+/* =========================================================
+   VARIABLES
+   ========================================================= */
+
+:root {
+
+    --navy: #172033;
+    --navy-dark: #0f172a;
+    --navy-light: #26344d;
+
+    --blue: #0ea5e9;
+    --blue-dark: #0284c7;
+    --blue-soft: #e0f2fe;
+
+    --background: #eef2f7;
+
+    --surface: #ffffff;
+
+    --text: #1e293b;
+    --muted: #64748b;
+
+    --border: #e2e8f0;
+
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
 * {
+
     margin: 0;
     padding: 0;
+
     box-sizing: border-box;
+
 }
+
+
+/* =========================================================
+   BODY
+   ========================================================= */
 
 body {
-    font-family: Arial, sans-serif;
-    background: #f8fafc;
-    color: #334155;
+
     min-height: 100vh;
 
     display: flex;
+
     justify-content: center;
+
     align-items: center;
 
-    background-color: var(--background);
-    color: var(--text);
-    display: flex;
-    min-height: 100vh;
+    padding: 30px 20px;
 
-    background-image:
-        linear-gradient(
-            rgba(248, 250, 252, 0.85),
-            rgba(248, 250, 252, 0.85)
+    font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    color: var(--text);
+
+    background:
+
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(14, 165, 233, 0.10),
+            transparent 30%
         ),
+
+        radial-gradient(
+            circle at 90% 85%,
+            rgba(14, 165, 233, 0.08),
+            transparent 30%
+        ),
+
+        linear-gradient(
+            rgba(238, 242, 247, 0.88),
+            rgba(238, 242, 247, 0.94)
+        ),
+
         url("/static/img/fondo.png");
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-attachment: fixed;
+
 }
+
+
+/* =========================================================
+   CONTENEDOR DEL LOGIN
+   ========================================================= */
 
 .login-container {
+
     width: 100%;
-    max-width: 420px;
+
+    max-width: 440px;
+
     padding: 20px;
+
 }
+
+
+/* =========================================================
+   TARJETA
+   ========================================================= */
 
 .login-card {
-    background: white;
+
+    position: relative;
+
+    width: 100%;
+
     padding: 40px;
-    border-radius: 12px;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+    background:
+        rgba(255, 255, 255, 0.97);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 15px 40px rgba(15, 23, 42, 0.12);
+
+    overflow: hidden;
+
 }
+
+
+/* Línea superior azul */
+
+.login-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    height: 5px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--blue),
+            var(--blue-dark)
+        );
+
+}
+
+
+/* =========================================================
+   TÍTULO
+   ========================================================= */
 
 .login-card h1 {
+
     text-align: center;
-    color: #1e293b;
-    margin-bottom: 10px;
+
+    margin-bottom: 8px;
+
+    color: var(--navy);
+
+    font-size: 27px;
+
+    font-weight: 700;
+
 }
+
+
+/* =========================================================
+   SUBTÍTULO
+   ========================================================= */
 
 .login-card p {
+
     text-align: center;
-    color: #475569;
+
     margin-bottom: 30px;
+
+    color: var(--muted);
+
+    font-size: 14px;
+
 }
+
+
+/* =========================================================
+   FORMULARIO
+   ========================================================= */
 
 .form-group {
+
     margin-bottom: 20px;
+
 }
+
+
+/* =========================================================
+   LABEL
+   ========================================================= */
 
 .form-group label {
+
     display: block;
-    margin-bottom: 7px;
+
+    margin-bottom: 8px;
+
+    color: var(--navy);
+
+    font-size: 13px;
+
     font-weight: 600;
+
 }
+
+
+/* =========================================================
+   CAMPOS DE TEXTO
+   ========================================================= */
 
 .form-group input {
+
+    display: block;
+
     width: 100%;
-    padding: 12px;
-    border: 1px solid #e2e8f0;
-    border-radius: 6px;
-    font-size: 15px;
+
+    height: 48px;
+
+    padding:
+        0 15px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 10px;
+
+    outline: none;
+
+    background:
+        #ffffff;
+
+    color: var(--text);
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    font-size: 14px;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+
 }
+
+
+.form-group input::placeholder {
+
+    color: #94a3b8;
+
+}
+
+
+/* Cuando se selecciona el campo */
 
 .form-group input:focus {
-    outline: none;
-    border-color: #0ea5e9;
+
+    border-color:
+        var(--blue);
+
+    background:
+        #ffffff;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(14, 165, 233, 0.10);
+
 }
+
+
+/* =========================================================
+   BOTÓN
+   ========================================================= */
 
 button {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
     width: 100%;
-    padding: 12px;
+
+    height: 48px;
+
+    margin-top: 8px;
+
+    padding:
+        0 20px;
+
     border: none;
-    border-radius: 6px;
-    background: #1e293b;
-    color: white;
-    font-size: 15px;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue),
+            var(--blue-dark)
+        );
+
+    color: #ffffff;
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
     cursor: pointer;
+
+    box-shadow:
+        0 8px 20px
+        rgba(14, 165, 233, 0.23);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+
 }
 
+
 button:hover {
-    background: #475569;
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 12px 26px
+        rgba(14, 165, 233, 0.30);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue-dark),
+            #0369a1
+        );
+
+}
+
+
+button:active {
+
+    transform:
+        translateY(0);
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 500px) {
+
+    body {
+
+        padding:
+            20px 15px;
+
+    }
+
+
+    .login-container {
+
+        padding: 10px;
+
+    }
+
+
+    .login-card {
+
+        padding:
+            32px 25px;
+
+        border-radius: 15px;
+
+    }
+
+
+    .login-card h1 {
+
+        font-size: 23px;
+
+    }
+
 }

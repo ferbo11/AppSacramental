@@ -30,3 +30,9 @@ def matrimonio(request):
 
 def Hmatrimonio(request):  
     return render(request, 'matrimonio/Hmatrimonio.html')
+
+def agenda(request):
+    return render(request, 'agenda/agenda.html')    
+
+def congig(request):
+    return render(request, 'config/config.html')

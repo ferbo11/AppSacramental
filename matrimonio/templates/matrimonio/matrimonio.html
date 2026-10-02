@@ -2,167 +2,310 @@
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Parroquia El Calvario - Matrimonio</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <!-- Font Awesome -->
+    <title>
+        Parroquia El Calvario - Matrimonio
+    </title>
+
+
+    <!-- =================================
+         FONT AWESOME
+         ================================= -->
+
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="{% static 'matrimonio/css/matrimonio.css' %}">
+
+    <!-- =================================
+         CSS PROPIO
+         ================================= -->
+
+    <link rel="stylesheet"
+          href="{% static 'matrimonio/css/matrimonio.css' %}">
+
 </head>
+
 
 <body>
 
-    <!-- Barra lateral -->
+
+    <!-- =================================
+         BARRA LATERAL
+         ================================= -->
+
     <div class="sidebar">
 
-        <h2>Parroquia El Calvario</h2>
 
-        <a href="#" class="nav-item active">
-            <i class="fas fa-baby"></i>
-            Matrimonio
+        <div class="sidebar-brand">
+
+            <img src="{% static 'img/Calvario.png' %}"
+                 alt="Parroquia El Calvario">
+
+            <span>
+                Parroquia El Calvario
+            </span>
+
+        </div>
+
+
+        <!-- Matrimonio -->
+
+        <a href="{% url 'matrimonio' %}"
+           class="nav-item active">
+
+            <i class="fas fa-ring"></i>
+
+            <span>
+                Matrimonio
+            </span>
+
         </a>
 
-        <a href="{% url 'historial_matrimonio' %}" class="nav-item">
+
+        <!-- HISTORIAL -->
+
+        <a href="{% url 'historial_matrimonio' %}"
+           class="nav-item">
+
             <i class="fas fa-file-pdf"></i>
-            Historial de Constancias
+
+            <span>
+                Historial de Constancias
+            </span>
+
         </a>
 
-        <a href="#" class="nav-item">
+
+        <!-- CONFIGURACIÓN -->
+
+        <a href="{% url 'config' %}"
+           class="nav-item">
+
             <i class="fas fa-cog"></i>
-            Configuración
+
+            <span>
+                Configuración
+            </span>
+
         </a>
+
 
     </div>
 
 
-    <!-- Contenido principal -->
+
+    <!-- =================================
+         CONTENIDO PRINCIPAL
+         ================================= -->
+
     <div class="main-content">
 
-        <!-- Encabezado -->
+
+        <!-- =================================
+             ENCABEZADO
+             ================================= -->
+
         <div class="header">
 
+
             <div>
-                <h1>Registros de Matrimonio</h1>
-                <p>Cobán, Alta Verapaz, Guatemala, C.A.</p>
+
+                <h1>
+                    Registro de Matrimonio
+                </h1>
+
+                <p>
+                    Cobán, Alta Verapaz, Guatemala, C.A.
+                </p>
+
             </div>
 
-            <a href="{% url 'index' %}" class="btn-back">
+
+            <a href="{% url 'index' %}"
+               class="btn-back">
+
                 <i class="fas fa-arrow-left"></i>
+
                 Regresar
+
             </a>
 
-        </div>
-
-
-        <!-- Barra de búsqueda -->
-        <div class="search-container">
-
-            <div class="search-wrapper">
-
-                <i class="fas fa-search"></i>
-
-                <input
-                    type="text"
-                    id="searchInput"
-                    class="search-input"
-                    placeholder="Buscar por nombre o apellido..."
-                >
-
-            </div>
-
-            <button type="button" class="btn-search">
-                <i class="fas fa-search"></i>
-                Buscar
-            </button>
 
         </div>
 
 
-        <!-- Información de matrimonio -->
+
+        <!-- =================================
+             BÚSQUEDA DEL BAUTIZADO
+             ================================= -->
+
         <div class="card">
 
+
             <div class="card-header">
-                <h2>Información del Novio y la Novia</h2>
+
+                <div>
+
+                    <h2>
+                        Buscar Matrimonio
+                    </h2>
+
+                    <p>
+                         Ingrese el nombre y apellido de los contrayentes para buscar el registro del matrimonio.
+                    </p>
+
+                </div>
+
+
+                <div class="card-icon">
+
+                    <i class="fas fa-magnifying-glass"></i>
+
+                </div>
+
             </div>
 
-            <div class="form-grid">
+
+
+            <!-- FORMULARIO DE BÚSQUEDA -->
+
+            <form method="GET"
+                  class="search-form">
+
 
                 <div class="form-group">
-                    <label for="nombre_novio">
-                        Nombre del Novio:
+
+                    <label for="nombre">
+                        Nombre
                     </label>
 
                     <input
                         type="text"
-                        id="nombre_novio"
-                        name="nombre_novio"
-                        placeholder="Nombre del novio"
+                        id="nombre"
+                        name="nombre"
+                        placeholder="Ingrese el nombre"
+                        autocomplete="off"
                     >
+
                 </div>
 
 
                 <div class="form-group">
-                    <label for="apellidos_novio">
-                        Apellidos del Novio:
+
+                    <label for="apellidos">
+                        Apellidos
                     </label>
 
                     <input
                         type="text"
-                        id="apellidos_novio"
-                        name="apellidos_novio"
-                        placeholder="Apellidos del novio"
+                        id="apellidos"
+                        name="apellidos"
+                        placeholder="Ingrese los apellidos"
+                        autocomplete="off"
                     >
-                </div>
 
-                <div class="form-group">
-                    <label for="nombre_novia">
-                        Nombre de la Novia:
-                    </label>
-
-                    <input
-                        type="text"
-                        id="nombre_novia"
-                        name="nombre_novia"
-                        placeholder="Nombre de la novia"
-                    >
                 </div>
 
 
-                <div class="form-group">
-                    <label for="apellidos_novia">
-                        Apellidos de la Novia:
-                    </label>
+                <button type="submit"
+                        class="btn-search">
 
-                    <input
-                        type="text"
-                        id="apellidos_novia"
-                        name="apellidos_novia"
-                        placeholder="Apellidos de la novia"
-                    >
-                </div>
-                
-            </div>
+                    <i class="fas fa-search"></i>
+
+                    Buscar matrimonio
+
+                </button>
+
+
+            </form>
+
 
         </div>
 
 
-        <!-- Acciones -->
-        <div class="actions">
 
-            <button type="button" class="btn-pdf">
-                <i class="fas fa-file-pdf"></i>
-                Imprimir PDF
-            </button>
+        <!-- =================================
+             RESULTADO DE BÚSQUEDA
+             ================================= -->
+
+        <div class="card">
+
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        Resultado de búsqueda
+                    </h2>
+
+                    <p>
+                        Registro encontrado
+                    </p>
+
+                </div>
+
+
+                <div class="card-icon">
+
+                    <i class="fas fa-user"></i>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="result-container">
+
+
+                <!--
+                    AQUÍ DJANGO MOSTRARÁ
+                    EL REGISTRO ENCONTRADO
+                -->
+
+                <div class="empty-result">
+
+                    <i class="fas fa-user-search"></i>
+
+                    <p>
+                        Realice una búsqueda para consultar
+                        el registro del bautizado.
+                    </p>
+
+                </div>
+
+
+            </div>
+
 
         </div>
+
+
+
+        <!-- =================================
+             FOOTER
+             ================================= -->
+
+        <footer>
+
+            <p>
+                &copy; SISTEMAS UMG 2026 GRUPO SEMINARIO.
+            </p>
+
+        </footer>
+
 
     </div>
 
+
 </body>
+
 </html>

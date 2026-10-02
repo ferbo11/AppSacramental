@@ -1,11 +1,534 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Parroquia El Calvario - Agenda
+    </title>
+
+
+    <!-- =================================
+         FONT AWESOME
+         ================================= -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+    <!-- =================================
+         CSS PROPIO
+         ================================= -->
+
+    <link rel="stylesheet"
+          href="{% static 'agenda/css/agenda.css' %}">
+
 </head>
+
+
 <body>
-    calendar
+
+
+    <!-- =================================
+         BARRA LATERAL
+         ================================= -->
+
+    <div class="sidebar">
+
+
+        <div class="sidebar-brand">
+
+            <img src="{% static 'img/Calvario.png' %}"
+                 alt="Parroquia El Calvario">
+
+            <span>
+                Parroquia El Calvario
+            </span>
+
+        </div>
+
+
+        <!-- INICIO -->
+
+        <a href="{% url 'index' %}"
+           class="nav-item">
+
+            <i class="fas fa-home"></i>
+
+            <span>
+                Inicio
+            </span>
+
+        </a>
+
+
+        <!-- BAUTISMO -->
+
+        <a href="{% url 'bautismo' %}"
+           class="nav-item">
+
+            <i class="fas fa-baby"></i>
+
+            <span>
+                Bautismo
+            </span>
+
+        </a>
+
+
+        <!-- AGENDA -->
+
+        <a href="{% url 'agenda' %}"
+           class="nav-item active">
+
+            <i class="fas fa-calendar-days"></i>
+
+            <span>
+                Agenda
+            </span>
+
+        </a>
+
+
+        <!-- CONFIGURACIÓN -->
+
+        <a href="{% url 'configuracion' %}"
+           class="nav-item">
+
+            <i class="fas fa-cog"></i>
+
+            <span>
+                Configuración
+            </span>
+
+        </a>
+
+
+    </div>
+
+
+
+    <!-- =================================
+         CONTENIDO PRINCIPAL
+         ================================= -->
+
+    <div class="main-content">
+
+
+        <!-- =================================
+             ENCABEZADO
+             ================================= -->
+
+        <div class="header">
+
+            <div>
+
+                <h1>
+                    Agenda
+                </h1>
+
+                <p>
+                    Administración de fechas y actividades de la parroquia
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================
+             CONTENEDOR DE AGENDA
+             ================================= -->
+
+        <div class="agenda-layout">
+
+
+            <!-- =================================
+                 CALENDARIO
+                 ================================= -->
+
+            <div class="calendar-card">
+
+
+                <div class="calendar-header">
+
+
+                    <div>
+
+                        <h2>
+                            Calendario
+                        </h2>
+
+                        <p>
+                            Seleccione una fecha para apartarla
+                        </p>
+
+                    </div>
+
+
+                    <div class="calendar-controls">
+
+                        <button type="button"
+                                class="calendar-btn"
+                                id="prevMonth">
+
+                            <i class="fas fa-chevron-left"></i>
+
+                        </button>
+
+
+                        <h3 id="currentMonth">
+                            Octubre 2026
+                        </h3>
+
+
+                        <button type="button"
+                                class="calendar-btn"
+                                id="nextMonth">
+
+                            <i class="fas fa-chevron-right"></i>
+
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =================================
+                     DÍAS DE LA SEMANA
+                     ================================= -->
+
+                <div class="calendar-weekdays">
+
+                    <div>Dom</div>
+                    <div>Lun</div>
+                    <div>Mar</div>
+                    <div>Mié</div>
+                    <div>Jue</div>
+                    <div>Vie</div>
+                    <div>Sáb</div>
+
+                </div>
+
+
+
+                <!-- =================================
+                     DÍAS
+                     ================================= -->
+
+                <div class="calendar-days"
+                     id="calendarDays">
+
+                    <!-- JavaScript generará los días -->
+
+                </div>
+
+
+
+                <!-- =================================
+                     REFERENCIAS
+                     ================================= -->
+
+                <div class="calendar-legend">
+
+                    <div>
+
+                        <span class="legend available"></span>
+
+                        Disponible
+
+                    </div>
+
+
+                    <div>
+
+                        <span class="legend selected"></span>
+
+                        Seleccionada
+
+                    </div>
+
+
+                    <div>
+
+                        <span class="legend reserved"></span>
+
+                        Apartada
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 PANEL PARA APARTAR FECHA
+                 ================================= -->
+
+            <div class="reservation-card">
+
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h2>
+                            Apartar fecha
+                        </h2>
+
+                        <p>
+                            Registre una nueva actividad
+                        </p>
+
+                    </div>
+
+
+                    <div class="card-icon">
+
+                        <i class="fas fa-calendar-plus"></i>
+
+                    </div>
+
+                </div>
+
+
+
+                <form id="reservationForm">
+
+
+                    <!-- FECHA -->
+
+                    <div class="form-group">
+
+                        <label for="fecha">
+                            Fecha
+                        </label>
+
+                        <input
+                            type="date"
+                            id="fecha"
+                            name="fecha"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- HORA -->
+
+                    <div class="form-group">
+
+                        <label for="hora">
+                            Hora
+                        </label>
+
+                        <input
+                            type="time"
+                            id="hora"
+                            name="hora"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- SACRAMENTO -->
+
+                    <div class="form-group">
+
+                        <label for="sacramento">
+                            Sacramento
+                        </label>
+
+                        <select
+                            id="sacramento"
+                            name="sacramento"
+                            required
+                        >
+
+                            <option value="">
+                                Seleccione una opción
+                            </option>
+
+                            <option value="Bautismo">
+                                Bautismo
+                            </option>
+
+                            <option value="Primera Comunión">
+                                Primera Comunión
+                            </option>
+
+                            <option value="Confirmación">
+                                Confirmación
+                            </option>
+
+                            <option value="Matrimonio">
+                                Matrimonio
+                            </option>
+
+                            <option value="Otro">
+                                Otro
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- NOMBRE -->
+
+                    <div class="form-group">
+
+                        <label for="nombre">
+                            Nombre
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nombre"
+                            name="nombre"
+                            placeholder="Nombre de la persona"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- OBSERVACIONES -->
+
+                    <div class="form-group">
+
+                        <label for="observaciones">
+                            Observaciones
+                        </label>
+
+                        <textarea
+                            id="observaciones"
+                            name="observaciones"
+                            placeholder="Observaciones..."
+                            rows="4"
+                        ></textarea>
+
+                    </div>
+
+
+
+                    <!-- BOTÓN -->
+
+                    <button type="submit"
+                            class="btn-save">
+
+                        <i class="fas fa-calendar-check"></i>
+
+                        Apartar fecha
+
+                    </button>
+
+
+                </form>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             PRÓXIMAS ACTIVIDADES
+             ================================= -->
+
+        <div class="card upcoming-card">
+
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        Próximas actividades
+                    </h2>
+
+                    <p>
+                        Fechas actualmente apartadas
+                    </p>
+
+                </div>
+
+
+                <div class="card-icon">
+
+                    <i class="fas fa-calendar-check"></i>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="appointments-list"
+                 id="appointmentsList">
+
+                <div class="empty-appointment">
+
+                    <i class="fas fa-calendar-xmark"></i>
+
+                    <p>
+                        No hay actividades próximas registradas.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             FOOTER
+             ================================= -->
+
+        <footer>
+
+            <p>
+                &copy; SISTEMAS UMG 2026 GRUPO SEMINARIO.
+            </p>
+
+        </footer>
+
+
+    </div>
+
+
+
+    <!-- =================================
+         JAVASCRIPT
+         ================================= -->
+
+    <script src="{% static 'agenda/js/agenda.js' %}"></script>
+
+
 </body>
+
 </html>

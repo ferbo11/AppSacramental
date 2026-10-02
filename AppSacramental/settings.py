@@ -39,13 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'usuarios',
-    'feligreses',
     'bautismo',
     'comunion',
     'confirmacion',
     'matrimonio',
     'agenda',
-    'config'
+    'configuracion'
 ]
 
 MIDDLEWARE = [

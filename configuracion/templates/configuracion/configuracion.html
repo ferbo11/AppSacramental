@@ -1,0 +1,474 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Parroquia El Calvario - Configuración
+    </title>
+
+
+    <!-- =================================
+         FONT AWESOME
+         ================================= -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+    <!-- =================================
+         CSS PROPIO
+         ================================= -->
+
+    <link rel="stylesheet"
+          href="{% static 'configuracion/css/configuracion.css' %}">
+
+</head>
+
+
+<body>
+
+
+    <!-- =================================
+         BARRA LATERAL
+         ================================= -->
+
+    <div class="sidebar">
+
+
+        <div class="sidebar-brand">
+
+            <img src="{% static 'img/Calvario.png' %}"
+                 alt="Parroquia El Calvario">
+
+            <span>
+                Parroquia El Calvario
+            </span>
+
+        </div>
+
+
+        <!-- INICIO -->
+
+        <a href="{% url 'index' %}"
+           class="nav-item">
+
+            <i class="fas fa-home"></i>
+
+            <span>
+                Inicio
+            </span>
+
+        </a>
+        <!-- AGENDA -->
+
+        <a href="{% url 'agenda' %}"
+           class="nav-item">
+
+            <i class="fas fa-calendar"></i>
+
+            <span>
+                Agenda
+            </span>
+
+        </a>
+
+
+        <!-- CONFIGURACIÓN -->
+
+        <a href="{% url 'configuracion' %}"
+           class="nav-item active">
+
+            <i class="fas fa-cog"></i>
+
+            <span>
+                Configuración
+            </span>
+
+        </a>
+
+
+    </div>
+
+
+
+    <!-- =================================
+         CONTENIDO PRINCIPAL
+         ================================= -->
+
+    <div class="main-content">
+
+
+        <!-- =================================
+             ENCABEZADO
+             ================================= -->
+
+        <div class="header">
+
+            <div>
+
+                <h1>
+                    Configuración
+                </h1>
+
+                <p>
+                    Configuración general de la herramienta
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             INFORMACIÓN DE LA PARROQUIA
+             ================================= -->
+
+        <div class="card">
+
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        Información de la Parroquia
+                    </h2>
+
+                    <p>
+                        Datos generales de Parroquia El Calvario
+                    </p>
+
+                </div>
+
+
+                <div class="card-icon">
+
+                    <i class="fas fa-church"></i>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label for="nombre_parroquia">
+                        Nombre de la Parroquia
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nombre_parroquia"
+                        name="nombre_parroquia"
+                        value="Parroquia El Calvario"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="municipio">
+                        Municipio
+                    </label>
+
+                    <input
+                        type="text"
+                        id="municipio"
+                        name="municipio"
+                        value="Cobán"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="departamento">
+                        Departamento
+                    </label>
+
+                    <input
+                        type="text"
+                        id="departamento"
+                        name="departamento"
+                        value="Alta Verapaz"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="pais">
+                        País
+                    </label>
+
+                    <input
+                        type="text"
+                        id="pais"
+                        name="pais"
+                        value="Guatemala"
+                    >
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             CONFIGURACIÓN DE CONSTANCIAS
+             ================================= -->
+
+        <div class="card">
+
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        Constancias
+                    </h2>
+
+                    <p>
+                        Configuración para la generación de constancias
+                    </p>
+
+                </div>
+
+
+                <div class="card-icon">
+
+                    <i class="fas fa-file-pdf"></i>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label for="responsable">
+
+                        Nombre del responsable
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="responsable"
+                        name="responsable"
+                        placeholder="Ingrese el nombre del responsable"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="cargo">
+
+                        Cargo
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="cargo"
+                        name="cargo"
+                        placeholder="Ingrese el cargo"
+                    >
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="option-group">
+
+                <label class="checkbox-option">
+
+                    <input
+                        type="checkbox"
+                        id="mostrar_logo"
+                        name="mostrar_logo"
+                        checked
+                    >
+
+                    <span>
+                        Mostrar logotipo de la parroquia en las constancias
+                    </span>
+
+                </label>
+
+
+                <label class="checkbox-option">
+
+                    <input
+                        type="checkbox"
+                        id="generar_pdf"
+                        name="generar_pdf"
+                        checked
+                    >
+
+                    <span>
+                        Generar constancias en formato PDF
+                    </span>
+
+                </label>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             PREFERENCIAS
+             ================================= -->
+
+        <div class="card">
+
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        Preferencias
+                    </h2>
+
+                    <p>
+                        Opciones generales de la herramienta
+                    </p>
+
+                </div>
+
+
+                <div class="card-icon">
+
+                    <i class="fas fa-sliders"></i>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="option-group">
+
+
+                <label class="checkbox-option">
+
+                    <input
+                        type="checkbox"
+                        id="confirmar_eliminacion"
+                        name="confirmar_eliminacion"
+                        checked
+                    >
+
+                    <span>
+                        Solicitar confirmación antes de eliminar registros
+                    </span>
+
+                </label>
+
+
+                <label class="checkbox-option">
+
+                    <input
+                        type="checkbox"
+                        id="mostrar_notificaciones"
+                        name="mostrar_notificaciones"
+                        checked
+                    >
+
+                    <span>
+                        Mostrar notificaciones de las operaciones realizadas
+                    </span>
+
+                </label>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             BOTONES
+             ================================= -->
+
+        <div class="actions">
+
+            <button type="button"
+                    class="btn-secondary">
+
+                <i class="fas fa-rotate-left"></i>
+
+                Restablecer
+
+            </button>
+
+
+            <button type="button"
+                    class="btn-save">
+
+                <i class="fas fa-save"></i>
+
+                Guardar cambios
+
+            </button>
+
+        </div>
+
+
+
+        <!-- =================================
+             FOOTER
+             ================================= -->
+
+        <footer>
+
+            <p>
+                &copy; SISTEMAS UMG 2026 GRUPO SEMINARIO.
+            </p>
+
+        </footer>
+
+
+    </div>
+
+
+</body>
+
+</html>

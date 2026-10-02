@@ -55,7 +55,7 @@
         </div>
 
 
-        <!-- Matrimonio -->
+        <!-- MATRIMONIO -->
 
         <a href="{% url 'matrimonio' %}"
            class="nav-item active">
@@ -85,7 +85,7 @@
 
         <!-- CONFIGURACIÓN -->
 
-        <a href="{% url 'config' %}"
+        <a href="{% url 'configuracion' %}"
            class="nav-item">
 
             <i class="fas fa-cog"></i>
@@ -143,13 +143,14 @@
 
 
         <!-- =================================
-             BÚSQUEDA DEL BAUTIZADO
+             BÚSQUEDA DEL MATRIMONIO
              ================================= -->
 
         <div class="card">
 
 
             <div class="card-header">
+
 
                 <div>
 
@@ -158,7 +159,7 @@
                     </h2>
 
                     <p>
-                         Ingrese el nombre y apellido de los contrayentes para buscar el registro del matrimonio.
+                        Ingrese los nombres y apellidos de los contrayentes para buscar el registro del matrimonio.
                     </p>
 
                 </div>
@@ -170,58 +171,123 @@
 
                 </div>
 
+
             </div>
 
 
 
-            <!-- FORMULARIO DE BÚSQUEDA -->
+            <!-- =================================
+                 FORMULARIO DE BÚSQUEDA
+                 ================================= -->
 
             <form method="GET"
                   class="search-form">
 
 
+                <!-- =================================
+                     NOMBRE DEL NOVIO
+                     ================================= -->
+
                 <div class="form-group">
 
-                    <label for="nombre">
-                        Nombre
+                    <label for="nombre_novio">
+                        Nombre del Novio
                     </label>
 
                     <input
                         type="text"
-                        id="nombre"
-                        name="nombre"
-                        placeholder="Ingrese el nombre"
+                        id="nombre_novio"
+                        name="nombre_novio"
+                        placeholder="Ingrese el nombre del novio"
                         autocomplete="off"
                     >
 
                 </div>
 
 
+
+                <!-- =================================
+                     APELLIDOS DEL NOVIO
+                     ================================= -->
+
                 <div class="form-group">
 
-                    <label for="apellidos">
-                        Apellidos
+                    <label for="apellidos_novio">
+                        Apellidos del Novio
                     </label>
 
                     <input
                         type="text"
-                        id="apellidos"
-                        name="apellidos"
-                        placeholder="Ingrese los apellidos"
+                        id="apellidos_novio"
+                        name="apellidos_novio"
+                        placeholder="Ingrese los apellidos del novio"
                         autocomplete="off"
                     >
 
                 </div>
 
 
-                <button type="submit"
-                        class="btn-search">
 
-                    <i class="fas fa-search"></i>
+                <!-- =================================
+                     BOTÓN BUSCAR
+                     ================================= -->
 
-                    Buscar matrimonio
+                <div class="search-button-container">
 
-                </button>
+                    <button type="submit"
+                            class="btn-search">
+
+                        <i class="fas fa-search"></i>
+
+                        Buscar matrimonio
+
+                    </button>
+
+                </div>
+
+
+
+                <!-- =================================
+                     APELLIDOS DE LA NOVIA
+                     ================================= -->
+
+                <div class="form-group">
+
+                    <label for="apellidos_novia">
+                        Apellidos de la Novia
+                    </label>
+
+                    <input
+                        type="text"
+                        id="apellidos_novia"
+                        name="apellidos_novia"
+                        placeholder="Ingrese los apellidos de la novia"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+
+                <!-- =================================
+                     NOMBRE DE LA NOVIA
+                     ================================= -->
+
+                <div class="form-group">
+
+                    <label for="nombre_novia">
+                        Nombre de la Novia
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nombre_novia"
+                        name="nombre_novia"
+                        placeholder="Ingrese el nombre de la novia"
+                        autocomplete="off"
+                    >
+
+                </div>
 
 
             </form>
@@ -240,6 +306,7 @@
 
             <div class="card-header">
 
+
                 <div>
 
                     <h2>
@@ -255,9 +322,10 @@
 
                 <div class="card-icon">
 
-                    <i class="fas fa-user"></i>
+                    <i class="fas fa-ring"></i>
 
                 </div>
+
 
             </div>
 
@@ -273,11 +341,11 @@
 
                 <div class="empty-result">
 
-                    <i class="fas fa-user-search"></i>
+                    <i class="fas fa-ring"></i>
 
                     <p>
                         Realice una búsqueda para consultar
-                        el registro del bautizado.
+                        el registro del matrimonio.
                     </p>
 
                 </div>
@@ -288,8 +356,17 @@
 
         </div>
 
+        <!-- =================================
+        BOTÓN DE IMPRESIÓN
+        ================================= -->
+           <button type="button"
+                    class="btn-pdf">
 
+                <i class="fas fa-file-pdf"></i>
 
+                Imprimir PDF
+
+            </button>
         <!-- =================================
              FOOTER
              ================================= -->

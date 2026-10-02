@@ -1,0 +1,304 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Parroquia El Calvario - Historial de Bautismos
+    </title>
+
+
+    <!-- =================================
+         FONT AWESOME
+         ================================= -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+    <!-- =================================
+         CSS PROPIO
+         ================================= -->
+
+    <link rel="stylesheet"
+          href="{% static 'confirmacion/css/historialConfirmacion.css' %}">
+
+</head>
+
+
+<body>
+
+
+    <!-- =================================
+         BARRA LATERAL
+         ================================= -->
+
+    <div class="sidebar">
+
+
+        <div class="sidebar-brand">
+
+            <img src="{% static 'img/Calvario.png' %}"
+                 alt="Parroquia El Calvario">
+
+            <span>
+                Parroquia El Calvario
+            </span>
+
+        </div>
+
+
+        <!-- BAUTISMO -->
+
+        <a href="{% url 'bautismo' %}"
+           class="nav-item">
+
+            <i class="fas fa-baby"></i>
+
+            <span>
+                Confirmación
+            </span>
+
+        </a>
+
+
+        <!-- HISTORIAL -->
+
+        <a href="{% url 'historial_confirmacion' %}"
+           class="nav-item active">
+
+            <i class="fas fa-file-pdf"></i>
+
+            <span>
+                Historial de Constancias
+            </span>
+
+        </a>
+
+
+        <!-- CONFIGURACIÓN -->
+
+        <a href="{% url 'configuracion' %}"
+           class="nav-item">
+
+            <i class="fas fa-cog"></i>
+
+            <span>
+                Configuración
+            </span>
+
+        </a>
+
+
+    </div>
+
+
+
+    <!-- =================================
+         CONTENIDO PRINCIPAL
+         ================================= -->
+
+    <div class="main-content">
+
+
+        <!-- =================================
+             ENCABEZADO
+             ================================= -->
+
+        <div class="header">
+
+
+            <div>
+
+                <h1>
+                    Historial de Confirmación
+                </h1>
+
+                <p>
+                    Registro de constancias de confirmación generadas
+                </p>
+
+            </div>
+
+
+            <a href="{% url 'confirmacion' %}"
+               class="btn-back">
+
+                <i class="fas fa-arrow-left"></i>
+
+                Regresar
+
+            </a>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             BÚSQUEDA
+             ================================= -->
+
+        <div class="search-container">
+
+
+            <div class="search-wrapper">
+
+                <i class="fas fa-search"></i>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    class="search-input"
+                    placeholder="Buscar por nombre o apellido..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <button type="button"
+                    class="btn-search">
+
+                <i class="fas fa-search"></i>
+
+                Buscar
+
+            </button>
+
+
+        </div>
+
+        <!-- =================================
+             HISTORIAL
+             ================================= -->
+
+        <div class="table-container">
+
+
+            <!-- ENCABEZADO DE TABLA -->
+
+            <div class="table-header">
+
+
+                <div>
+
+                    <h2>
+                        Historial de Confirmación
+                    </h2>
+
+                    <p>
+                        Constancias de Confirmación generadas en la parroquia
+                    </p>
+
+                </div>
+
+
+                <div class="table-icon">
+
+                    <i class="fas fa-book-bible"></i>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- TABLA -->
+
+            <table>
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Fecha
+                        </th>
+
+                        <th>
+                            Sacramento
+                        </th>
+
+                        <th>
+                            Nombre
+                        </th>
+
+                        <th>
+                            Usuario
+                        </th>
+
+                        <th>
+                            Acciones
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+
+                <tbody>
+
+
+                    <!--
+                        AQUÍ DJANGO MOSTRARÁ
+                        LOS REGISTROS DE BAUTISMO
+                    -->
+
+
+                    <tr>
+
+                        <td colspan="5"
+                            class="empty-state">
+
+                            <i class="fas fa-file-circle-xmark"></i>
+
+                            <p>
+                                No hay constancias de confirmación  
+                                generadas para mostrar.
+                            </p>
+
+                        </td>
+
+                    </tr>
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             FOOTER
+             ================================= -->
+
+        <footer>
+
+            <p>
+                &copy; SISTEMAS UMG 2026 GRUPO SEMINARIO.
+            </p>
+
+        </footer>
+
+
+    </div>
+
+
+</body>
+
+</html>

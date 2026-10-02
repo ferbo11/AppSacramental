@@ -972,3 +972,65 @@ footer {
     }
 
 }
+/* =========================================================
+   ACCIONES
+   ========================================================= */
+
+.actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-bottom: 25px;
+}
+
+.btn-pdf {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 9px;
+
+    padding: 11px 18px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background:
+        var(--danger);
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+.btn-pdf:hover {
+
+    background:
+        #b91c1c;
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        var(--shadow);
+}

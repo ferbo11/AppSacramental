@@ -177,8 +177,11 @@
             <!-- FORMULARIO DE BÚSQUEDA -->
 
             <form method="GET"
+                  action="{% url 'buscar_bautismo' %}"
                   class="search-form">
 
+
+                <!-- NOMBRE -->
 
                 <div class="form-group">
 
@@ -190,12 +193,15 @@
                         type="text"
                         id="nombre"
                         name="nombre"
+                        value="{{ nombre }}"
                         placeholder="Ingrese el nombre"
                         autocomplete="off"
                     >
 
                 </div>
 
+
+                <!-- APELLIDOS -->
 
                 <div class="form-group">
 
@@ -207,12 +213,15 @@
                         type="text"
                         id="apellidos"
                         name="apellidos"
+                        value="{{ apellidos }}"
                         placeholder="Ingrese los apellidos"
                         autocomplete="off"
                     >
 
                 </div>
 
+
+                <!-- BOTÓN BUSCAR -->
 
                 <button type="submit"
                         class="btn-search">
@@ -263,40 +272,179 @@
 
 
 
+            <!-- =================================
+                 CONTENEDOR DE RESULTADOS
+                 ================================= -->
+
             <div class="result-container">
 
 
-                <!--
-                    AQUÍ DJANGO MOSTRARÁ
-                    EL REGISTRO ENCONTRADO
-                -->
+                {% if busqueda_realizada %}
 
-                <div class="empty-result">
 
-                    <i class="fas fa-user-search"></i>
+                    <!-- =================================
+                         HAY RESULTADOS
+                         ================================= -->
 
-                    <p>
-                        Realice una búsqueda para consultar
-                        el registro del confirmadó.
-                    </p>
+                    {% if resultados %}
 
-                </div>
+
+                        {% for bautizado in resultados %}
+
+
+                            <div class="bautizado-result">
+
+
+                                <!-- NOMBRE -->
+
+                                <h3>
+                                    {{ bautizado.nombre }}
+                                </h3>
+
+
+                                <!-- DATOS DEL BAUTISMO -->
+
+                                <div class="datos-bautismo">
+
+
+                                    <p>
+
+                                        <strong>
+                                            Padre:
+                                        </strong>
+
+                                        {{ bautizado.nombre_padre|default:"No registrado" }}
+
+                                    </p>
+
+
+                                    <p>
+
+                                        <strong>
+                                            Madre:
+                                        </strong>
+
+                                        {{ bautizado.nombre_madre|default:"No registrada" }}
+
+                                    </p>
+
+
+                                    <p>
+
+                                        <strong>
+                                            Libro:
+                                        </strong>
+
+                                        {{ bautizado.libro }}
+
+                                    </p>
+
+
+                                    <p>
+
+                                        <strong>
+                                            Folio:
+                                        </strong>
+
+                                        {{ bautizado.folio }}
+
+                                    </p>
+
+
+                                    <p>
+
+                                        <strong>
+                                            Fecha:
+                                        </strong>
+
+                                        {{ bautizado.fecha|date:"d/m/Y" }}
+
+                                    </p>
+
+
+                                    <p>
+
+                                        <strong>
+                                            Lugar:
+                                        </strong>
+
+                                        {{ bautizado.lugar_bautismo|default:"No registrado" }}
+
+                                    </p>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                        {% endfor %}
+
+
+                    {% else %}
+
+
+                        <!-- =================================
+                             SIN RESULTADOS
+                             ================================= -->
+
+                        <div class="empty-result">
+
+                            <i class="fas fa-user-slash"></i>
+
+                            <p>
+                                No se encontró ningún bautizado
+                                con los datos ingresados.
+                            </p>
+
+                        </div>
+
+
+                    {% endif %}
+
+
+                {% else %}
+
+
+                    <!-- =================================
+                         SIN REALIZAR BÚSQUEDA
+                         ================================= -->
+
+                    <div class="empty-result">
+
+                        <i class="fas fa-user-search"></i>
+
+                        <p>
+                            Realice una búsqueda para consultar
+                            el registro del bautizado.
+                        </p>
+
+                    </div>
+
+
+                {% endif %}
 
 
             </div>
 
-<!-- =================================
+
+        </div>
+
+
+
+        <!-- =================================
              BOTÓN DE IMPRESIÓN
              ================================= -->
-        </div>
-           <button type="button"
-                    class="btn-pdf">
 
-                <i class="fas fa-file-pdf"></i>
+        <button type="button"
+                class="btn-pdf">
 
-                Imprimir PDF
+            <i class="fas fa-file-pdf"></i>
 
-            </button>
+            Imprimir PDF
+
+        </button>
 
 
 

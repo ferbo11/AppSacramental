@@ -1,24 +1,38 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login, logout
 from django.shortcuts import render, redirect
+from django.contrib.auth.hashers import check_password
+
+from .models import Usuario
 
 
 def login_view(request):
-    if request.user.is_authenticated:
+    if request.session.get('usuario_id'):
         return redirect('index')
 
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '')
 
-        user = authenticate(
-            request,
-            username=username,
-            password=password
-        )
+        try:
+            usuario = Usuario.objects.select_related('id_rol').get(
+                username=username
+            )
 
-        if user is not None:
-            login(request, user)
-            return redirect('index')
+            if check_password(password, usuario.password_hash):
+                # Guardamos nuestro usuario en la sesión
+                request.session['usuario_id'] = usuario.id_usuario
+                request.session['username'] = usuario.username
+                request.session['rol_id'] = usuario.id_rol_id
+                request.session['rol_nombre'] = (
+                    usuario.id_rol.nombre_rol
+                    if usuario.id_rol
+                    else None
+                )
+
+                return redirect('index')
+
+        except Usuario.DoesNotExist:
+            pass
 
         return render(
             request,
@@ -30,5 +44,5 @@ def login_view(request):
 
 
 def logout_view(request):
-    logout(request)
+    request.session.flush()
     return redirect('login')

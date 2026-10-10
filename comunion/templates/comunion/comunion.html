@@ -11,9 +11,8 @@
           content="width=device-width, initial-scale=1.0">
 
     <title>
-        Parroquia El Calvario - Primera Comunion
+        Parroquia El Calvario - Primera Comunión
     </title>
-
 
     <!-- =================================
          FONT AWESOME
@@ -60,10 +59,10 @@
         <a href="{% url 'comunion' %}"
            class="nav-item active">
 
-            <i class="fas fa-bible"></i>
+            <i class="fas fa-church"></i>
 
             <span>
-                Primera Comunión    
+                Primera Comunión
             </span>
 
         </a>
@@ -100,7 +99,6 @@
     </div>
 
 
-
     <!-- =================================
          CONTENIDO PRINCIPAL
          ================================= -->
@@ -118,7 +116,7 @@
             <div>
 
                 <h1>
-                    Registro de Primera Comunión        
+                    Registro de Primera Comunión
                 </h1>
 
                 <p>
@@ -141,9 +139,8 @@
         </div>
 
 
-
         <!-- =================================
-             BÚSQUEDA 
+             BÚSQUEDA DE PRIMERA COMUNIÓN
              ================================= -->
 
         <div class="card">
@@ -151,14 +148,15 @@
 
             <div class="card-header">
 
+
                 <div>
 
                     <h2>
-                        Buscar 
+                        Buscar Primera Comunión
                     </h2>
 
                     <p>
-                        Ingrese el nombre y apellido del niño/niña
+                        Ingrese el nombre y apellido del niño o niña
                     </p>
 
                 </div>
@@ -170,15 +168,18 @@
 
                 </div>
 
-            </div>
 
+            </div>
 
 
             <!-- FORMULARIO DE BÚSQUEDA -->
 
             <form method="GET"
+                  action="{% url 'buscar_comunion' %}"
                   class="search-form">
 
+
+                <!-- NOMBRE -->
 
                 <div class="form-group">
 
@@ -190,12 +191,15 @@
                         type="text"
                         id="nombre"
                         name="nombre"
+                        value="{{ nombre }}"
                         placeholder="Ingrese el nombre"
                         autocomplete="off"
                     >
 
                 </div>
 
+
+                <!-- APELLIDOS -->
 
                 <div class="form-group">
 
@@ -207,6 +211,7 @@
                         type="text"
                         id="apellidos"
                         name="apellidos"
+                        value="{{ apellidos }}"
                         placeholder="Ingrese los apellidos"
                         autocomplete="off"
                     >
@@ -214,12 +219,14 @@
                 </div>
 
 
+                <!-- BOTÓN BUSCAR -->
+
                 <button type="submit"
                         class="btn-search">
 
                     <i class="fas fa-search"></i>
 
-                    Buscar Niño/Niña
+                    Buscar Primera Comunión
 
                 </button>
 
@@ -230,7 +237,6 @@
         </div>
 
 
-
         <!-- =================================
              RESULTADO DE BÚSQUEDA
              ================================= -->
@@ -239,6 +245,7 @@
 
 
             <div class="card-header">
+
 
                 <div>
 
@@ -255,32 +262,237 @@
 
                 <div class="card-icon">
 
-                    <i class="fas fa-user"></i>
+                    <i class="fas fa-user-check"></i>
 
                 </div>
+
 
             </div>
 
 
+            <!-- =================================
+                 CONTENEDOR DE RESULTADOS
+                 ================================= -->
 
             <div class="result-container">
 
 
-                <!--
-                    AQUÍ DJANGO MOSTRARÁ
-                    EL REGISTRO ENCONTRADO
-                -->
+                {% if busqueda_realizada %}
 
-                <div class="empty-result">
 
-                    <i class="fas fa-user-search"></i>
+                    <!-- =================================
+                         HAY RESULTADOS
+                         ================================= -->
 
-                    <p>
-                        Realice una búsqueda para consultar
-                        el registro de Primera Comunión
-                    </p>
+                    {% if resultados %}
 
-                </div>
+
+                        {% for comunionado in resultados %}
+
+
+                            <div class="confirmado-result">
+
+
+                                <h3>
+                                    {{ comunionado.nombre }}
+                                </h3>
+
+
+                                <div class="datos-confirmacion">
+
+
+                                    <p>
+
+                                        <strong>
+                                            Padre:
+                                        </strong>
+
+                                        {{ comunionado.nombre_padre|default:"No registrado" }}
+
+                                    </p>
+
+
+                                    <p>
+
+                                        <strong>
+                                            Madre:
+                                        </strong>
+
+                                        {{ comunionado.nombre_madre|default:"No registrada" }}
+
+                                    </p>
+
+
+                                    <p>
+
+                                        <strong>
+                                            Padrino:
+                                        </strong>
+
+                                        {{ comunionado.nombre_padrino|default:"No registrado" }}
+
+                                    </p>
+
+
+                                    <p>
+
+                                        <strong>
+                                            Madrina:
+                                        </strong>
+
+                                        {{ comunionado.nombre_madrina|default:"No registrada" }}
+
+                                    </p>
+
+
+                                    <p>
+
+                                        <strong>
+                                            Libro:
+                                        </strong>
+
+                                        {{ comunionado.libro|default:"No registrado" }}
+
+                                    </p>
+
+
+                                    <p>
+
+                                        <strong>
+                                            Folio:
+                                        </strong>
+
+                                        {{ comunionado.folio }}
+
+                                    </p>
+
+
+                                    <p>
+
+                                        <strong>
+                                            Fecha:
+                                        </strong>
+
+                                        {% if comunionado.fecha %}
+
+                                            {{ comunionado.fecha|date:"d/m/Y" }}
+
+                                        {% else %}
+
+                                            No registrada
+
+                                        {% endif %}
+
+                                    </p>
+
+
+                                </div>
+
+
+                                <!-- ==============================
+                                     GENERAR CONSTANCIA
+                                     ============================== -->
+
+                                <form method="POST"
+                                      action="{% url 'generar_pdf_comunion' comunionado.id_comunion %}"
+                                      class="form-constancia">
+
+
+                                    {% csrf_token %}
+
+
+                                    <div class="observaciones-container">
+
+                                        <label for="observacion_{{ comunionado.id_comunion }}">
+
+                                            Observaciones
+
+                                        </label>
+
+
+                                        <textarea
+                                            id="observacion_{{ comunionado.id_comunion }}"
+                                            name="observacion"
+                                            rows="3"
+                                            placeholder="Ingrese una observación (opcional)..."
+                                        ></textarea>
+
+
+                                    </div>
+
+
+                                    <button type="submit"
+                                            class="btn-pdf">
+
+                                        <i class="fas fa-file-pdf"></i>
+
+                                        Generar Constancia PDF
+
+                                    </button>
+
+
+                                </form>
+
+
+                            </div>
+
+
+                        {% endfor %}
+
+
+                    {% else %}
+
+
+                        <!-- =================================
+                             SIN RESULTADOS
+                             ================================= -->
+
+                        <div class="empty-result">
+
+
+                            <i class="fas fa-user-slash"></i>
+
+
+                            <p>
+
+                                No se encontró ningún registro
+                                de Primera Comunión con los
+                                datos ingresados.
+
+                            </p>
+
+
+                        </div>
+
+
+                    {% endif %}
+
+
+                {% else %}
+
+
+                    <!-- =================================
+                         SIN REALIZAR BÚSQUEDA
+                         ================================= -->
+
+                    <div class="empty-result">
+
+
+                        <i class="fas fa-user-search"></i>
+
+
+                        <p>
+
+                            Realice una búsqueda para consultar
+                            el registro de Primera Comunión.
+
+                        </p>
+
+
+                    </div>
+
+
+                {% endif %}
 
 
             </div>
@@ -288,17 +500,20 @@
 
         </div>
 
-<!-- =================================
-        BOTÓN DE IMPRESIÓN
-        ================================= -->
-           <button type="button"
-                    class="btn-pdf">
 
-                <i class="fas fa-file-pdf"></i>
+        <!-- =================================
+             BOTÓN DE IMPRESIÓN
+             ================================= -->
 
-                Imprimir PDF
+        <button type="button"
+                class="btn-pdf">
 
-            </button>
+            <i class="fas fa-file-pdf"></i>
+
+            Imprimir PDF
+
+        </button>
+
 
         <!-- =================================
              FOOTER

@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'confirmacion',
     'matrimonio',
     'agenda',
-    'configuracion'
+    'configuracion',
+    'constancias'
 ]
 
 MIDDLEWARE = [
@@ -82,8 +83,12 @@ WSGI_APPLICATION = 'AppSacramental.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'AppSacramental',
+        'USER': 'postgres',
+        'PASSWORD': 'ferix112',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -136,3 +141,7 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+# Static files (CSS, JavaScript, Images)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

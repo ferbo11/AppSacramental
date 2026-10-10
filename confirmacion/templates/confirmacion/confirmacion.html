@@ -11,9 +11,8 @@
           content="width=device-width, initial-scale=1.0">
 
     <title>
-        Parroquia El Calvario - Confirmación
+        Parroquia El Calvario - Confirmaciones
     </title>
-
 
     <!-- =================================
          FONT AWESOME
@@ -55,15 +54,15 @@
         </div>
 
 
-        <!-- Confirmaciónes -->
+        <!-- CONFIRMACIONES -->
 
         <a href="{% url 'confirmacion' %}"
            class="nav-item active">
 
-            <i class="fas fa-baby"></i>
+            <i class="fas fa-church"></i>
 
             <span>
-                Confirmación
+                Confirmaciones
             </span>
 
         </a>
@@ -118,7 +117,7 @@
             <div>
 
                 <h1>
-                    Registro de Bautismo
+                    Registro de Confirmaciones
                 </h1>
 
                 <p>
@@ -143,7 +142,7 @@
 
 
         <!-- =================================
-             BÚSQUEDA DEL BAUTIZADO
+             BÚSQUEDA DE CONFIRMACIÓN
              ================================= -->
 
         <div class="card">
@@ -151,14 +150,15 @@
 
             <div class="card-header">
 
+
                 <div>
 
                     <h2>
-                        Buscar Bautizado
+                        Buscar Confirmado
                     </h2>
 
                     <p>
-                        Ingrese el nombre y apellido del bautizado
+                        Ingrese el nombre y apellido del confirmado
                     </p>
 
                 </div>
@@ -170,6 +170,7 @@
 
                 </div>
 
+
             </div>
 
 
@@ -177,8 +178,11 @@
             <!-- FORMULARIO DE BÚSQUEDA -->
 
             <form method="GET"
+                  action="{% url 'buscar_confirmacion' %}"
                   class="search-form">
 
+
+                <!-- NOMBRE -->
 
                 <div class="form-group">
 
@@ -190,12 +194,15 @@
                         type="text"
                         id="nombre"
                         name="nombre"
+                        value="{{ nombre }}"
                         placeholder="Ingrese el nombre"
                         autocomplete="off"
                     >
 
                 </div>
 
+
+                <!-- APELLIDOS -->
 
                 <div class="form-group">
 
@@ -207,6 +214,7 @@
                         type="text"
                         id="apellidos"
                         name="apellidos"
+                        value="{{ apellidos }}"
                         placeholder="Ingrese los apellidos"
                         autocomplete="off"
                     >
@@ -214,12 +222,14 @@
                 </div>
 
 
+                <!-- BOTÓN BUSCAR -->
+
                 <button type="submit"
                         class="btn-search">
 
                     <i class="fas fa-search"></i>
 
-                    Buscar Bautizado
+                    Buscar Confirmado
 
                 </button>
 
@@ -240,6 +250,7 @@
 
             <div class="card-header">
 
+
                 <div>
 
                     <h2>
@@ -255,49 +266,193 @@
 
                 <div class="card-icon">
 
-                    <i class="fas fa-user"></i>
+                    <i class="fas fa-user-check"></i>
 
                 </div>
+
 
             </div>
 
 
 
+            <!-- =================================
+                 CONTENEDOR DE RESULTADOS
+                 ================================= -->
+
             <div class="result-container">
 
 
-                <!--
-                    AQUÍ DJANGO MOSTRARÁ
-                    EL REGISTRO ENCONTRADO
-                -->
+                {% if busqueda_realizada %}
 
-                <div class="empty-result">
 
-                    <i class="fas fa-user-search"></i>
+                    <!-- =================================
+                         HAY RESULTADOS
+                         ================================= -->
 
-                    <p>
-                        Realice una búsqueda para consultar
-                        el registro del bautizado.
-                    </p>
+                    {% if resultados %}
 
-                </div>
+{% for confirmado in resultados %}
+
+    <div class="confirmado-result">
+
+        <h3>
+            {{ confirmado.nombre }}
+        </h3>
+
+        <div class="datos-confirmacion">
+
+            <p>
+                <strong>Padre:</strong>
+                {{ confirmado.nombre_padre|default:"No registrado" }}
+            </p>
+
+            <p>
+                <strong>Madre:</strong>
+                {{ confirmado.nombre_madre|default:"No registrada" }}
+            </p>
+
+            <p>
+                <strong>Padrino:</strong>
+                {{ confirmado.nombre_padrino|default:"No registrado" }}
+            </p>
+
+            <p>
+                <strong>Madrina:</strong>
+                {{ confirmado.nombre_madrina|default:"No registrada" }}
+            </p>
+
+            <p>
+                <strong>Libro:</strong>
+                {{ confirmado.libro|default:"No registrado" }}
+            </p>
+
+            <p>
+                <strong>Folio:</strong>
+                {{ confirmado.folio }}
+            </p>
+
+            <p>
+                <strong>Fecha:</strong>
+
+                {% if confirmado.fecha %}
+                    {{ confirmado.fecha|date:"d/m/Y" }}
+                {% else %}
+                    No registrada
+                {% endif %}
+
+            </p>
+
+        </div>
+
+
+        <!-- ==============================
+             GENERAR CONSTANCIA
+             ============================== -->
+
+        <form method="POST"
+              action="{% url 'generar_pdf_confirmacion' confirmado.id_confirmacion %}"
+              class="form-constancia">
+
+            {% csrf_token %}
+
+            <div class="observaciones-container">
+
+                <label for="observacion_{{ confirmado.id_confirmacion }}">
+                    Observaciones
+                </label>
+
+                <textarea
+                    id="observacion_{{ confirmado.id_confirmacion }}"
+                    name="observacion"
+                    rows="3"
+                    placeholder="Ingrese una observación (opcional)..."
+                ></textarea>
+
+            </div>
+
+            <button type="submit" class="btn-pdf">
+
+                <i class="fas fa-file-pdf"></i>
+
+                Generar Constancia PDF
+
+            </button>
+
+        </form>
+
+    </div>
+
+{% endfor %}
+                       
+
+
+                        
+
+
+                    {% else %}
+
+
+                        <!-- =================================
+                             SIN RESULTADOS
+                             ================================= -->
+
+                        <div class="empty-result">
+
+                            <i class="fas fa-user-slash"></i>
+
+                            <p>
+                                No se encontró ningún confirmado
+                                con los datos ingresados.
+                            </p>
+
+                        </div>
+
+
+                    {% endif %}
+
+
+                {% else %}
+
+
+                    <!-- =================================
+                         SIN REALIZAR BÚSQUEDA
+                         ================================= -->
+
+                    <div class="empty-result">
+
+                        <i class="fas fa-user-search"></i>
+
+                        <p>
+                            Realice una búsqueda para consultar
+                            el registro del confirmado.
+                        </p>
+
+                    </div>
+
+
+                {% endif %}
 
 
             </div>
 
 
         </div>
-<!-- =================================
-        BOTÓN DE IMPRESIÓN
-        ================================= -->
-           <button type="button"
-                    class="btn-pdf">
 
-                <i class="fas fa-file-pdf"></i>
 
-                Imprimir PDF
 
-            </button>
+        <!-- =================================
+             BOTÓN DE IMPRESIÓN
+             ================================= -->
+
+        <button type="button"
+                class="btn-pdf">
+
+            <i class="fas fa-file-pdf"></i>
+
+            Imprimir PDF
+
+        </button>
+
 
 
         <!-- =================================

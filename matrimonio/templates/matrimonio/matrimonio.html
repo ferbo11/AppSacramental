@@ -11,7 +11,7 @@
           content="width=device-width, initial-scale=1.0">
 
     <title>
-        Parroquia El Calvario - Matrimonio
+        Parroquia El Calvario - Matrimonios
     </title>
 
 
@@ -55,7 +55,7 @@
         </div>
 
 
-        <!-- MATRIMONIO -->
+        <!-- MATRIMONIOS -->
 
         <a href="{% url 'matrimonio' %}"
            class="nav-item active">
@@ -63,7 +63,7 @@
             <i class="fas fa-ring"></i>
 
             <span>
-                Matrimonio
+                Matrimonios
             </span>
 
         </a>
@@ -118,7 +118,7 @@
             <div>
 
                 <h1>
-                    Registro de Matrimonio
+                    Registro de Matrimonios
                 </h1>
 
                 <p>
@@ -143,7 +143,7 @@
 
 
         <!-- =================================
-             BÚSQUEDA DEL MATRIMONIO
+             BÚSQUEDA DE MATRIMONIO
              ================================= -->
 
         <div class="card">
@@ -159,7 +159,7 @@
                     </h2>
 
                     <p>
-                        Ingrese los nombres y apellidos de los contrayentes para buscar el registro del matrimonio.
+                        Ingrese el nombre del esposo o esposa
                     </p>
 
                 </div>
@@ -176,118 +176,63 @@
 
 
 
-            <!-- =================================
-                 FORMULARIO DE BÚSQUEDA
-                 ================================= -->
+            <!-- FORMULARIO DE BÚSQUEDA -->
 
             <form method="GET"
+                  action="{% url 'buscar_matrimonio' %}"
                   class="search-form">
 
 
-                <!-- =================================
-                     NOMBRE DEL NOVIO
-                     ================================= -->
+                <!-- NOMBRE DEL ESPOSO -->
 
                 <div class="form-group">
 
-                    <label for="nombre_novio">
-                        Nombre del Novio
+                    <label for="esposo">
+                        Nombre del esposo
                     </label>
 
                     <input
                         type="text"
-                        id="nombre_novio"
-                        name="nombre_novio"
-                        placeholder="Ingrese el nombre del novio"
+                        id="esposo"
+                        name="esposo"
+                        value="{{ esposo }}"
+                        placeholder="Ingrese el nombre del esposo"
                         autocomplete="off"
                     >
 
                 </div>
 
 
-
-                <!-- =================================
-                     APELLIDOS DEL NOVIO
-                     ================================= -->
+                <!-- NOMBRE DE LA ESPOSA -->
 
                 <div class="form-group">
 
-                    <label for="apellidos_novio">
-                        Apellidos del Novio
+                    <label for="esposa">
+                        Nombre de la esposa
                     </label>
 
                     <input
                         type="text"
-                        id="apellidos_novio"
-                        name="apellidos_novio"
-                        placeholder="Ingrese los apellidos del novio"
+                        id="esposa"
+                        name="esposa"
+                        value="{{ esposa }}"
+                        placeholder="Ingrese el nombre de la esposa"
                         autocomplete="off"
                     >
 
                 </div>
 
 
+                <!-- BOTÓN BUSCAR -->
 
-                <!-- =================================
-                     BOTÓN BUSCAR
-                     ================================= -->
+                <button type="submit"
+                        class="btn-search">
 
-                <div class="search-button-container">
+                    <i class="fas fa-search"></i>
 
-                    <button type="submit"
-                            class="btn-search">
+                    Buscar Matrimonio
 
-                        <i class="fas fa-search"></i>
-
-                        Buscar matrimonio
-
-                    </button>
-
-                </div>
-
-
-
-                <!-- =================================
-                     APELLIDOS DE LA NOVIA
-                     ================================= -->
-
-                <div class="form-group">
-
-                    <label for="apellidos_novia">
-                        Apellidos de la Novia
-                    </label>
-
-                    <input
-                        type="text"
-                        id="apellidos_novia"
-                        name="apellidos_novia"
-                        placeholder="Ingrese los apellidos de la novia"
-                        autocomplete="off"
-                    >
-
-                </div>
-
-
-
-                <!-- =================================
-                     NOMBRE DE LA NOVIA
-                     ================================= -->
-
-                <div class="form-group">
-
-                    <label for="nombre_novia">
-                        Nombre de la Novia
-                    </label>
-
-                    <input
-                        type="text"
-                        id="nombre_novia"
-                        name="nombre_novia"
-                        placeholder="Ingrese el nombre de la novia"
-                        autocomplete="off"
-                    >
-
-                </div>
+                </button>
 
 
             </form>
@@ -331,24 +276,170 @@
 
 
 
+            <!-- =================================
+                 CONTENEDOR DE RESULTADOS
+                 ================================= -->
+
             <div class="result-container">
 
 
-                <!--
-                    AQUÍ DJANGO MOSTRARÁ
-                    EL REGISTRO ENCONTRADO
-                -->
+                {% if busqueda_realizada %}
 
-                <div class="empty-result">
 
-                    <i class="fas fa-ring"></i>
+                    <!-- =================================
+                         HAY RESULTADOS
+                         ================================= -->
 
-                    <p>
-                        Realice una búsqueda para consultar
-                        el registro del matrimonio.
-                    </p>
+                    {% if resultados %}
 
-                </div>
+
+                        {% for matrimonio in resultados %}
+
+
+                            <div class="matrimonio-result">
+
+
+                                <!-- NOMBRES -->
+
+                                <h3>
+
+                                    {{ matrimonio.nombre_esposo }}
+
+                                    <span>
+                                        &amp;
+                                    </span>
+
+                                    {{ matrimonio.nombre_esposa }}
+
+                                </h3>
+
+
+
+                                <!-- DATOS DEL MATRIMONIO -->
+
+                                <div class="datos-matrimonio">
+
+
+                                    <!-- ESPOSO -->
+
+                                    <p>
+
+                                        <strong>
+                                            Esposo:
+                                        </strong>
+
+                                        {{ matrimonio.nombre_esposo }}
+
+                                    </p>
+
+
+
+                                    <!-- ESPOSA -->
+
+                                    <p>
+
+                                        <strong>
+                                            Esposa:
+                                        </strong>
+
+                                        {{ matrimonio.nombre_esposa }}
+
+                                    </p>
+
+
+
+                                    <!-- LIBRO -->
+
+                                    <p>
+
+                                        <strong>
+                                            Libro:
+                                        </strong>
+
+                                        {{ matrimonio.libro }}
+
+                                    </p>
+
+
+
+                                    <!-- FOLIO -->
+
+                                    <p>
+
+                                        <strong>
+                                            Folio:
+                                        </strong>
+
+                                        {{ matrimonio.folio }}
+
+                                    </p>
+
+
+
+                                    <!-- AÑO -->
+
+                                    <p>
+
+                                        <strong>
+                                            Año:
+                                        </strong>
+
+                                        {{ matrimonio.anio }}
+
+                                    </p>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                        {% endfor %}
+
+
+                    {% else %}
+
+
+                        <!-- =================================
+                             SIN RESULTADOS
+                             ================================= -->
+
+                        <div class="empty-result">
+
+                            <i class="fas fa-user-slash"></i>
+
+                            <p>
+                                No se encontró ningún matrimonio
+                                con los datos ingresados.
+                            </p>
+
+                        </div>
+
+
+                    {% endif %}
+
+
+                {% else %}
+
+
+                    <!-- =================================
+                         SIN REALIZAR BÚSQUEDA
+                         ================================= -->
+
+                    <div class="empty-result">
+
+                        <i class="fas fa-search"></i>
+
+                        <p>
+                            Realice una búsqueda para consultar
+                            el registro del matrimonio.
+                        </p>
+
+                    </div>
+
+
+                {% endif %}
 
 
             </div>
@@ -356,17 +447,23 @@
 
         </div>
 
+
+
         <!-- =================================
-        BOTÓN DE IMPRESIÓN
-        ================================= -->
-           <button type="button"
-                    class="btn-pdf">
+             BOTÓN DE IMPRESIÓN
+             ================================= -->
 
-                <i class="fas fa-file-pdf"></i>
+        <button type="button"
+                class="btn-pdf">
 
-                Imprimir PDF
+            <i class="fas fa-file-pdf"></i>
 
-            </button>
+            Imprimir PDF
+
+        </button>
+
+
+
         <!-- =================================
              FOOTER
              ================================= -->

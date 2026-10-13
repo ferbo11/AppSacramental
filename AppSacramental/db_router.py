@@ -1,13 +1,25 @@
 class AgendaRouter:
 
     def db_for_read(self, model, **hints):
-        if model._meta.app_label == "agenda":
+        app_label = model._meta.app_label
+
+        if app_label == "agenda":
             return "agenda"
+
+        if app_label == "historial":
+            return "historial"
+
         return "default"
 
     def db_for_write(self, model, **hints):
-        if model._meta.app_label == "agenda":
+        app_label = model._meta.app_label
+
+        if app_label == "agenda":
             return "agenda"
+
+        if app_label == "historial":
+            return "historial"
+
         return "default"
 
     def allow_relation(self, obj1, obj2, **hints):
@@ -28,5 +40,8 @@ class AgendaRouter:
     ):
         if app_label == "agenda":
             return db == "agenda"
+
+        if app_label == "historial":
+            return db == "historial"
 
         return db == "default"

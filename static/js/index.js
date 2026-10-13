@@ -2,6 +2,45 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
      * ========================================
+     * DATOS PROCEDENTES DE DJANGO
+     * ========================================
+     */
+
+    const obtenerDatos = (id, valorPorDefecto = []) => {
+        const elemento = document.getElementById(id);
+
+        if (!elemento) {
+            console.error(`No se encontró el elemento ${id}`);
+            return valorPorDefecto;
+        }
+
+        try {
+            return JSON.parse(elemento.textContent);
+        } catch (error) {
+            console.error(`Error al leer ${id}:`, error);
+            return valorPorDefecto;
+        }
+    };
+
+    const etiquetasSacramentos = obtenerDatos(
+        'etiquetas-sacramentos'
+    );
+
+    const datosSacramentos = obtenerDatos(
+        'datos-sacramentos'
+    );
+
+    const etiquetasMeses = obtenerDatos(
+        'etiquetas-meses'
+    );
+
+    const datosMeses = obtenerDatos(
+        'datos-meses'
+    );
+
+
+    /*
+     * ========================================
      * GRÁFICA 1
      * TOTAL DE CONSTANCIAS POR SACRAMENTO
      * ========================================
@@ -17,67 +56,40 @@ document.addEventListener('DOMContentLoaded', function () {
             type: 'bar',
 
             data: {
+                labels: etiquetasSacramentos,
 
-                labels: [
-                    'Bautismo',
-                    'Primera Comunión',
-                    'Confirmación',
-                    'Matrimonio'
-                ],
-
-                datasets: [
-
-                    {
-                        label: 'Constancias emitidas',
-
-                        data: [
-                            150,
-                            95,
-                            80,
-                            45
-                        ]
-                    }
-
-                ]
-
+                datasets: [{
+                    label: 'Constancias emitidas',
+                    data: datosSacramentos
+                }]
             },
 
             options: {
 
                 responsive: true,
-
                 maintainAspectRatio: false,
 
                 scales: {
 
                     y: {
-
                         beginAtZero: true,
 
                         ticks: {
-                            stepSize: 25
+                            precision: 0,
+                            stepSize: 1
                         },
 
                         title: {
-
                             display: true,
-
                             text: 'Cantidad de constancias'
-
                         }
-
                     },
 
                     x: {
-
                         title: {
-
                             display: true,
-
                             text: 'Sacramento'
-
                         }
-
                     }
 
                 },
@@ -93,12 +105,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         callbacks: {
 
                             label: function (context) {
-
-                                return (
-                                    context.parsed.y +
-                                    ' constancias'
-                                );
-
+                                return context.parsed.y +
+                                    ' constancias';
                             }
 
                         }
@@ -132,47 +140,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
             data: {
 
-                labels: [
-                    'Enero',
-                    'Febrero',
-                    'Marzo',
-                    'Abril',
-                    'Mayo',
-                    'Junio',
-                    'Julio',
-                    'Agosto',
-                    'Septiembre',
-                    'Octubre',
-                    'Noviembre',
-                    'Diciembre'
-                ],
+                labels: etiquetasMeses,
 
-                datasets: [
+                datasets: [{
 
-                    {
-                        label: 'Constancias emitidas',
+                    label: 'Constancias emitidas',
 
-                        data: [
-                            18,
-                            25,
-                            31,
-                            22,
-                            38,
-                            42,
-                            35,
-                            47,
-                            29,
-                            40,
-                            36,
-                            44
-                        ],
+                    data: datosMeses,
 
-                        tension: 0.3,
+                    tension: 0.3,
 
-                        fill: false
-                    }
+                    fill: false
 
-                ]
+                }]
 
             },
 
@@ -188,12 +168,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         beginAtZero: true,
 
+                        ticks: {
+                            precision: 0,
+                            stepSize: 1
+                        },
+
                         title: {
-
                             display: true,
-
                             text: 'Constancias'
-
                         }
 
                     },
@@ -201,10 +183,24 @@ document.addEventListener('DOMContentLoaded', function () {
                     x: {
 
                         title: {
-
                             display: true,
-
                             text: 'Mes'
+                        }
+
+                    }
+
+                },
+
+                plugins: {
+
+                    tooltip: {
+
+                        callbacks: {
+
+                            label: function (context) {
+                                return context.parsed.y +
+                                    ' constancias';
+                            }
 
                         }
 
@@ -237,27 +233,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
             data: {
 
-                labels: [
-                    'Bautismo',
-                    'Primera Comunión',
-                    'Confirmación',
-                    'Matrimonio'
-                ],
+                labels: etiquetasSacramentos,
 
-                datasets: [
+                datasets: [{
 
-                    {
-                        label: 'Constancias',
+                    label: 'Constancias',
 
-                        data: [
-                            150,
-                            95,
-                            80,
-                            45
-                        ]
-                    }
+                    data: datosSacramentos
 
-                ]
+                }]
 
             },
 
@@ -270,9 +254,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 plugins: {
 
                     legend: {
-
                         position: 'bottom'
-
                     },
 
                     tooltip: {
@@ -281,12 +263,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
                             label: function (context) {
 
-                                return (
-                                    context.label +
+                                return context.label +
                                     ': ' +
                                     context.parsed +
-                                    ' constancias'
-                                );
+                                    ' constancias';
 
                             }
 

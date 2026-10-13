@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'matrimonio',
     'agenda',
     'configuracion',
-    'constancias'
+    'constancias',
+    'historial'
 ]
 
 MIDDLEWARE = [
@@ -94,7 +95,12 @@ DATABASES = {
     'agenda': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'agenda.sqlite3',
-    }
+    },
+
+    'historial': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'historial.sqlite3',
+    },
 }
 
 DATABASE_ROUTERS = ['AppSacramental.db_router.AgendaRouter']
@@ -121,7 +127,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-gt'
 
 TIME_ZONE = 'UTC'
 

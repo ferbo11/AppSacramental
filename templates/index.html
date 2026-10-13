@@ -34,6 +34,11 @@
     <!-- =================================
          CHART.JS
          ================================= -->
+         {{ etiquetas_sacramentos|json_script:"etiquetas-sacramentos" }}                
+         {{ datos_sacramentos|json_script:"datos-sacramentos" }}
+
+         {{ etiquetas_meses|json_script:"etiquetas-meses" }}
+         {{ datos_meses|json_script:"datos-meses" }}
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -429,27 +434,57 @@
                 <tbody>
 
 
-                    <!-- =================================
-                         ESTADO VACÍO
-                         ================================= -->
+                    {% for registro in historial_constancias %}
 
-                    <tr>
+                        <tr>
 
-                        <td colspan="5"
-                            class="empty-state">
+                            <td>
+                                {{ registro.fecha_emision|date:"d/m/Y H:i" }}
+                            </td>
+
+                            <td>
+                                {{ registro.get_sacramento_display }}
+                            </td>
+
+                            <td>
+                                {{ registro.nombre }}
+                            </td>
+
+                            <td>
+                                {{ registro.usuario }}
+                            </td>
+
+                            <td>
+                                &mdash;
+                            </td>
+
+                        </tr>
+
+                    {% empty %}
+
+                        <!-- =================================
+                             ESTADO VACÍO
+                             ================================= -->
+
+                        <tr>
+
+                            <td colspan="5"
+                                class="empty-state">
 
 
-                            <i class="fas fa-file-pdf"></i>
+                                <i class="fas fa-file-pdf"></i>
 
 
-                            <p>
-                                No hay constancias generadas para mostrar.
-                            </p>
+                                <p>
+                                    No hay constancias generadas para mostrar.
+                                </p>
 
 
-                        </td>
+                            </td>
 
-                    </tr>
+                        </tr>
+
+                    {% endfor %}
 
 
                 </tbody>
@@ -469,7 +504,7 @@
         <footer>
 
             <p>
-                &copy; SISTEMAS UMG 2026 GRUPO SEMINARIO.
+                &copy; SISTEMAS UMG 2026 SEMINARIO.
             </p>
 
         </footer>

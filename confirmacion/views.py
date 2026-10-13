@@ -6,6 +6,8 @@ from .models import Confirmacion
 from constancias.models import Constancia
 from constancias.generador_confirmacion import generar_constancia_confirmacion
 
+from historial.models import ConstanciaEmitida
+
 
 def buscar_confirmacion(request):
 
@@ -36,60 +38,6 @@ def buscar_confirmacion(request):
     )
 
 
-def generar_pdf_confirmacion(request, id_confirmacion):
-
-    if request.method != 'POST':
-        return render(
-            request,
-            'confirmacion/confirmacion.html'
-        )
-
-    confirmacion = get_object_or_404(
-        Confirmacion,
-        id_confirmacion=id_confirmacion
-    )
-
-    # Obtener observación del formulario
-    observacion = request.POST.get(
-        'observacion',
-        ''
-    ).strip()
-
-    # Generar PDF utilizando la plantilla oficial
-    pdf = generar_constancia_confirmacion(
-        confirmacion,
-        observacion
-    )
-
-    # Nombre del archivo
-    nombre_archivo = (
-        f'confirmacion_'
-        f'{confirmacion.id_confirmacion}_'
-        f'{confirmacion.nombre.replace(" ", "_")}.pdf'
-    )
-
-    # Guardar registro de la constancia
-    constancia = Constancia(
-        tipo_sacramento='Confirmación',
-        id_registro=confirmacion.id_confirmacion,
-        nombre_persona=confirmacion.nombre,
-        usuario_emisor=request.session.get('username'),
-        observaciones=observacion or 'NINGUNA'
-    )
-
-    constancia.archivo_pdf.save(
-        nombre_archivo,
-        pdf,
-        save=True
-    )
-
-    # Mostrar PDF en el navegador
-    return FileResponse(
-        constancia.archivo_pdf.open('rb'),
-        as_attachment=False,
-        filename=nombre_archivo,
-        content_type='application/pdf'
-    )
 def generar_pdf_confirmacion(request, id_confirmacion):
 
     if request.method != 'POST':
@@ -149,6 +97,15 @@ def generar_pdf_confirmacion(request, id_confirmacion):
         nombre_archivo,
         pdf,
         save=True
+    )
+
+    ConstanciaEmitida.objects.using('historial').create(
+        nombre=confirmacion.nombre[:200],
+        sacramento='confirmacion',
+        usuario=(
+            request.session.get('username')
+            or 'Desconocido'
+        )[:150],
     )
 
     return FileResponse(

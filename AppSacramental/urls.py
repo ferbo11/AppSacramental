@@ -159,8 +159,7 @@ urlpatterns = [
     # Configuración
     path(
         "configuracion/",
-        configuracion,
-        name="configuracion",
+        include("configuracion.urls"),
     ),
 ]
 

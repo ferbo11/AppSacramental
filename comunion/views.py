@@ -8,6 +8,10 @@ from constancias.models import Constancia
 from constancias.generador_comunion import (
     generar_constancia_comunion
 )
+
+from historial.models import ConstanciaEmitida
+
+
 def buscar_comunion(request):
     nombre = request.GET.get('nombre', '').strip()
     apellidos = request.GET.get('apellidos', '').strip()
@@ -115,6 +119,19 @@ def generar_pdf_comunion(request, id_comunion):
         nombre_archivo,
         pdf,
         save=True
+    )
+
+    # ========================================================
+    # REGISTRAR EN EL HISTORIAL (SQLite)
+    # ========================================================
+
+    ConstanciaEmitida.objects.using('historial').create(
+        nombre=comunion.nombre[:200],
+        sacramento='comunion',
+        usuario=(
+            request.session.get('username')
+            or 'Desconocido'
+        )[:150],
     )
 
     # ========================================================

@@ -13,6 +13,7 @@ from constancias.models import Constancia
 from constancias.generador_confirmacion import (
     generar_constancia_confirmacion,
 )
+from historial.models import ConstanciaEmitida
 
 def buscar_confirmacion(request):
 
@@ -142,6 +143,15 @@ def generar_pdf_confirmacion(
         pdf,
         save=True
     )
+    # Registrar la emisión en historial.sqlite3
+    ConstanciaEmitida.objects.using('historial').create(
+    nombre=confirmacion.nombre[:200],
+    sacramento='confirmacion',
+    usuario=(
+        request.session.get('username')
+        or 'Desconocido'
+    )[:150],
+)
 
     # ========================================================
     # MOSTRAR PDF

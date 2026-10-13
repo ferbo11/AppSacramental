@@ -1,6 +1,5 @@
 /* =========================================================
    PARROQUIA EL CALVARIO
-   DASHBOARD — CSS FINAL LIMPIO
    ========================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
@@ -64,7 +63,7 @@ body {
     background:
         radial-gradient(
             circle at 10% 10%,
-            rgba(14, 165, 233, 0.08),
+            rgba(14, 165, 233, 0.06),
             transparent 28%
         ),
         radial-gradient(
@@ -73,13 +72,14 @@ body {
             transparent 30%
         ),
         linear-gradient(
-            rgba(238, 242, 247, 0.91),
-            rgba(238, 242, 247, 0.95)
+            rgba(238, 242, 247, 0.38),
+            rgba(238, 242, 247, 0.44)
         ),
         url("/static/img/fondo.png");
 
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     background-attachment: fixed;
 }
 

@@ -89,9 +89,15 @@ DATABASES = {
         'PASSWORD': 'ferix112',
         'HOST': 'localhost',
         'PORT': '5432',
+    },
+
+    'agenda': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'agenda.sqlite3',
     }
 }
 
+DATABASE_ROUTERS = ['AppSacramental.db_router.AgendaRouter']
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators

@@ -2,215 +2,185 @@
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <title>Agenda | Sacranet</title>
 
-    <title>
-        Parroquia El Calvario - Agenda
-    </title>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    >
 
-
-    <!-- =================================
-         FONT AWESOME
-         ================================= -->
-
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-
-    <!-- =================================
-         CSS PROPIO
-         ================================= -->
-
-    <link rel="stylesheet"
-          href="{% static 'agenda/css/agenda.css' %}">
-
+    <link
+        rel="stylesheet"
+        href="{% static 'agenda/css/agenda.css' %}"
+    >
 </head>
-
 
 <body>
 
-
-    <!-- =================================
-         BARRA LATERAL
-         ================================= -->
-
-    <div class="sidebar">
-
+    <!-- BARRA LATERAL -->
+    <aside class="sidebar">
 
         <div class="sidebar-brand">
+            <img
+                src="{% static 'img/Calvario.png' %}"
+                alt="Parroquia El Calvario"
+            >
 
-            <img src="{% static 'img/Calvario.png' %}"
-                 alt="Parroquia El Calvario">
-
-            <span>
-                Parroquia El Calvario
-            </span>
-
+            <span>Sacranet</span>
         </div>
 
+        <nav class="sidebar-nav">
 
-        <!-- INICIO -->
+            <a href="{% url 'index' %}" class="nav-item">
+                <i class="fas fa-house"></i>
+                <span>Inicio</span>
+            </a>
 
-        <a href="{% url 'index' %}"
-           class="nav-item">
+            <a href="{% url 'bautismo' %}" class="nav-item">
+                <i class="fas fa-baby"></i>
+                <span>Bautismo</span>
+            </a>
 
-            <i class="fas fa-home"></i>
+            <a href="{% url 'agenda' %}" class="nav-item active">
+                <i class="fas fa-calendar-days"></i>
+                <span>Agenda</span>
+            </a>
 
-            <span>
-                Inicio
-            </span>
+            <a href="{% url 'configuracion' %}" class="nav-item">
+                <i class="fas fa-gear"></i>
+                <span>Configuración</span>
+            </a>
 
-        </a>
+        </nav>
 
+        <div class="sidebar-footer">
+            <span>Parroquia El Calvario</span>
+            <small>Gestión sacramental</small>
+        </div>
 
-        <!-- BAUTISMO -->
-
-        <a href="{% url 'bautismo' %}"
-           class="nav-item">
-
-            <i class="fas fa-baby"></i>
-
-            <span>
-                Bautismo
-            </span>
-
-        </a>
-
-
-        <!-- AGENDA -->
-
-        <a href="{% url 'agenda' %}"
-           class="nav-item active">
-
-            <i class="fas fa-calendar-days"></i>
-
-            <span>
-                Agenda
-            </span>
-
-        </a>
+    </aside>
 
 
-        <!-- CONFIGURACIÓN -->
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="main-content">
 
-        <a href="{% url 'configuracion' %}"
-           class="nav-item">
+        <!-- ENCABEZADO -->
+        <header class="header">
 
-            <i class="fas fa-cog"></i>
+            <div class="header-text">
+                <span class="eyebrow">GESTIÓN PARROQUIAL</span>
 
-            <span>
-                Configuración
-            </span>
-
-        </a>
-
-
-    </div>
-
-
-
-    <!-- =================================
-         CONTENIDO PRINCIPAL
-         ================================= -->
-
-    <div class="main-content">
-
-
-        <!-- =================================
-             ENCABEZADO
-             ================================= -->
-
-        <div class="header">
-
-            <div>
-
-                <h1>
-                    Agenda
-                </h1>
+                <h1>Agenda parroquial</h1>
 
                 <p>
-                    Administración de fechas y actividades de la parroquia
+                    Organiza las celebraciones y actividades de la parroquia.
                 </p>
-
             </div>
 
-        </div>
+            <div class="header-icon">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+
+        </header>
 
 
-
-        <!-- =================================
-             CONTENEDOR DE AGENDA
-             ================================= -->
-
-        <div class="agenda-layout">
-
-
-            <!-- =================================
-                 CALENDARIO
-                 ================================= -->
-
-            <div class="calendar-card">
+        <!-- MENSAJES -->
+        <div
+            id="agendaMessage"
+            class="agenda-message"
+            role="status"
+            aria-live="polite"
+        ></div>
 
 
-                <div class="calendar-header">
+        <!-- INDICADORES -->
+        <section class="agenda-stats">
 
+            <article class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-days"></i>
+                </div>
+
+                <div>
+                    <span>Actividades registradas</span>
+                    <strong id="totalActividades">0</strong>
+                </div>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-day"></i>
+                </div>
+
+                <div>
+                    <span>Actividades de hoy</span>
+                    <strong id="actividadesHoy">0</strong>
+                </div>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-week"></i>
+                </div>
+
+                <div>
+                    <span>Próximas actividades</span>
+                    <strong id="actividadesProximas">0</strong>
+                </div>
+            </article>
+
+        </section>
+
+
+        <!-- CALENDARIO Y FORMULARIO -->
+        <section class="agenda-layout">
+
+            <!-- CALENDARIO -->
+            <article class="calendar-card">
+
+                <div class="section-header">
 
                     <div>
-
-                        <h2>
-                            Calendario
-                        </h2>
+                        <h2>Calendario</h2>
 
                         <p>
-                            Seleccione una fecha para apartarla
+                            Selecciona un día para programar una actividad.
                         </p>
-
                     </div>
-
 
                     <div class="calendar-controls">
 
-                        <button type="button"
-                                class="calendar-btn"
-                                id="prevMonth">
-
+                        <button
+                            type="button"
+                            id="prevMonth"
+                            class="calendar-btn"
+                            aria-label="Mes anterior"
+                        >
                             <i class="fas fa-chevron-left"></i>
-
                         </button>
 
+                        <h3 id="currentMonth">Cargando...</h3>
 
-                        <h3 id="currentMonth">
-                            Octubre 2026
-                        </h3>
-
-
-                        <button type="button"
-                                class="calendar-btn"
-                                id="nextMonth">
-
+                        <button
+                            type="button"
+                            id="nextMonth"
+                            class="calendar-btn"
+                            aria-label="Mes siguiente"
+                        >
                             <i class="fas fa-chevron-right"></i>
-
                         </button>
 
                     </div>
-
 
                 </div>
 
 
-
-                <!-- =================================
-                     DÍAS DE LA SEMANA
-                     ================================= -->
-
+                <!-- DÍAS DE LA SEMANA -->
                 <div class="calendar-weekdays">
-
                     <div>Dom</div>
                     <div>Lun</div>
                     <div>Mar</div>
@@ -218,104 +188,73 @@
                     <div>Jue</div>
                     <div>Vie</div>
                     <div>Sáb</div>
-
                 </div>
 
 
-
-                <!-- =================================
-                     DÍAS
-                     ================================= -->
-
-                <div class="calendar-days"
-                     id="calendarDays">
-
-                    <!-- JavaScript generará los días -->
-
-                </div>
+                <!-- DÍAS DEL MES -->
+                <div
+                    id="calendarDays"
+                    class="calendar-days"
+                    aria-label="Días del calendario"
+                ></div>
 
 
-
-                <!-- =================================
-                     REFERENCIAS
-                     ================================= -->
-
+                <!-- REFERENCIAS -->
                 <div class="calendar-legend">
 
                     <div>
-
-                        <span class="legend available"></span>
-
+                        <span class="legend-dot available"></span>
                         Disponible
-
                     </div>
 
-
                     <div>
-
-                        <span class="legend selected"></span>
-
+                        <span class="legend-dot selected"></span>
                         Seleccionada
-
                     </div>
 
-
                     <div>
-
-                        <span class="legend reserved"></span>
-
-                        Apartada
-
+                        <span class="legend-dot reserved"></span>
+                        Con actividades
                     </div>
 
                 </div>
 
-
-            </div>
-
+            </article>
 
 
-            <!-- =================================
-                 PANEL PARA APARTAR FECHA
-                 ================================= -->
+            <!-- FORMULARIO -->
+            <article class="reservation-card">
 
-            <div class="reservation-card">
-
-
-                <div class="card-header">
+                <div class="section-header">
 
                     <div>
-
-                        <h2>
-                            Apartar fecha
-                        </h2>
+                        <h2>Nueva actividad</h2>
 
                         <p>
-                            Registre una nueva actividad
+                            Registra una fecha en la agenda.
                         </p>
-
                     </div>
 
-
-                    <div class="card-icon">
-
+                    <div class="section-icon">
                         <i class="fas fa-calendar-plus"></i>
-
                     </div>
 
                 </div>
 
 
+                <form
+                    id="reservationForm"
+                    method="post"
+                    action="{% url 'crear_actividad' %}"
+                >
 
-                <form id="reservationForm">
-
+                    {% csrf_token %}
 
                     <!-- FECHA -->
-
                     <div class="form-group">
 
                         <label for="fecha">
-                            Fecha
+                            Fecha <span class="required">*</span>
                         </label>
 
                         <input
@@ -328,13 +267,11 @@
                     </div>
 
 
-
                     <!-- HORA -->
-
                     <div class="form-group">
 
                         <label for="hora">
-                            Hora
+                            Hora <span class="required">*</span>
                         </label>
 
                         <input
@@ -347,13 +284,12 @@
                     </div>
 
 
-
-                    <!-- SACRAMENTO -->
-
+                    <!-- TIPO DE ACTIVIDAD -->
                     <div class="form-group">
 
                         <label for="sacramento">
-                            Sacramento
+                            Tipo de actividad
+                            <span class="required">*</span>
                         </label>
 
                         <select
@@ -361,9 +297,8 @@
                             name="sacramento"
                             required
                         >
-
                             <option value="">
-                                Seleccione una opción
+                                Selecciona una opción
                             </option>
 
                             <option value="Bautismo">
@@ -383,7 +318,7 @@
                             </option>
 
                             <option value="Otro">
-                                Otro
+                                Otra actividad
                             </option>
 
                         </select>
@@ -391,29 +326,27 @@
                     </div>
 
 
-
                     <!-- NOMBRE -->
-
                     <div class="form-group">
 
                         <label for="nombre">
-                            Nombre
+                            Nombre de referencia
+                            <span class="required">*</span>
                         </label>
 
                         <input
                             type="text"
                             id="nombre"
                             name="nombre"
-                            placeholder="Nombre de la persona"
+                            placeholder="Nombre de la persona o actividad"
+                            maxlength="150"
                             required
                         >
 
                     </div>
 
 
-
                     <!-- OBSERVACIONES -->
-
                     <div class="form-group">
 
                         <label for="observaciones">
@@ -423,112 +356,73 @@
                         <textarea
                             id="observaciones"
                             name="observaciones"
-                            placeholder="Observaciones..."
-                            rows="4"
+                            rows="3"
+                            placeholder="Detalles adicionales..."
                         ></textarea>
 
                     </div>
 
 
-
-                    <!-- BOTÓN -->
-
-                    <button type="submit"
-                            class="btn-save">
-
+                    <!-- GUARDAR -->
+                    <button
+                        type="submit"
+                        class="btn-save"
+                    >
                         <i class="fas fa-calendar-check"></i>
-
-                        Apartar fecha
-
+                        <span>Guardar actividad</span>
                     </button>
-
 
                 </form>
 
+            </article>
 
-            </div>
-
-
-        </div>
+        </section>
 
 
+        <!-- PRÓXIMAS ACTIVIDADES -->
+        <section class="upcoming-card">
 
-        <!-- =================================
-             PRÓXIMAS ACTIVIDADES
-             ================================= -->
-
-        <div class="card upcoming-card">
-
-
-            <div class="card-header">
+            <div class="section-header">
 
                 <div>
-
-                    <h2>
-                        Próximas actividades
-                    </h2>
+                    <h2>Próximas actividades</h2>
 
                     <p>
-                        Fechas actualmente apartadas
+                        Consulta las fechas programadas.
                     </p>
-
                 </div>
 
-
-                <div class="card-icon">
-
-                    <i class="fas fa-calendar-check"></i>
-
+                <div class="section-icon">
+                    <i class="fas fa-list-check"></i>
                 </div>
 
             </div>
 
 
-
-            <div class="appointments-list"
-                 id="appointmentsList">
-
-                <div class="empty-appointment">
-
-                    <i class="fas fa-calendar-xmark"></i>
-
-                    <p>
-                        No hay actividades próximas registradas.
-                    </p>
-
-                </div>
-
+            <div
+                id="appointmentsList"
+                class="appointments-list"
+                aria-live="polite"
+            >
+                <p class="empty-appointment">
+                    Cargando actividades...
+                </p>
             </div>
 
-
-        </div>
-
+        </section>
 
 
-        <!-- =================================
-             FOOTER
-             ================================= -->
-
-        <footer>
-
-            <p>
-                &copy; SISTEMAS UMG 2026 GRUPO SEMINARIO.
-            </p>
-
+        <!-- PIE DE PÁGINA -->
+        <footer class="page-footer">
+            <span>© 2026 Sacranet</span>
+            <span>Parroquia El Calvario</span>
         </footer>
 
-
-    </div>
-
+    </main>
 
 
-    <!-- =================================
-         JAVASCRIPT
-         ================================= -->
-
+    <!-- JAVASCRIPT -->
     <script src="{% static 'agenda/js/agenda.js' %}"></script>
 
-
 </body>
-
 </html>

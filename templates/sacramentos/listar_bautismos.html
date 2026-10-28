@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SACRANET - Bautismos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'bautismo/css/bautismo.css' %}">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <img src="{% static 'img/Calvario.png' %}" alt="Parroquia El Calvario">
+            <span>Parroquia El Calvario</span>
+        </div>
+        <a href="{% url 'bautismo' %}" class="nav-item"><i class="fas fa-baby"></i><span>Bautismo</span></a>
+        <a href="{% url 'historial_bautismo' %}" class="nav-item"><i class="fas fa-file-pdf"></i><span>Historial de Constancias</span></a>
+        <a href="{% url 'configuracion' %}" class="nav-item"><i class="fas fa-cog"></i><span>Configuración</span></a>
+        <div class="nav-group">
+            <button class="nav-item nav-group-toggle" type="button" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-church"></i><span>Sacramentos</span><i class="fas fa-chevron-down nav-group-caret"></i>
+            </button>
+            <div class="nav-group-menu">
+                <a href="{% url 'listar_bautismos' %}" class="nav-subitem active"><i class="fas fa-water"></i><span>Bautismo</span></a>
+                <a href="{% url 'listar_comuniones' %}" class="nav-subitem"><i class="fas fa-bread-slice"></i><span>Primera Comunión</span></a>
+                <a href="{% url 'listar_confirmaciones' %}" class="nav-subitem"><i class="fas fa-dove"></i><span>Confirmación</span></a>
+                <a href="{% url 'listar_matrimonios' %}" class="nav-subitem"><i class="fas fa-ring"></i><span>Matrimonio</span></a>
+            </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var toggle = document.querySelector('.nav-group-toggle');
+                var group = document.querySelector('.nav-group');
+                if (toggle && group) {
+                    toggle.addEventListener('click', function() {
+                        var isOpen = group.classList.toggle('open');
+                        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                    });
+                    if (group.querySelector('.nav-subitem.active')) { group.classList.add('open'); toggle.setAttribute('aria-expanded', 'true'); }
+                }
+            });
+        </script>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <div><h1>CRUD de Bautismos</h1><p>Cobán, Alta Verapaz, Guatemala, C.A.</p></div>
+            <div style="display:flex;gap:10px;align-items:center;">
+                <a href="{% url 'index' %}" class="btn-back"><i class="fas fa-arrow-left"></i>Regresar</a>
+                <a href="{% url 'crear_bautismo' %}" class="btn-buscar"><i class="fas fa-plus"></i>Nuevo registro</a>
+            </div>
+        </div>
+        {% if messages %}
+        <div class="card" style="margin-bottom:16px;">
+            {% for message in messages %}
+            <p style="margin:6px 0;">{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="card">
+            <div class="card-header">
+                <div><h2>Buscar bautismos</h2><p>Nombre, padre, madre, lugar o departamento</p></div>
+                <div class="card-icon"><i class="fas fa-magnifying-glass"></i></div>
+            </div>
+            <form method="get" action="">
+                <div class="search-row">
+                    <div class="search-group"><label for="q">Búsqueda</label><input type="text" id="q" name="q" value="{{ consulta }}" placeholder="Ingrese un término..."></div>
+                    <button type="submit" class="btn-buscar"><i class="fas fa-search"></i>Buscar</button>
+                    <a href="{% url 'listar_bautismos' %}" class="btn-limpiar"><i class="fas fa-eraser"></i>Limpiar</a>
+                </div>
+            </form>
+            <p style="margin-top:10px;">Total de registros: {{ total }}</p>
+        </div>
+        <div class="card">
+            <div class="card-header"><div><h2>Registros</h2></div></div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead><tr><th>ID</th><th>Nombre sacramentado</th><th>Padre</th><th>Madre</th><th>Libro/Folio</th><th>Acciones</th></tr></thead>
+                    <tbody>
+                    {% for registro in page_obj %}
+                        <tr>
+                            <td>{{ registro.id }}</td>
+                            <td>{{ registro.nombre_sacramentado }}</td>
+                            <td>{{ registro.padre|default:"-" }}</td>
+                            <td>{{ registro.madre|default:"-" }}</td>
+                            <td>{{ registro.libro }} / {{ registro.folio }}</td>
+                            <td style="display:flex;gap:8px;flex-wrap:wrap;">
+                                <a href="{% url 'ver_bautismo' registro.id %}" class="btn-pdf" style="text-decoration:none;"><i class="fas fa-eye"></i>Ver</a>
+                                <a href="{% url 'editar_bautismo' registro.id %}" class="btn-buscar" style="text-decoration:none;"><i class="fas fa-edit"></i>Editar</a>
+                                <a href="{% url 'eliminar_bautismo' registro.id %}" class="btn-limpiar" style="text-decoration:none;"><i class="fas fa-trash"></i>Eliminar</a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr><td colspan="6">No existen resultados.</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% if page_obj.has_other_pages %}
+            <div style="display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap;">
+                {% if page_obj.has_previous %}<a class="btn-limpiar" href="?q={{ consulta }}&pagina={{ page_obj.previous_page_number }}" style="text-decoration:none;">Anterior</a>{% endif %}
+                <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+                {% if page_obj.has_next %}<a class="btn-limpiar" href="?q={{ consulta }}&pagina={{ page_obj.next_page_number }}" style="text-decoration:none;">Siguiente</a>{% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

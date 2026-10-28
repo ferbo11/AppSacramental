@@ -96,7 +96,51 @@
 
         </a>
 
+        <!-- SACRAMENTOS -->
 
+        <div class="nav-group">
+            <button class="nav-item nav-group-toggle" type="button" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-church"></i>
+                <span>Sacramentos</span>
+                <i class="fas fa-chevron-down nav-group-caret"></i>
+            </button>
+            <div class="nav-group-menu">
+                <a href="{% url 'listar_bautismos' %}" class="nav-subitem active">
+                    <i class="fas fa-water"></i>
+                    <span>Bautismo</span>
+                </a>
+                <a href="{% url 'listar_comuniones' %}" class="nav-subitem">
+                    <i class="fas fa-bread-slice"></i>
+                    <span>Primera Comunión</span>
+                </a>
+                <a href="{% url 'listar_confirmaciones' %}" class="nav-subitem">
+                    <i class="fas fa-dove"></i>
+                    <span>Confirmación</span>
+                </a>
+                <a href="{% url 'listar_matrimonios' %}" class="nav-subitem">
+                    <i class="fas fa-ring"></i>
+                    <span>Matrimonio</span>
+                </a>
+            </div>
+        </div>
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var toggle = document.querySelector('.nav-group-toggle');
+                var group = document.querySelector('.nav-group');
+                if (toggle && group) {
+                    toggle.addEventListener('click', function() {
+                        var isOpen = group.classList.toggle('open');
+                        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                    });
+                    if (group.querySelector('.nav-subitem.active')) {
+                        group.classList.add('open');
+                        toggle.setAttribute('aria-expanded', 'true');
+                    }
+                }
+            });
+        </script>
     </div>
 
 
@@ -276,7 +320,8 @@
                  CONTENEDOR DE RESULTADOS
                  ================================= -->
 
-            <div class="result-container">
+            <div class="result-container"
+                 id="resultado-bautismo">
 
 
                 {% if busqueda_realizada %}
@@ -379,6 +424,68 @@
                             </div>
 
 
+                            <!-- ==============================
+                                 GENERAR CONSTANCIA
+                                 ============================== -->
+
+                            <form method="POST"
+                                  action="{% url 'generar_pdf_bautismo' bautizado.id %}"
+                                  class="form-constancia">
+
+
+                                {% csrf_token %}
+
+
+                                <div class="observaciones-container">
+
+                                    <label for="observacion_{{ bautizado.id }}">
+
+                                        Observaciones
+
+                                    </label>
+
+
+                                    <textarea
+                                        id="observacion_{{ bautizado.id }}"
+                                        name="observacion"
+                                        rows="3"
+                                        placeholder="Ingrese una observación (opcional)..."
+                                    ></textarea>
+
+
+                                </div>
+
+
+                                <!-- BOTONES DE ACCIÓN -->
+                                <div class="acciones-constancia">
+
+                                    <button
+                                        type="button"
+                                        class="btn-limpiar"
+                                        onclick="limpiarBautismo()">
+
+                                        <i class="fas fa-eraser"></i>
+
+                                        Limpiar campos
+
+                                    </button>
+
+                                    <button
+                                        type="submit"
+                                        class="btn-pdf">
+
+                                        <i class="fas fa-file-pdf"></i>
+
+                                        Generar Constancia PDF
+
+                                    </button>
+
+                                </div>
+
+
+                            </form>
+
+
                         {% endfor %}
 
 
@@ -434,17 +541,23 @@
 
 
         <!-- =================================
-             BOTÓN DE IMPRESIÓN
+             BOTONES DE ACCIÓN
              ================================= -->
 
-        <button type="button"
-                class="btn-pdf">
+        <div class="acciones-constancia">
 
-            <i class="fas fa-file-pdf"></i>
+            <button
+                type="button"
+                class="btn-limpiar"
+                onclick="limpiarBautismo()">
 
-            Imprimir PDF
+                <i class="fas fa-eraser"></i>
 
-        </button>
+                Limpiar campos
+
+            </button>
+
+        </div>
 
 
 
@@ -463,6 +576,9 @@
 
     </div>
 
+
+    <!-- JAVASCRIPT PROPIO -->
+    <script src="{% static 'bautismo/js/bautismo.js' %}"></script>
 
 </body>
 

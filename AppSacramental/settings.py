@@ -85,9 +85,9 @@ WSGI_APPLICATION = 'AppSacramental.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'AppSacramental',
+        'NAME': 'Sacranet_BD',
         'USER': 'postgres',
-        'PASSWORD': 'ferix112',
+        'PASSWORD': 'pedferdev112',
         'HOST': 'localhost',
         'PORT': '5432',
     },

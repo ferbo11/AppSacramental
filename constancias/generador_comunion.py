@@ -308,25 +308,53 @@ def generar_constancia_comunion(
     # =======================================================
     # PÁRRAFO SUPERIOR
     # ========================================================
+    from constancias.utilidades import numero_o_na
+    libro_val = numero_o_na(getattr(comunion, 'libro', None), defecto='N/A')
+    folio_val = numero_o_na(getattr(comunion, 'folio', None), defecto='N/A')
+    partida_sac = None
+    try:
+        partida_sac = getattr(comunion, 'partida', None)
+    except Exception:
+        partida_sac = None
+    if partida_sac is None or (isinstance(partida_sac, str) and partida_sac.strip() == ''):
+        partida_val = numero_o_na(numero_partida, defecto='N/A')
+    else:
+        partida_val = numero_o_na(partida_sac, defecto='N/A')
+    try:
+        libro_str = f'{int(libro_val):02d}' if str(libro_val).isdigit() and str(libro_val) != 'N/A' else str(libro_val)
+    except Exception:
+        libro_str = str(libro_val)
+    try:
+        folio_str = f'{int(folio_val):03d}' if str(folio_val).isdigit() and str(folio_val) != 'N/A' else str(folio_val)
+    except Exception:
+        folio_str = str(folio_val)
+    try:
+        if str(partida_val).isdigit() and str(partida_val) != 'N/A':
+            partida_str = f'{int(partida_val):03d}'
+        else:
+            partida_str = str(partida_val)
+    except Exception:
+        partida_str = str(partida_val)
+
     texto_registro_1 = (
         'Que ha tenido a la vista el libro del '
-        'Sacramento de Confirmación No. '
-        f'{int(comunion.libro):02d}, '
+        'Sacramento de la Primera Comunión No. '
+        f'{libro_str}, '
         'folio '
-        f'{int(comunion.folio):03d}, '
+        f'{folio_str}, '
     )
 
     texto_registro_2 = (
-        'partifa No. '
-        f'{int(numero_partida):03d}, '
-        'en la cual se el registro de:'
+        'partida No. '
+        f'{partida_str}, '
+        'en la cual se encuentra el registro de:'
     )
 
     pdf.drawString(
         90,
         580,
         texto_registro_1
-    )   
+    )
 
     pdf.drawString(
         90,

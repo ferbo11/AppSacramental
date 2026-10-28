@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SACRANET - Bautismo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'bautismo/css/bautismo.css' %}">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-brand"><img src="{% static 'img/Calvario.png' %}" alt="Parroquia El Calvario"><span>Parroquia El Calvario</span></div>
+        <a href="{% url 'listar_bautismos' %}" class="nav-item active"><i class="fas fa-water"></i><span>CRUD Bautismo</span></a>
+        <a href="{% url 'bautismo' %}" class="nav-item"><i class="fas fa-baby"></i><span>Buscar y generar constancia</span></a>
+        <a href="{% url 'historial_bautismo' %}" class="nav-item"><i class="fas fa-file-pdf"></i><span>Historial de Constancias</span></a>
+        <a href="{% url 'configuracion' %}" class="nav-item"><i class="fas fa-cog"></i><span>Configuración</span></a>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <div><h1>{{ accion }} registro de bautismo</h1></div>
+            <a href="{% url 'listar_bautismos' %}" class="btn-back"><i class="fas fa-arrow-left"></i>Regresar</a>
+        </div>
+        {% if messages %}
+        <div class="card" style="margin-bottom:16px;">
+            {% for message in messages %}<p style="margin:6px 0;">{{ message }}</p>{% endfor %}
+        </div>
+        {% endif %}
+        <div class="card">
+            <form method="post" novalidate>
+                {% csrf_token %}
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;">
+                    {% for campo in formulario %}
+                    <div>
+                        <label>{{ campo.label }}{% if campo.field.required %} *{% endif %}</label>
+                        {{ campo }}
+                        {% if campo.errors %}<div style="color:#dc2626;">{{ campo.errors }}</div>{% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <div style="margin-top:16px;display:flex;gap:10px;">
+                    <button type="submit" class="btn-buscar"><i class="fas fa-save"></i>Guardar</button>
+                    <a href="{% url 'listar_bautismos' %}" class="btn-limpiar" style="text-decoration:none;">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

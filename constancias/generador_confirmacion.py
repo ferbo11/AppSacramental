@@ -391,17 +391,46 @@ def generar_constancia_confirmacion(
     # PÁRRAFO SUPERIOR
     # ========================================================
 
+    from constancias.utilidades import numero_o_na
+    libro_val = numero_o_na(getattr(confirmacion, 'libro', None), defecto='N/A')
+    folio_val = numero_o_na(getattr(confirmacion, 'folio', None), defecto='N/A')
+    # Try to get partida from sacramental record if exists, else use provided numero_partida
+    partida_sac = None
+    try:
+        partida_sac = getattr(confirmacion, 'partida', None)
+    except Exception:
+        partida_sac = None
+    if partida_sac is None or (isinstance(partida_sac, str) and partida_sac.strip() == ''):
+        partida_val = numero_o_na(numero_partida, defecto='N/A')
+    else:
+        partida_val = numero_o_na(partida_sac, defecto='N/A')
+    try:
+        libro_str = f'{int(libro_val):02d}' if str(libro_val).isdigit() else str(libro_val)
+    except Exception:
+        libro_str = str(libro_val)
+    try:
+        folio_str = f'{int(folio_val):03d}' if str(folio_val).isdigit() and str(folio_val) != 'N/A' else str(folio_val)
+    except Exception:
+        folio_str = str(folio_val)
+    try:
+        if str(partida_val).isdigit() and str(partida_val) != 'N/A':
+            partida_str = f'{int(partida_val):03d}'
+        else:
+            partida_str = str(partida_val)
+    except Exception:
+        partida_str = str(partida_val)
+
     texto_registro_1 = (
         'Que ha tenido a la vista el libro del '
         'Sacramento de Confirmación No. '
-        f'{int(confirmacion.libro):02d}, '
+        f'{libro_str}, '
         'folio '
-        f'{int(confirmacion.folio):03d}, '
+        f'{folio_str}, '
     )
 
     texto_registro_2 = (
         'partida No. '
-        f'{int(numero_partida):03d} '
+        f'{partida_str} '
         'en la cual se encuentra el registro de:'
     )
 

@@ -95,6 +95,34 @@
 
         </a>
 
+        <!-- SACRAMENTOS -->
+
+        <div class="nav-group">
+            <button class="nav-item nav-group-toggle" type="button" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-church"></i>
+                <span>Sacramentos</span>
+                <i class="fas fa-chevron-down nav-group-caret"></i>
+            </button>
+            <div class="nav-group-menu">
+                <a href="{% url 'listar_bautismos' %}" class="nav-subitem">
+                    <i class="fas fa-water"></i>
+                    <span>Bautismo</span>
+                </a>
+                <a href="{% url 'listar_comuniones' %}" class="nav-subitem active">
+                    <i class="fas fa-bread-slice"></i>
+                    <span>Primera Comunión</span>
+                </a>
+                <a href="{% url 'listar_confirmaciones' %}" class="nav-subitem">
+                    <i class="fas fa-dove"></i>
+                    <span>Confirmación</span>
+                </a>
+                <a href="{% url 'listar_matrimonios' %}" class="nav-subitem">
+                    <i class="fas fa-ring"></i>
+                    <span>Matrimonio</span>
+                </a>
+            </div>
+        </div>
+
 
     </div>
 
@@ -274,7 +302,8 @@
                  CONTENEDOR DE RESULTADOS
                  ================================= -->
 
-            <div class="result-container">
+            <div class="result-container"
+                 id="resultado-comunion">
 
 
                 {% if busqueda_realizada %}
@@ -421,14 +450,31 @@
                                     </div>
 
 
-                                    <button type="submit"
+                                    <!-- BOTONES DE ACCIÓN -->
+                                    <div class="acciones-constancia">
+
+                                        <button
+                                            type="button"
+                                            class="btn-limpiar"
+                                            onclick="limpiarComunion()">
+
+                                            <i class="fas fa-eraser"></i>
+
+                                            Limpiar campos
+
+                                        </button>
+
+                                        <button
+                                            type="submit"
                                             class="btn-pdf">
 
-                                        <i class="fas fa-file-pdf"></i>
+                                            <i class="fas fa-file-pdf"></i>
 
-                                        Generar Constancia PDF
+                                            Generar Constancia PDF
 
-                                    </button>
+                                        </button>
+
+                                    </div>
 
 
                                 </form>
@@ -531,6 +577,24 @@
     </div>
 
 
+    <!-- JAVASCRIPT PROPIO -->
+    <script src="{% static 'comunion/js/comunion.js' %}"></script>
+
 </body>
 
-</html>
+</html>        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var toggle = document.querySelector('.nav-group-toggle');
+                var group = document.querySelector('.nav-group');
+                if (toggle && group) {
+                    toggle.addEventListener('click', function() {
+                        var isOpen = group.classList.toggle('open');
+                        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                    });
+                    if (group.querySelector('.nav-subitem.active')) {
+                        group.classList.add('open');
+                        toggle.setAttribute('aria-expanded', 'true');
+                    }
+                }
+            });
+        </script>

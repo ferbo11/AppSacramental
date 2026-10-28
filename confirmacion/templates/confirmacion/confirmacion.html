@@ -4,191 +4,164 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>
-        Parroquia El Calvario - Confirmaciones
-    </title>
+    <title>Parroquia El Calvario - Confirmaciones</title>
 
-    <!-- =================================
-         FONT AWESOME
-         ================================= -->
-
+    <!-- FONT AWESOME -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-
-    <!-- =================================
-         CSS PROPIO
-         ================================= -->
-
+    <!-- CSS PROPIO -->
     <link rel="stylesheet"
           href="{% static 'confirmacion/css/confirmacion.css' %}">
-
 </head>
-
 
 <body>
 
-
-    <!-- =================================
-         BARRA LATERAL
-         ================================= -->
-
+    <!-- BARRA LATERAL -->
     <div class="sidebar">
-
 
         <div class="sidebar-brand">
 
             <img src="{% static 'img/Calvario.png' %}"
                  alt="Parroquia El Calvario">
 
-            <span>
-                Parroquia El Calvario
-            </span>
+            <span>Parroquia El Calvario</span>
 
         </div>
 
-
         <!-- CONFIRMACIONES -->
-
         <a href="{% url 'confirmacion' %}"
            class="nav-item active">
 
             <i class="fas fa-church"></i>
-
-            <span>
-                Confirmaciones
-            </span>
+            <span>Confirmaciones</span>
 
         </a>
 
-
         <!-- HISTORIAL -->
-
         <a href="{% url 'historial_confirmacion' %}"
            class="nav-item">
 
             <i class="fas fa-file-pdf"></i>
-
-            <span>
-                Historial de Constancias
-            </span>
+            <span>Historial de Constancias</span>
 
         </a>
 
-
         <!-- CONFIGURACIÓN -->
-
         <a href="{% url 'configuracion' %}"
            class="nav-item">
 
             <i class="fas fa-cog"></i>
-
-            <span>
-                Configuración
-            </span>
+            <span>Configuración</span>
 
         </a>
 
+        <!-- SACRAMENTOS -->
 
+        <div class="nav-group">
+            <button class="nav-item nav-group-toggle" type="button" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-church"></i>
+                <span>Sacramentos</span>
+                <i class="fas fa-chevron-down nav-group-caret"></i>
+            </button>
+            <div class="nav-group-menu">
+                <a href="{% url 'listar_bautismos' %}" class="nav-subitem">
+                    <i class="fas fa-water"></i>
+                    <span>Bautismo</span>
+                </a>
+                <a href="{% url 'listar_comuniones' %}" class="nav-subitem">
+                    <i class="fas fa-bread-slice"></i>
+                    <span>Primera Comunión</span>
+                </a>
+                <a href="{% url 'listar_confirmaciones' %}" class="nav-subitem active">
+                    <i class="fas fa-dove"></i>
+                    <span>Confirmación</span>
+                </a>
+                <a href="{% url 'listar_matrimonios' %}" class="nav-subitem">
+                    <i class="fas fa-ring"></i>
+                    <span>Matrimonio</span>
+                </a>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var toggle = document.querySelector('.nav-group-toggle');
+                var group = document.querySelector('.nav-group');
+                if (toggle && group) {
+                    toggle.addEventListener('click', function() {
+                        var isOpen = group.classList.toggle('open');
+                        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                    });
+                    if (group.querySelector('.nav-subitem.active')) {
+                        group.classList.add('open');
+                        toggle.setAttribute('aria-expanded', 'true');
+                    }
+                }
+            });
+        </script>
     </div>
 
 
-
-    <!-- =================================
-         CONTENIDO PRINCIPAL
-         ================================= -->
-
+    <!-- CONTENIDO PRINCIPAL -->
     <div class="main-content">
 
-
-        <!-- =================================
-             ENCABEZADO
-             ================================= -->
-
+        <!-- ENCABEZADO -->
         <div class="header">
 
-
             <div>
-
-                <h1>
-                    Registro de Confirmaciones
-                </h1>
+                <h1>Registro de Confirmaciones</h1>
 
                 <p>
                     Cobán, Alta Verapaz, Guatemala, C.A.
                 </p>
-
             </div>
-
 
             <a href="{% url 'index' %}"
                class="btn-back">
 
                 <i class="fas fa-arrow-left"></i>
-
                 Regresar
 
             </a>
 
-
         </div>
 
 
-
-        <!-- =================================
-             BÚSQUEDA DE CONFIRMACIÓN
-             ================================= -->
-
+        <!-- BÚSQUEDA DE CONFIRMACIÓN -->
         <div class="card">
-
 
             <div class="card-header">
 
-
                 <div>
-
-                    <h2>
-                        Buscar Confirmado
-                    </h2>
+                    <h2>Buscar Confirmado</h2>
 
                     <p>
                         Ingrese el nombre y apellido del confirmado
                     </p>
-
                 </div>
-
 
                 <div class="card-icon">
-
                     <i class="fas fa-magnifying-glass"></i>
-
                 </div>
-
 
             </div>
 
 
-
             <!-- FORMULARIO DE BÚSQUEDA -->
-
             <form method="GET"
                   action="{% url 'buscar_confirmacion' %}"
                   class="search-form">
 
-
                 <!-- NOMBRE -->
-
                 <div class="form-group">
 
-                    <label for="nombre">
-                        Nombre
-                    </label>
+                    <label for="nombre">Nombre</label>
 
                     <input
                         type="text"
@@ -203,12 +176,9 @@
 
 
                 <!-- APELLIDOS -->
-
                 <div class="form-group">
 
-                    <label for="apellidos">
-                        Apellidos
-                    </label>
+                    <label for="apellidos">Apellidos</label>
 
                     <input
                         type="text"
@@ -223,179 +193,158 @@
 
 
                 <!-- BOTÓN BUSCAR -->
-
                 <button type="submit"
                         class="btn-search">
 
                     <i class="fas fa-search"></i>
-
                     Buscar Confirmado
 
                 </button>
 
-
             </form>
-
 
         </div>
 
 
-
-        <!-- =================================
-             RESULTADO DE BÚSQUEDA
-             ================================= -->
-
+        <!-- RESULTADO DE BÚSQUEDA -->
         <div class="card">
-
 
             <div class="card-header">
 
-
                 <div>
+                    <h2>Resultado de búsqueda</h2>
 
-                    <h2>
-                        Resultado de búsqueda
-                    </h2>
-
-                    <p>
-                        Registro encontrado
-                    </p>
-
+                    <p>Registro encontrado</p>
                 </div>
-
 
                 <div class="card-icon">
-
                     <i class="fas fa-user-check"></i>
-
                 </div>
-
 
             </div>
 
 
-
-            <!-- =================================
-                 CONTENEDOR DE RESULTADOS
-                 ================================= -->
-
-            <div class="result-container">
-
+            <!-- CONTENEDOR DE RESULTADOS -->
+            <div class="result-container"
+                 id="resultado-confirmacion">
 
                 {% if busqueda_realizada %}
 
-
-                    <!-- =================================
-                         HAY RESULTADOS
-                         ================================= -->
-
                     {% if resultados %}
 
-{% for confirmado in resultados %}
+                        {% for confirmado in resultados %}
 
-    <div class="confirmado-result">
+                            <!-- DATOS DEL CONFIRMADO -->
+                            <div class="confirmado-result">
 
-        <h3>
-            {{ confirmado.nombre }}
-        </h3>
+                                <h3>
+                                    {{ confirmado.nombre }}
+                                </h3>
 
-        <div class="datos-confirmacion">
+                                <div class="datos-confirmacion">
 
-            <p>
-                <strong>Padre:</strong>
-                {{ confirmado.nombre_padre|default:"No registrado" }}
-            </p>
+                                    <p>
+                                        <strong>Padre:</strong>
+                                        {{ confirmado.nombre_padre|default:"No registrado" }}
+                                    </p>
 
-            <p>
-                <strong>Madre:</strong>
-                {{ confirmado.nombre_madre|default:"No registrada" }}
-            </p>
+                                    <p>
+                                        <strong>Madre:</strong>
+                                        {{ confirmado.nombre_madre|default:"No registrada" }}
+                                    </p>
 
-            <p>
-                <strong>Padrino:</strong>
-                {{ confirmado.nombre_padrino|default:"No registrado" }}
-            </p>
+                                    <p>
+                                        <strong>Padrino:</strong>
+                                        {{ confirmado.nombre_padrino|default:"No registrado" }}
+                                    </p>
 
-            <p>
-                <strong>Madrina:</strong>
-                {{ confirmado.nombre_madrina|default:"No registrada" }}
-            </p>
+                                    <p>
+                                        <strong>Madrina:</strong>
+                                        {{ confirmado.nombre_madrina|default:"No registrada" }}
+                                    </p>
 
-            <p>
-                <strong>Libro:</strong>
-                {{ confirmado.libro|default:"No registrado" }}
-            </p>
+                                    <p>
+                                        <strong>Libro:</strong>
+                                        {{ confirmado.libro|default:"No registrado" }}
+                                    </p>
 
-            <p>
-                <strong>Folio:</strong>
-                {{ confirmado.folio }}
-            </p>
+                                    <p>
+                                        <strong>Folio:</strong>
+                                        {{ confirmado.folio|default:"No registrado" }}
+                                    </p>
 
-            <p>
-                <strong>Fecha:</strong>
+                                    <p>
+                                        <strong>Fecha:</strong>
 
-                {% if confirmado.fecha %}
-                    {{ confirmado.fecha|date:"d/m/Y" }}
-                {% else %}
-                    No registrada
-                {% endif %}
+                                        {% if confirmado.fecha %}
+                                            {{ confirmado.fecha|date:"d/m/Y" }}
+                                        {% else %}
+                                            No registrada
+                                        {% endif %}
 
-            </p>
+                                    </p>
 
-        </div>
-
-
-        <!-- ==============================
-             GENERAR CONSTANCIA
-             ============================== -->
-
-        <form method="POST"
-              action="{% url 'generar_pdf_confirmacion' confirmado.id_confirmacion %}"
-              class="form-constancia">
-
-            {% csrf_token %}
-
-            <div class="observaciones-container">
-
-                <label for="observacion_{{ confirmado.id_confirmacion }}">
-                    Observaciones
-                </label>
-
-                <textarea
-                    id="observacion_{{ confirmado.id_confirmacion }}"
-                    name="observacion"
-                    rows="3"
-                    placeholder="Ingrese una observación (opcional)..."
-                ></textarea>
-
-            </div>
-
-            <button type="submit" class="btn-pdf">
-
-                <i class="fas fa-file-pdf"></i>
-
-                Generar Constancia PDF
-
-            </button>
-
-        </form>
-
-    </div>
-
-{% endfor %}
-                       
+                                </div>
 
 
-                        
+                                <!-- FORMULARIO DE CONSTANCIA -->
+                                <form
+                                    method="POST"
+                                    action="{% url 'generar_pdf_confirmacion' confirmado.id_confirmacion %}"
+                                    class="form-constancia">
 
+                                    {% csrf_token %}
+
+                                    <!-- OBSERVACIONES -->
+                                    <div class="observaciones-container">
+
+                                        <label for="observacion_{{ confirmado.id_confirmacion }}">
+                                            Observaciones
+                                        </label>
+
+                                        <textarea
+                                            id="observacion_{{ confirmado.id_confirmacion }}"
+                                            name="observacion"
+                                            rows="3"
+                                            placeholder="Ingrese una observación (opcional)..."
+                                        ></textarea>
+
+                                    </div>
+
+
+                                    <!-- BOTONES DE ACCIÓN -->
+                                    <div class="acciones-constancia">
+
+                                        <button
+                                            type="button"
+                                            class="btn-limpiar"
+                                            onclick="limpiarConfirmacion()">
+
+                                            <i class="fas fa-eraser"></i>
+                                            Limpiar campos
+
+                                        </button>
+
+                                        <button
+                                            type="submit"
+                                            class="btn-pdf">
+
+                                            <i class="fas fa-file-pdf"></i>
+                                            Generar Constancia PDF
+
+                                        </button>
+
+                                    </div>
+
+                                </form>
+
+                            </div>
+
+                        {% endfor %}
 
                     {% else %}
 
-
-                        <!-- =================================
-                             SIN RESULTADOS
-                             ================================= -->
-
+                        <!-- SIN RESULTADOS -->
                         <div class="empty-result">
 
                             <i class="fas fa-user-slash"></i>
@@ -407,17 +356,11 @@
 
                         </div>
 
-
                     {% endif %}
-
 
                 {% else %}
 
-
-                    <!-- =================================
-                         SIN REALIZAR BÚSQUEDA
-                         ================================= -->
-
+                    <!-- SIN REALIZAR BÚSQUEDA -->
                     <div class="empty-result">
 
                         <i class="fas fa-user-search"></i>
@@ -429,36 +372,14 @@
 
                     </div>
 
-
                 {% endif %}
 
-
             </div>
-
 
         </div>
 
 
-
-        <!-- =================================
-             BOTÓN DE IMPRESIÓN
-             ================================= -->
-
-        <button type="button"
-                class="btn-pdf">
-
-            <i class="fas fa-file-pdf"></i>
-
-            Imprimir PDF
-
-        </button>
-
-
-
-        <!-- =================================
-             FOOTER
-             ================================= -->
-
+        <!-- FOOTER -->
         <footer>
 
             <p>
@@ -467,10 +388,11 @@
 
         </footer>
 
-
     </div>
 
 
-</body>
+    <!-- JAVASCRIPT PROPIO -->
+    <script src="{% static 'confirmacion/js/confirmacion.js' %}"></script>
 
+</body>
 </html>

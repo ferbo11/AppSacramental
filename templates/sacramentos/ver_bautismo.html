@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SACRANET - Ver bautismo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'bautismo/css/bautismo.css' %}">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-brand"><img src="{% static 'img/Calvario.png' %}" alt="Parroquia El Calvario"><span>Parroquia El Calvario</span></div>
+        <a href="{% url 'listar_bautismos' %}" class="nav-item active"><i class="fas fa-water"></i><span>CRUD Bautismo</span></a>
+        <a href="{% url 'bautismo' %}" class="nav-item"><i class="fas fa-baby"></i><span>Buscar y generar constancia</span></a>
+        <a href="{% url 'historial_bautismo' %}" class="nav-item"><i class="fas fa-file-pdf"></i><span>Historial de Constancias</span></a>
+        <a href="{% url 'configuracion' %}" class="nav-item"><i class="fas fa-cog"></i><span>Configuración</span></a>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <div><h1>Detalle del bautismo</h1></div>
+            <div style="display:flex;gap:10px;">
+                <a href="{% url 'editar_bautismo' registro.id %}" class="btn-buscar" style="text-decoration:none;"><i class="fas fa-edit"></i>Editar</a>
+                <a href="{% url 'listar_bautismos' %}" class="btn-back"><i class="fas fa-arrow-left"></i>Regresar</a>
+            </div>
+        </div>
+        <div class="card">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;">
+                <p><strong>ID:</strong> {{ registro.id }}</p>
+                <p><strong>Nombre del sacramentado:</strong> {{ registro.nombre_sacramentado }}</p>
+                <p><strong>Padre:</strong> {{ registro.padre|default:"-" }}</p>
+                <p><strong>Madre:</strong> {{ registro.madre|default:"-" }}</p>
+                <p><strong>Padrino 1:</strong> {{ registro.padrino_1|default:"-" }}</p>
+                <p><strong>Padrino 2:</strong> {{ registro.padrino_2|default:"-" }}</p>
+                <p><strong>Lugar de nacimiento:</strong> {{ registro.lugar_nacimiento|default:"-" }}</p>
+                <p><strong>Departamento:</strong> {{ registro.departamento|default:"-" }}</p>
+                <p><strong>Libro:</strong> {{ registro.libro }}</p>
+                <p><strong>Folio:</strong> {{ registro.folio }}</p>
+                <p><strong>Requiere revisión:</strong> {{ registro.requiere_revision|yesno:"Sí,No,-" }}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

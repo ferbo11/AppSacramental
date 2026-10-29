@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Agenda | Sacranet</title>
+    <title>SACRANET - Agenda</title>
 
     <link
         rel="stylesheet"
@@ -17,46 +17,13 @@
         rel="stylesheet"
         href="{% static 'agenda/css/agenda.css' %}"
     >
+    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
 </head>
 
 <body>
 
     <!-- BARRA LATERAL -->
-    <aside class="sidebar">
-
-        <div class="sidebar-brand">
-            <img
-                src="{% static 'img/Calvario.png' %}"
-                alt="Parroquia El Calvario"
-            >
-
-            <span>Sacranet</span>
-        </div>
-
-        <nav class="sidebar-nav">
-
-            <a href="{% url 'index' %}" class="nav-item">
-                <i class="fas fa-house"></i>
-                <span>Inicio</span>
-            </a>
-            <a href="{% url 'agenda' %}" class="nav-item active">
-                <i class="fas fa-calendar-days"></i>
-                <span>Agenda</span>
-            </a>
-
-            <a href="{% url 'configuracion' %}" class="nav-item">
-                <i class="fas fa-gear"></i>
-                <span>Configuración</span>
-            </a>
-
-        </nav>
-
-        <div class="sidebar-footer">
-            <span>Parroquia El Calvario</span>
-            <small>Gestión sacramental</small>
-        </div>
-
-    </aside>
+        {% include 'partials/sidebar.html' %}
 
 
     <!-- CONTENIDO PRINCIPAL -->
@@ -407,10 +374,14 @@
 
 
         <!-- PIE DE PÁGINA -->
+
         <footer class="page-footer">
-            <span>© 2026 Sacranet</span>
+            <p>&copy; SISTEMAS UMG 2026 COBÁN.</p>
+            <img src="{% static 'img/logoSistemas.png' %}"
+                 alt="Logotipo de Sistemas UMG">
             <span>Parroquia El Calvario</span>
         </footer>
+
 
     </main>
 

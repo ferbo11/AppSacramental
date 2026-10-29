@@ -30,6 +30,7 @@
     <link rel="stylesheet"
           href="{% static 'matrimonio/css/historialMatrimonio.css' %}">
 
+    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
 </head>
 
 
@@ -40,64 +41,7 @@
          BARRA LATERAL
          ================================= -->
 
-    <div class="sidebar">
-
-
-        <div class="sidebar-brand">
-
-            <img src="{% static 'img/Calvario.png' %}"
-                 alt="Parroquia El Calvario">
-
-            <span>
-                Parroquia El Calvario
-            </span>
-
-        </div>
-
-
-        <!-- MATRIMONIO -->
-
-        <a href="{% url 'matrimonio' %}"
-           class="nav-item">
-
-            <i class="fas fa-ring"></i>
-
-            <span>
-                Matrimonio
-            </span>
-
-        </a>
-
-
-        <!-- HISTORIAL -->
-
-        <a href="{% url 'historial_matrimonio' %}"
-           class="nav-item active">
-
-            <i class="fas fa-file-pdf"></i>
-
-            <span>
-                Historial de Constancias de Matrimonio
-            </span>
-
-        </a>
-
-
-        <!-- CONFIGURACIÓN -->
-
-        <a href="{% url 'configuracion' %}"
-           class="nav-item">
-
-            <i class="fas fa-cog"></i>
-
-            <span>
-                Configuración
-            </span>
-
-        </a>
-
-
-    </div>
+        {% include 'partials/sidebar.html' %}
 
 
 
@@ -287,13 +231,13 @@
              FOOTER
              ================================= -->
 
+
         <footer>
-
-            <p>
-                &copy; SISTEMAS UMG 2026 GRUPO SEMINARIO.
-            </p>
-
+            <p>&copy; SISTEMAS UMG 2026 COBÁN.</p>
+            <img src="{% static 'img/logoSistemas.png' %}"
+                 alt="Logotipo de Sistemas UMG">
         </footer>
+
 
 
     </div>

@@ -34,7 +34,7 @@
     <!-- =================================
          CHART.JS
          ================================= -->
-         {{ etiquetas_sacramentos|json_script:"etiquetas-sacramentos" }}                
+         {{ etiquetas_sacramentos|json_script:"etiquetas-sacramentos" }}
          {{ datos_sacramentos|json_script:"datos-sacramentos" }}
 
          {{ etiquetas_meses|json_script:"etiquetas-meses" }}
@@ -42,6 +42,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
 </head>
 
 
@@ -52,111 +53,7 @@
          BARRA LATERAL
          ================================= -->
 
-    <div class="sidebar">
-
-
-        <!-- LOGO -->
-
-        <div class="sidebar-brand">
-
-            <img src="{% static 'img/Calvario.png' %}"
-                 alt="Parroquia El Calvario">
-
-            <span>
-                SACRANET    
-            </span>
-
-        </div>
-
-
-        <!-- HISTORIAL -->
-
-        <a href="{% url 'index' %}"
-           class="nav-item active">
-
-            <i class="fas fa-file-pdf"></i>
-
-            <span>
-                Historial de Constancias
-            </span>
-
-        </a>
-
-
-        <!-- CONFIGURACIÓN -->
-
-        <a href="{% url 'configuracion' %}"
-           class="nav-item">
-
-            <i class="fas fa-cog"></i>
-
-            <span>
-                Configuración
-            </span>
-
-        </a>
-
-        <!-- SACRAMENTOS -->
-
-        <div class="nav-group">
-            <button class="nav-item nav-group-toggle" type="button" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-church"></i>
-                <span>Sacramentos</span>
-                <i class="fas fa-chevron-down nav-group-caret"></i>
-            </button>
-            <div class="nav-group-menu">
-                <a href="{% url 'listar_bautismos' %}" class="nav-subitem {% if request.resolver_match.url_name == 'listar_bautismos' or request.resolver_match.url_name == 'crear_bautismo' or request.resolver_match.url_name == 'ver_bautismo' or request.resolver_match.url_name == 'editar_bautismo' or request.resolver_match.url_name == 'eliminar_bautismo' %}active{% endif %}">
-                    <i class="fa-solid fa-person-breastfeeding"></i>
-                    <span>Bautismo</span>
-                </a>
-                <a href="{% url 'listar_comuniones' %}" class="nav-subitem {% if request.resolver_match.url_name == 'listar_comuniones' or request.resolver_match.url_name == 'crear_comunion' or request.resolver_match.url_name == 'ver_comunion' or request.resolver_match.url_name == 'editar_comunion' or request.resolver_match.url_name == 'eliminar_comunion' %}active{% endif %}">
-                    <i class="fa-sharp fa-solid fa-cross"></i>
-                    <span>Primera Comunión</span>
-                </a>
-                <a href="{% url 'listar_confirmaciones' %}" class="nav-subitem {% if request.resolver_match.url_name == 'listar_confirmaciones' or request.resolver_match.url_name == 'crear_confirmacion' or request.resolver_match.url_name == 'ver_confirmacion' or request.resolver_match.url_name == 'editar_confirmacion' or request.resolver_match.url_name == 'eliminar_confirmacion' %}active{% endif %}">
-                    <i class="fas fa-dove"></i>
-                    <span>Confirmación</span>
-                </a>
-                <a href="{% url 'listar_matrimonios' %}" class="nav-subitem {% if request.resolver_match.url_name == 'listar_matrimonios' or request.resolver_match.url_name == 'crear_matrimonio' or request.resolver_match.url_name == 'ver_matrimonio' or request.resolver_match.url_name == 'editar_matrimonio' or request.resolver_match.url_name == 'eliminar_matrimonio' %}active{% endif %}">
-                    <i class="fas fa-ring"></i>
-                    <span>Matrimonio</span>
-                </a>
-            </div>
-        </div>
-
-
-        <!-- AGENDA -->
-
-        <a href="{% url 'agenda' %}"
-           class="nav-item">
-
-            <i class="fas fa-calendar"></i>
-
-            <span>
-                Agenda
-            </span>
-
-        </a>
-
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var toggle = document.querySelector('.nav-group-toggle');
-                var group = document.querySelector('.nav-group');
-                if (toggle && group) {
-                    toggle.addEventListener('click', function() {
-                        var isOpen = group.classList.toggle('open');
-                        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-                    });
-                    if (group.querySelector('.nav-subitem.active')) {
-                        group.classList.add('open');
-                        toggle.setAttribute('aria-expanded', 'true');
-                    }
-                }
-            });
-        </script>
-
-    </div>
+        {% include 'partials/sidebar.html' %}
 
 
 
@@ -214,7 +111,7 @@
 
             <a href="{% url 'bautismo' %}"
                class="tab">
-                
+
                 <span>
                      🕯️ Bautismo
                 </span>
@@ -546,13 +443,15 @@
              FOOTER
              ================================= -->
 
-        <footer>
 
-            <p>
-                &copy; SISTEMAS UMG 2026 SEMINARIO.
-            </p>
+        {% load static %}
 
-        </footer>
+    <footer>
+    <p>&copy; SISTEMAS UMG 2026 COBÁN.</p>
+
+    <img src="{% static 'img/logoSistemas.png' %}"
+         alt="Logotipo de Sistemas UMG">
+    </footer>
 
 
     </div>

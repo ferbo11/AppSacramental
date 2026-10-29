@@ -926,6 +926,39 @@ a {
 
 
 /* =========================================================
+   PIE DE PÁGINA
+   ========================================================= */
+
+footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 30px 0 10px;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+footer img,
+.page-footer img {
+    display: block;
+    width: 140px;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+@media (max-width: 600px) {
+    footer img,
+    .page-footer img {
+        width: 110px;
+        max-width: 110px;
+    }
+}
+
+/* =========================================================
    ESTADOS DE LOS BOTONES
    ========================================================= */
 

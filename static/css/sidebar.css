@@ -1,0 +1,524 @@
+/* =========================================================
+   SACRANET · BARRA LATERAL COMÚN
+   Parroquia El Calvario
+   ========================================================= */
+
+.sidebar {
+    --sidebar-collapsed: 56px;
+    --sidebar-expanded: 284px;
+
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 1000;
+
+    display: flex;
+    flex-direction: column;
+
+    width: var(--sidebar-collapsed);
+    height: 100vh;
+
+    padding: 16px 8px;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    color: #f8fafc;
+    background: linear-gradient(180deg, #172033, #0f172a);
+
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 4px 0 16px rgba(15, 23, 42, 0.12);
+
+    scrollbar-width: thin;
+    scrollbar-color: rgba(148, 163, 184, 0.35) transparent;
+
+    transition:
+        width 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.sidebar:hover,
+.sidebar:focus-within {
+    width: var(--sidebar-expanded);
+    box-shadow: 8px 0 24px rgba(15, 23, 42, 0.16);
+}
+
+/* =========================================================
+   MARCA / LOGO
+   ========================================================= */
+
+.sidebar-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    width: 100%;
+    min-height: 108px;
+
+    padding: 8px 0 12px;
+    margin: 0 0 14px;
+
+    color: #f8fafc;
+    text-align: center;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-brand img {
+    display: block;
+
+    width: auto;
+    height: 34px;
+
+    max-width: 100%;
+
+    object-fit: contain;
+    flex-shrink: 0;
+
+    transition: height 0.25s ease;
+}
+
+.sidebar:hover .sidebar-brand img,
+.sidebar:focus-within .sidebar-brand img {
+    height: 58px;
+}
+
+.sidebar-brand span {
+    width: 100%;
+
+    font-size: 0.84rem;
+    font-weight: 600;
+    line-height: 1.3;
+
+    color: #f8fafc;
+}
+
+/* =========================================================
+   ETIQUETAS OCULTAS AL CONTRAER
+   ========================================================= */
+
+.sidebar-brand span,
+.nav-item > span,
+.nav-subitem > span,
+.nav-group-caret {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    padding: 0;
+    margin: -1px;
+
+    overflow: hidden;
+
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+
+    white-space: nowrap;
+
+    border: 0;
+
+    opacity: 0;
+    pointer-events: none;
+}
+
+.sidebar:hover .sidebar-brand span,
+.sidebar:focus-within .sidebar-brand span,
+.sidebar:hover .nav-item > span,
+.sidebar:focus-within .nav-item > span,
+.sidebar:hover .nav-subitem > span,
+.sidebar:focus-within .nav-subitem > span,
+.sidebar:hover .nav-group-caret,
+.sidebar:focus-within .nav-group-caret {
+    position: static;
+
+    width: auto;
+    height: auto;
+
+    padding: 0;
+    margin: 0;
+
+    overflow: visible;
+
+    clip: auto;
+    clip-path: none;
+
+    white-space: normal;
+
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* =========================================================
+   NAVEGACIÓN PRINCIPAL
+   ========================================================= */
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+
+    width: 100%;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    width: 100%;
+    min-height: 40px;
+
+    margin: 3px 0;
+    padding: 10px;
+
+    border: 1px solid transparent;
+    border-radius: 9px;
+
+    color: #f1f5f9;
+    background: transparent;
+
+    text-align: left;
+    text-decoration: none;
+
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.sidebar:hover .nav-item,
+.sidebar:focus-within .nav-item {
+    justify-content: flex-start;
+
+    padding: 10px 12px;
+}
+
+.nav-item i {
+    width: 18px;
+
+    flex-shrink: 0;
+
+    color: #cbd5e1;
+    text-align: center;
+    font-size: 15px;
+
+    transition: color 0.2s ease;
+}
+
+.nav-item:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.nav-item:hover i {
+    color: #f8fafc;
+}
+
+.nav-item.active {
+    color: #ffffff;
+    background: rgba(14, 165, 233, 0.15);
+
+    box-shadow:
+        inset 0 0 0 1px rgba(56, 189, 248, 0.16);
+}
+
+.nav-item.active i {
+    color: #7dd3fc;
+}
+
+/* =========================================================
+   SUBMENÚ DE SACRAMENTOS
+   ========================================================= */
+
+.nav-group {
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+
+    width: 100%;
+
+    margin: 0;
+}
+
+.nav-group-toggle {
+    width: 100%;
+
+    border: 1px solid transparent;
+
+    background: transparent;
+    color: inherit;
+
+    font: inherit;
+    text-align: left;
+
+    cursor: pointer;
+}
+
+.nav-group-toggle[aria-expanded="true"] {
+    color: #f1f5f9;
+    background: rgba(255, 255, 255, 0.06);
+
+    border-color: rgba(148, 163, 184, 0.16);
+}
+
+.nav-group-toggle.active[aria-expanded="true"] {
+    background: rgba(14, 165, 233, 0.15);
+
+    border-color: rgba(56, 189, 248, 0.16);
+}
+
+.nav-group-toggle[aria-expanded="true"] > i:first-child {
+    color: #7dd3fc;
+}
+
+.nav-group-caret {
+    margin-left: auto;
+
+    color: #94a3b8;
+    font-size: 10px;
+
+    transition: transform 0.2s ease;
+}
+
+.nav-group.open .nav-group-caret {
+    transform: rotate(180deg);
+}
+
+.nav-group-menu {
+    display: none;
+    flex-direction: column;
+
+    gap: 2px;
+
+    margin: 3px 0 2px;
+    padding: 0 0 0 8px;
+
+    border-left: 0;
+}
+
+.nav-group.open .nav-group-menu {
+    display: flex;
+}
+
+@media (hover: hover) and (min-width: 601px) {
+    .sidebar:not(:hover):not(:focus-within) .nav-group.open .nav-group-menu {
+        display: none;
+    }
+}
+
+.nav-subitem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    min-height: 34px;
+
+    padding: 7px 9px;
+
+    border: 1px solid transparent;
+    border-radius: 7px;
+
+    color: #f1f5f9;
+
+    text-decoration: none;
+
+    font-size: 0.78rem;
+    font-weight: 500;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.sidebar:hover .nav-subitem,
+.sidebar:focus-within .nav-subitem {
+    justify-content: flex-start;
+
+    padding: 7px 10px;
+}
+
+.nav-subitem i {
+    width: 16px;
+
+    flex-shrink: 0;
+
+    color: #cbd5e1;
+    text-align: center;
+    font-size: 13px;
+}
+
+.nav-subitem:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.nav-subitem.active {
+    color: #e0f2fe;
+    background: rgba(14, 165, 233, 0.12);
+
+    box-shadow:
+        inset 0 0 0 1px rgba(56, 189, 248, 0.12);
+}
+
+.nav-subitem.active i {
+    color: #7dd3fc;
+}
+
+/* =========================================================
+   ACCESIBILIDAD
+   ========================================================= */
+
+.nav-item:focus-visible,
+.nav-subitem:focus-visible,
+.nav-group-toggle:focus-visible {
+    outline: 2px solid #38bdf8;
+    outline-offset: 3px;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (min-width: 701px) and (max-width: 1000px) {
+    .main-content {
+        padding-left: 68px;
+    }
+}
+
+footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 30px 0 10px;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+footer img,
+.page-footer img {
+    display: block;
+    width: 140px;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+@media (max-width: 600px) {
+    footer img,
+    .page-footer img {
+        width: 110px;
+        max-width: 110px;
+    }
+}
+
+@media (max-width: 700px) {
+    .sidebar,
+    .sidebar:hover,
+    .sidebar:focus-within {
+        position: relative;
+
+        inset: auto;
+
+        width: 100%;
+        height: auto;
+        min-height: auto;
+
+        padding: 15px;
+
+        overflow: visible;
+
+        box-shadow: 0 5px 20px rgba(15, 23, 42, 0.15);
+    }
+
+    .sidebar-brand {
+        min-height: auto;
+
+        padding: 8px 0 15px;
+        margin-bottom: 10px;
+    }
+
+    .sidebar-brand img,
+    .sidebar:hover .sidebar-brand img,
+    .sidebar:focus-within .sidebar-brand img {
+        height: 56px;
+    }
+
+    .sidebar-brand span,
+    .nav-item > span,
+    .nav-subitem > span,
+    .nav-group-caret {
+        position: static;
+
+        width: auto;
+        height: auto;
+
+        margin: 0;
+        padding: 0;
+
+        overflow: visible;
+
+        clip: auto;
+        clip-path: none;
+
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .sidebar-brand span {
+        width: 100%;
+    }
+
+    .nav-item,
+    .sidebar:hover .nav-item,
+    .sidebar:focus-within .nav-item,
+    .nav-subitem,
+    .sidebar:hover .nav-subitem,
+    .sidebar:focus-within .nav-subitem {
+        justify-content: flex-start;
+
+        padding: 10px 12px;
+    }
+
+    .nav-item {
+        min-height: 44px;
+
+        margin: 4px 0;
+    }
+
+    .nav-subitem {
+        min-height: 38px;
+    }
+
+    .nav-group-caret {
+        margin-left: auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sidebar,
+    .sidebar-brand img,
+    .nav-item,
+    .nav-subitem,
+    .nav-group-caret {
+        transition-duration: 0.01ms !important;
+    }
+}

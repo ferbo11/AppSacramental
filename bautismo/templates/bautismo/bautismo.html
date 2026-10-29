@@ -4,582 +4,282 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <title>SACRANET - Bautismos</title>
 
-    <title>
-        SACRANET - Bautismo
-    </title>
-
-
-    <!-- =================================
-         FONT AWESOME
-         ================================= -->
-
+    <!-- Font Awesome -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-
-    <!-- =================================
-         CSS PROPIO
-         ================================= -->
-
+    <!-- CSS de Bautismo -->
     <link rel="stylesheet"
           href="{% static 'bautismo/css/bautismo.css' %}">
 
+    <!-- CSS de la barra lateral -->
+    <link rel="stylesheet"
+          href="{% static 'css/sidebar.css' %}">
 </head>
-
 
 <body>
 
+    <!-- BARRA LATERAL -->
+    {% include 'partials/sidebar.html' %}
 
-    <!-- =================================
-         BARRA LATERAL
-         ================================= -->
-
-    <div class="sidebar">
-
-
-        <div class="sidebar-brand">
-
-            <img src="{% static 'img/Calvario.png' %}"
-                 alt="Parroquia El Calvario">
-
-            <span>
-                Parroquia El Calvario
-            </span>
-
-        </div>
-
-
-        <!-- BAUTISMO -->
-
-        <a href="{% url 'bautismo' %}"
-           class="nav-item active">
-
-            <i class="fa-solid fa-person-breastfeeding"></i>
-
-            <span>
-                Bautismo
-            </span>
-
-        </a>
-
-
-        <!-- HISTORIAL -->
-
-        <a href="{% url 'historial_bautismo' %}"
-           class="nav-item">
-
-            <i class="fas fa-file-pdf"></i>
-
-            <span>
-                Historial de Constancias de Bautismo
-            </span>
-
-        </a>
-
-
-        <!-- CONFIGURACIÓN -->
-
-        <a href="{% url 'configuracion' %}"
-           class="nav-item">
-
-            <i class="fas fa-cog"></i>
-
-            <span>
-                Configuración
-            </span>
-
-        </a>
-
-        <!-- SACRAMENTOS -->
-
-        <div class="nav-group">
-            <button class="nav-item nav-group-toggle" type="button" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-church"></i>
-                <span>Sacramentos</span>
-                <i class="fas fa-chevron-down nav-group-caret"></i>
-            </button>
-            <div class="nav-group-menu">
-                <a href="{% url 'listar_bautismos' %}" class="nav-subitem active">
-                    <i class="fa-solid fa-person-breastfeeding"></i>
-                    <span>Bautismo</span>
-                </a>
-                <a href="{% url 'listar_comuniones' %}" class="nav-subitem">
-                    <i class="fa-sharp fa-solid fa-cross"></i>
-                    <span>Primera Comunión</span>
-                </a>
-                <a href="{% url 'listar_confirmaciones' %}" class="nav-subitem">
-                    <i class="fas fa-dove"></i>
-                    <span>Confirmación</span>
-                </a>
-                <a href="{% url 'listar_matrimonios' %}" class="nav-subitem">
-                    <i class="fas fa-ring"></i>
-                    <span>Matrimonio</span>
-                </a>
-            </div>
-        </div>
-
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var toggle = document.querySelector('.nav-group-toggle');
-                var group = document.querySelector('.nav-group');
-                if (toggle && group) {
-                    toggle.addEventListener('click', function() {
-                        var isOpen = group.classList.toggle('open');
-                        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-                    });
-                    if (group.querySelector('.nav-subitem.active')) {
-                        group.classList.add('open');
-                        toggle.setAttribute('aria-expanded', 'true');
-                    }
-                }
-            });
-        </script>
-    </div>
-
-
-
-    <!-- =================================
-         CONTENIDO PRINCIPAL
-         ================================= -->
-
+    <!-- CONTENIDO PRINCIPAL -->
     <div class="main-content">
 
-
-        <!-- =================================
-             ENCABEZADO
-             ================================= -->
-
+        <!-- ENCABEZADO -->
         <div class="header">
-
-
             <div>
-
-                <h1>
-                    Registros de Bautismos
-                </h1>
-
-                <p>
-                    Cobán, Alta Verapaz, Guatemala, C.A.
-                </p>
-
+                <h1>Constancias de Bautismos</h1>
+                <p>Cobán, Alta Verapaz, Guatemala, C.A.</p>
             </div>
 
-
-            <a href="{% url 'index' %}"
-               class="btn-back">
-
+            <a href="{% url 'index' %}" class="btn-back">
                 <i class="fas fa-arrow-left"></i>
-
                 Regresar
-
             </a>
-
-
         </div>
 
-
-
-        <!-- =================================
-             BÚSQUEDA DEL BAUTIZADO
-             ================================= -->
-
+        <!-- TARJETA DE BÚSQUEDA -->
         <div class="card">
 
-
             <div class="card-header">
-
                 <div>
-
-                    <h2>
-                        Buscar Bautizado
-                    </h2>
-
-                    <p>
-                        Ingrese el nombre y apellido del bautizado
-                    </p>
-
+                    <h2>Buscar Bautizado</h2>
+                    <p>Ingrese el nombre y apellido del bautizado</p>
                 </div>
-
 
                 <div class="card-icon">
-
                     <i class="fas fa-magnifying-glass"></i>
-
                 </div>
-
             </div>
 
-
-
             <!-- FORMULARIO DE BÚSQUEDA -->
-
             <form method="GET"
                   action="{% url 'buscar_bautismo' %}"
                   class="search-form">
 
-
-                <!-- NOMBRE -->
-
                 <div class="form-group">
-
-                    <label for="nombre">
-                        Nombre
-                    </label>
+                    <label for="nombre">Nombre</label>
 
                     <input
                         type="text"
                         id="nombre"
                         name="nombre"
-                        value="{{ nombre }}"
+                        value="{{ nombre|default:'' }}"
                         placeholder="Ingrese el nombre"
-                        autocomplete="off"
-                    >
-
+                        autocomplete="off">
                 </div>
 
-
-                <!-- APELLIDOS -->
-
                 <div class="form-group">
-
-                    <label for="apellidos">
-                        Apellidos
-                    </label>
+                    <label for="apellidos">Apellidos</label>
 
                     <input
                         type="text"
                         id="apellidos"
                         name="apellidos"
-                        value="{{ apellidos }}"
+                        value="{{ apellidos|default:'' }}"
                         placeholder="Ingrese los apellidos"
-                        autocomplete="off"
-                    >
-
+                        autocomplete="off">
                 </div>
 
-
-                <!-- BOTÓN BUSCAR -->
-
-                <button type="submit"
-                        class="btn-search">
-
+                <button type="submit" class="btn-search">
                     <i class="fas fa-search"></i>
-
                     Buscar Bautizado
-
                 </button>
-
 
             </form>
 
-
         </div>
 
-
-
-        <!-- =================================
-             RESULTADO DE BÚSQUEDA
-             ================================= -->
-
+        <!-- TARJETA DE EMISIÓN DE CONSTANCIAS -->
         <div class="card">
 
-
             <div class="card-header">
-
                 <div>
-
-                    <h2>
-                        Emisión de Constancias de Bautismo
-                    </h2>
-
-                    <p>
-                        Registro encontrado
-                    </p>
-
+                    <h2>Emisión de Constancias de Bautismo</h2>
+                    <p>Registro encontrado</p>
                 </div>
-
 
                 <div class="card-icon">
-
                     <i class="fa-solid fa-person-breastfeeding"></i>
-
                 </div>
-
             </div>
 
+            <!-- RESULTADOS DE BÚSQUEDA -->
+<div class="result-container" id="resultado-bautismo">
 
+    {% if busqueda_realizada %}
 
-            <!-- =================================
-                 CONTENEDOR DE RESULTADOS
-                 ================================= -->
+        {% if resultados %}
 
-            <div class="result-container"
-                 id="resultado-bautismo">
+            {% for bautizado in resultados %}
 
+                <div class="bautizado-result">
 
-                {% if busqueda_realizada %}
+                    <h3>{{ bautizado.nombre_sacramentado }}</h3>
 
-
-                    <!-- =================================
-                         HAY RESULTADOS
-                         ================================= -->
-
-                    {% if resultados %}
-
-
-                        {% for bautizado in resultados %}
-
-
-                            <div class="bautizado-result">
-
-
-                                <!-- NOMBRE -->
-
-                                <h3>
-                                    {{ bautizado.nombre }}
-                                </h3>
-
-
-                                <!-- DATOS DEL BAUTISMO -->
-
-                                <div class="datos-bautismo">
-
-
-                                    <p>
-
-                                        <strong>
-                                            Padre:
-                                        </strong>
-
-                                        {{ bautizado.nombre_padre|default:"No registrado" }}
-
-                                    </p>
-
-
-                                    <p>
-
-                                        <strong>
-                                            Madre:
-                                        </strong>
-
-                                        {{ bautizado.nombre_madre|default:"No registrada" }}
-
-                                    </p>
-
-
-                                    <p>
-
-                                        <strong>
-                                            Libro:
-                                        </strong>
-
-                                        {{ bautizado.libro }}
-
-                                    </p>
-
-
-                                    <p>
-
-                                        <strong>
-                                            Folio:
-                                        </strong>
-
-                                        {{ bautizado.folio }}
-
-                                    </p>
-
-
-                                    <p>
-
-                                        <strong>
-                                            Fecha:
-                                        </strong>
-
-                                        {{ bautizado.fecha|date:"d/m/Y" }}
-
-                                    </p>
-
-
-                                    <p>
-
-                                        <strong>
-                                            Lugar:
-                                        </strong>
-
-                                        {{ bautizado.lugar_bautismo|default:"No registrado" }}
-
-                                    </p>
-
-
-                                </div>
-
-
-                            </div>
-
-
-                            <!-- ==============================
-                                 GENERAR CONSTANCIA
-                                 ============================== -->
-
-                            <form method="POST"
-                                  action="{% url 'generar_pdf_bautismo' bautizado.id %}"
-                                  class="form-constancia">
-
-
-                                {% csrf_token %}
-
-
-                                <div class="observaciones-container">
-
-                                    <label for="observacion_{{ bautizado.id }}">
-
-                                        Observaciones
-
-                                    </label>
-
-
-                                    <textarea
-                                        id="observacion_{{ bautizado.id }}"
-                                        name="observacion"
-                                        rows="3"
-                                        placeholder="Ingrese una observación (opcional)..."
-                                    ></textarea>
-
-
-                                </div>
-
-
-                                <!-- BOTONES DE ACCIÓN -->
-                                <div class="acciones-constancia">
-
-                                    <button
-                                        type="button"
-                                        class="btn-limpiar"
-                                        onclick="limpiarBautismo()">
-
-                                        <i class="fas fa-eraser"></i>
-
-                                        Limpiar campos
-
-                                    </button>
-
-                                    <button
-                                        type="submit"
-                                        class="btn-pdf">
-
-                                        <i class="fas fa-file-pdf"></i>
-
-                                        Emitir Constancia de Bautismo
-
-                                    </button>
-
-                                </div>
-
-
-                            </form>
-
-
-                        {% endfor %}
-
-
-                    {% else %}
-
-
-                        <!-- =================================
-                             SIN RESULTADOS
-                             ================================= -->
-
-                        <div class="empty-result">
-
-                            <i class="fas fa-user-slash"></i>
-
-                            <p>
-                                No se encontró ningún bautizado
-                                con los datos ingresados.
-                            </p>
-
-                        </div>
-
-
-                    {% endif %}
-
-
-                {% else %}
-
-
-                    <!-- =================================
-                         SIN REALIZAR BÚSQUEDA
-                         ================================= -->
-
-                    <div class="empty-result">
-
-                        <i class="fas fa-user-search"></i>
+                    <div class="datos-bautismo">
 
                         <p>
-                            Realice una búsqueda para consultar
-                            el registro del bautizado.
+                            <strong>Padre:</strong>
+                            {{ bautizado.padre|default:"No registrado" }}
+                        </p>
+
+                        <p>
+                            <strong>Madre:</strong>
+                            {{ bautizado.madre|default:"No registrada" }}
+                        </p>
+
+                        <p>
+                            <strong>Padrino:</strong>
+                            {{ bautizado.padrino_1|default:"No registrado" }}
+                        </p>
+
+                        <p>
+                            <strong>Madrina:</strong>
+                            {{ bautizado.padrino_2|default:"No registrada" }}
+                        </p>
+
+                        <p>
+                            <strong>Libro:</strong>
+                            {{ bautizado.libro|default:"No registrado" }}
+                        </p>
+
+                        <p>
+                            <strong>Folio:</strong>
+                            {{ bautizado.folio|default:"No registrado" }}
+                        </p>
+
+                        <p>
+                            <strong>Partida:</strong>
+                            {{ bautizado.partida|default:"No registrada" }}
+                        </p>
+
+                        <p>
+                            <strong>Fecha de nacimiento:</strong>
+
+                            {% if bautizado.fecha_nacimiento %}
+                                {{ bautizado.fecha_nacimiento|date:"d/m/Y" }}
+                            {% else %}
+                                No registrada
+                            {% endif %}
+                        </p>
+
+                        <p>
+                            <strong>Fecha del bautismo:</strong>
+
+                            {% if bautizado.fecha_bautismo %}
+                                {{ bautizado.fecha_bautismo|date:"d/m/Y" }}
+                            {% else %}
+                                No registrada
+                            {% endif %}
+                        </p>
+
+                        <p>
+                            <strong>Lugar de nacimiento:</strong>
+                            {{ bautizado.lugar_nacimiento|default:"No registrado" }}
+                            {% if bautizado.departamento %}
+                                , {{ bautizado.departamento }}
+                            {% endif %}
                         </p>
 
                     </div>
 
+                    <!-- FORMULARIO DE CONSTANCIA -->
+                    <form
+                        method="POST"
+                        action="{% url 'generar_pdf_bautismo' bautizado.id %}"
+                        class="form-constancia">
 
-                {% endif %}
+                        {% csrf_token %}
 
+                        <div class="observaciones-container">
 
+                            <label for="observacion_{{ bautizado.id }}">
+                                Observaciones
+                            </label>
+
+                            <textarea
+                                id="observacion_{{ bautizado.id }}"
+                                name="observacion"
+                                rows="3"
+                                placeholder="Ingrese una observación (opcional)..."></textarea>
+
+                        </div>
+
+                        <!-- BOTONES -->
+                        <div class="acciones-constancia">
+
+                            <button type="submit" class="btn-pdf">
+                                <i class="fas fa-file-pdf"></i>
+                                Emitir Constancia de Bautismo
+                            </button>
+
+                            <button
+                                type="button"
+                                class="btn-limpiar"
+                                onclick="limpiarBautismo()">
+
+                                <i class="fas fa-eraser"></i>
+                                Limpiar campos
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty-result">
+                <i class="fas fa-user-slash"></i>
+
+                <p>
+                    No se encontró ningún bautizado
+                    con los datos ingresados.
+                </p>
             </div>
 
+        {% endif %}
 
-        </div>
+    {% else %}
 
-
-
-        <!-- =================================
-             BOTONES DE ACCIÓN
-             ================================= -->
-
-        <div class="acciones-constancia">
-
-            <button
-                type="button"
-                class="btn-limpiar"
-                onclick="limpiarBautismo()">
-
-                <i class="fas fa-eraser"></i>
-
-                Limpiar campos
-
-            </button>
-
-        </div>
-
-
-
-        <!-- =================================
-             FOOTER
-             ================================= -->
-
-        <footer>
+        <div class="empty-result">
+            <i class="fas fa-user-search"></i>
 
             <p>
-                &copy; SISTEMAS UMG 2026 GRUPO SEMINARIO.
+                Realice una búsqueda para consultar
+                el registro del bautizado.
             </p>
+        </div>
 
+    {% endif %}
+
+</div>
+
+        </div>
+
+        <!-- PIE DE PÁGINA -->
+        <footer>
+            <p>&copy; SISTEMAS UMG 2026 COBÁN.</p>
+
+            <img
+                src="{% static 'img/logoSistemas.png' %}"
+                alt="Logotipo de Sistemas UMG">
         </footer>
-
 
     </div>
 
-
-    <!-- JAVASCRIPT PROPIO -->
+    <!-- JAVASCRIPT DE BAUTISMO -->
     <script src="{% static 'bautismo/js/bautismo.js' %}"></script>
 
 </body>
-
 </html>

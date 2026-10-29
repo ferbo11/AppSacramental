@@ -4,114 +4,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parroquia El Calvario - Administración de usuarios</title>
+
+    <title>SACRANET - Administración de usuarios</title>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{% static 'configuracion/css/configuracion.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
 </head>
+
 <body>
-    <div class="sidebar">
-        <div class="sidebar-brand">
-            <img src="{% static 'img/Calvario.png' %}" alt="Parroquia El Calvario">
-            <span>Parroquia El Calvario</span>
-        </div>
-        <a href="{% url 'index' %}" class="nav-item">
-            <i class="fas fa-home"></i><span>Inicio</span>
-        </a>
-        <a href="{% url 'agenda' %}" class="nav-item">
-            <i class="fas fa-calendar"></i><span>Agenda</span>
-        </a>
-        <a href="{% url 'configuracion' %}" class="nav-item active">
-            <i class="fas fa-cog"></i><span>Configuración</span>
-        </a>
-    </div>
+    {% include 'partials/sidebar.html' %}
 
     <main class="main-content">
+
+        <!-- Encabezado -->
         <header class="header">
             <div>
                 <h1>Configuración</h1>
-                <p class="page-description">Administración de usuarios y acceso a Sacranet</p>
+                <p class="page-description">
+                    Administración de usuarios y acceso a Sacranet
+                </p>
             </div>
-            <span class="admin-badge"><i class="fas fa-shield-halved"></i> Área de Administrador</span>
+
+            <span class="admin-badge">
+                <i class="fas fa-shield-halved"></i>
+                Área de Administrador
+            </span>
         </header>
 
+        <!-- Mensajes de Django -->
         {% if messages %}
             {% for message in messages %}
-                <div class="card" role="status">{{ message }}</div>
+                <div class="card" role="status">
+                    {{ message }}
+                </div>
             {% endfor %}
         {% endif %}
 
         {% if error %}
-            <div class="card" role="alert">{{ error }}</div>
+            <div class="card" role="alert">
+                {{ error }}
+            </div>
         {% endif %}
 
+        <!-- Crear usuario -->
         <section class="card">
             <div class="card-header">
                 <div>
-                    <h2><i class="fas fa-user-plus"></i> Crear usuario</h2>
+                    <h2>
+                        <i class="fas fa-user-plus"></i>
+                        Crear usuario
+                    </h2>
                     <p>Registra una cuenta y asigna el rol correspondiente.</p>
                 </div>
-                <div class="card-icon"><i class="fas fa-users-gear"></i></div>
+
+                <div class="card-icon">
+                    <i class="fas fa-users-gear"></i>
+                </div>
             </div>
 
             <form method="post" action="">
                 {% csrf_token %}
+
                 <input type="hidden" name="accion" value="crear_usuario">
+
                 <div class="form-grid">
+
                     <div class="form-group">
                         <label for="username">Nombre de usuario</label>
-                        <input type="text" id="username" name="username" autocomplete="off"
-                               placeholder="Ej. secretaria01" required>
-                        <small class="form-help">Debe ser único para cada cuenta.</small>
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            autocomplete="off"
+                            placeholder="Ej. secretaria01"
+                            required
+                        >
+
+                        <small class="form-help">
+                            Debe ser único para cada cuenta.
+                        </small>
                     </div>
+
                     <div class="form-group">
                         <label for="rol_id">Rol</label>
+
                         <select id="rol_id" name="rol_id" required>
                             <option value="">Selecciona un rol</option>
+
                             {% for rol in roles %}
-                                <option value="{{ rol.id_rol }}">{{ rol.nombre_rol }}</option>
+                                <option value="{{ rol.id_rol }}">
+                                    {{ rol.nombre_rol }}
+                                </option>
                             {% empty %}
                                 <option value="2">Secretaría</option>
                                 <option value="3">Consulta</option>
                             {% endfor %}
                         </select>
                     </div>
+
                     <div class="form-group">
                         <label for="password">Contraseña inicial</label>
-                        <input type="password" id="password" name="password"
-                               autocomplete="new-password" minlength="8"
-                               placeholder="Mínimo 8 caracteres" required>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            autocomplete="new-password"
+                            minlength="8"
+                            placeholder="Mínimo 8 caracteres"
+                            required
+                        >
                     </div>
+
                     <div class="form-group">
-                        <label for="confirm_password">Confirmar contraseña</label>
-                        <input type="password" id="confirm_password" name="confirm_password"
-                               autocomplete="new-password" minlength="8"
-                               placeholder="Repite la contraseña" required>
+                        <label for="confirm_password">
+                            Confirmar contraseña
+                        </label>
+
+                        <input
+                            type="password"
+                            id="confirm_password"
+                            name="confirm_password"
+                            autocomplete="new-password"
+                            minlength="8"
+                            placeholder="Repite la contraseña"
+                            required
+                        >
                     </div>
+
                 </div>
+
                 <div class="form-actions">
-                    <button type="reset" class="btn-secondary"><i class="fas fa-rotate-left"></i> Limpiar</button>
-                    <button type="submit" class="btn-save"><i class="fas fa-user-plus"></i> Crear usuario</button>
+                    <button type="reset" class="btn-secondary">
+                        <i class="fas fa-rotate-left"></i>
+                        Limpiar
+                    </button>
+
+                    <button type="submit" class="btn-save">
+                        <i class="fas fa-user-plus"></i>
+                        Crear usuario
+                    </button>
                 </div>
             </form>
         </section>
 
+        <!-- Usuarios registrados -->
         <section class="card">
             <div class="card-header">
                 <div>
-                    <h2><i class="fas fa-users"></i> Usuarios registrados</h2>
+                    <h2>
+                        <i class="fas fa-users"></i>
+                        Usuarios registrados
+                    </h2>
                     <p>Consulta las cuentas y administra sus credenciales.</p>
                 </div>
-                <div class="card-icon"><i class="fas fa-address-book"></i></div>
+
+                <div class="card-icon">
+                    <i class="fas fa-address-book"></i>
+                </div>
             </div>
 
             <div class="users-toolbar">
                 <div>
-                    <strong>{% if usuarios %}{{ usuarios|length }}{% else %}0{% endif %}</strong>
-                    <span class="user-subtitle">usuario(s) en la lista</span>
+                    <strong>
+                        {% if usuarios %}
+                            {{ usuarios|length }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </strong>
+
+                    <span class="user-subtitle">
+                        usuario(s) en la lista
+                    </span>
                 </div>
+
                 <label class="search-box" for="buscarUsuario">
                     <i class="fas fa-search"></i>
-                    <input type="search" id="buscarUsuario" placeholder="Buscar usuario o rol...">
+
+                    <input
+                        type="search"
+                        id="buscarUsuario"
+                        placeholder="Buscar usuario o rol..."
+                    >
                 </label>
             </div>
 
@@ -125,23 +202,43 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         {% for usuario in usuarios %}
                             <tr>
                                 <td>
-                                    <div class="user-name">{{ usuario.username }}</div>
-                                    <div class="user-subtitle">ID: {{ usuario.id_usuario }}</div>
+                                    <div class="user-name">
+                                        {{ usuario.username }}
+                                    </div>
+
+                                    <div class="user-subtitle">
+                                        ID: {{ usuario.id_usuario }}
+                                    </div>
                                 </td>
+
                                 <td>
                                     {% with nombre_rol=usuario.id_rol.nombre_rol|default:"Sin rol" %}
-                                        <span class="role-pill {% if nombre_rol == 'Secretaría' %}secretaria{% elif nombre_rol == 'Consulta' %}consulta{% endif %}">{{ nombre_rol }}</span>
+                                        <span class="role-pill {% if nombre_rol == 'Secretaría' %}secretaria{% elif nombre_rol == 'Consulta' %}consulta{% endif %}">
+                                            {{ nombre_rol }}
+                                        </span>
                                     {% endwith %}
                                 </td>
-                                <td><span class="status-pill"><span class="status-dot"></span> Registrado</span></td>
+
                                 <td>
-                                    <button type="button" class="btn-action"
-                                            onclick="abrirCambioPassword('{{ usuario.id_usuario }}', '{{ usuario.username|escapejs }}')">
-                                        <i class="fas fa-key"></i> Cambiar contraseña
+                                    <span class="status-pill">
+                                        <span class="status-dot"></span>
+                                        Registrado
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <button
+                                        type="button"
+                                        class="btn-action"
+                                        onclick="abrirCambioPassword('{{ usuario.id_usuario }}', '{{ usuario.username|escapejs }}')"
+                                    >
+                                        <i class="fas fa-key"></i>
+                                        Cambiar contraseña
                                     </button>
                                 </td>
                             </tr>
@@ -150,8 +247,17 @@
                                 <td colspan="4">
                                     <div class="empty-state">
                                         <i class="fas fa-users"></i>
-                                        <div><strong>No hay usuarios para mostrar</strong></div>
-                                        <p>Cuando existan cuentas registradas, aparecerán en esta tabla.</p>
+
+                                        <div>
+                                            <strong>
+                                                No hay usuarios para mostrar
+                                            </strong>
+                                        </div>
+
+                                        <p>
+                                            Cuando existan cuentas registradas,
+                                            aparecerán en esta tabla.
+                                        </p>
                                     </div>
                                 </td>
                             </tr>
@@ -161,78 +267,105 @@
             </div>
         </section>
 
+        <!-- Panel para cambiar contraseña -->
         <section class="card" id="panelCambiarPassword" hidden>
             <div class="card-header">
                 <div>
-                    <h2><i class="fas fa-key"></i> Cambiar contraseña</h2>
-                    <p>Establece una nueva contraseña para <strong id="nombreUsuarioPassword"></strong>.</p>
+                    <h2>
+                        <i class="fas fa-key"></i>
+                        Cambiar contraseña
+                    </h2>
+
+                    <p>
+                        Establece una nueva contraseña para
+                        <strong id="nombreUsuarioPassword"></strong>.
+                    </p>
                 </div>
-                <div class="card-icon"><i class="fas fa-lock"></i></div>
+
+                <div class="card-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
             </div>
+
             <form method="post" action="" id="formCambiarPassword">
                 {% csrf_token %}
-                <input type="hidden" name="accion" value="cambiar_password">
-                <input type="hidden" name="id_usuario" id="idUsuarioPassword">
+
+                <input
+                    type="hidden"
+                    name="accion"
+                    value="cambiar_password"
+                >
+
+                <input
+                    type="hidden"
+                    name="id_usuario"
+                    id="idUsuarioPassword"
+                >
+
                 <div class="form-grid">
+
                     <div class="form-group">
-                        <label for="nueva_password">Nueva contraseña</label>
-                        <input type="password" id="nueva_password" name="nueva_password"
-                               autocomplete="new-password" minlength="8" required>
+                        <label for="nueva_password">
+                            Nueva contraseña
+                        </label>
+
+                        <input
+                            type="password"
+                            id="nueva_password"
+                            name="nueva_password"
+                            autocomplete="new-password"
+                            minlength="8"
+                            required
+                        >
                     </div>
+
                     <div class="form-group">
-                        <label for="confirmar_nueva_password">Confirmar nueva contraseña</label>
-                        <input type="password" id="confirmar_nueva_password" name="confirmar_nueva_password"
-                               autocomplete="new-password" minlength="8" required>
+                        <label for="confirmar_nueva_password">
+                            Confirmar nueva contraseña
+                        </label>
+
+                        <input
+                            type="password"
+                            id="confirmar_nueva_password"
+                            name="confirmar_nueva_password"
+                            autocomplete="new-password"
+                            minlength="8"
+                            required
+                        >
                     </div>
+
                 </div>
+
                 <div class="form-actions">
-                    <button type="button" class="btn-secondary" onclick="cerrarCambioPassword()">Cancelar</button>
-                    <button type="submit" class="btn-save"><i class="fas fa-save"></i> Guardar contraseña</button>
+                    <button
+                        type="button"
+                        class="btn-secondary"
+                        onclick="cerrarCambioPassword()"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="btn-save">
+                        <i class="fas fa-save"></i>
+                        Guardar contraseña
+                    </button>
                 </div>
             </form>
         </section>
 
-        <footer><p>&copy; SISTEMAS UMG 2026 GRUPO SEMINARIO.</p></footer>
+        <!-- Pie de página -->
+        <footer>
+            <p>&copy; SISTEMAS UMG 2026 COBÁN.</p>
+
+            <img
+                src="{% static 'img/logoSistemas.png' %}"
+                alt="Logotipo de Sistemas UMG"
+            >
+        </footer>
+
     </main>
 
-    <script>
-        const buscador = document.getElementById('buscarUsuario');
-        buscador?.addEventListener('input', function () {
-            const consulta = this.value.toLocaleLowerCase('es');
-            document.querySelectorAll('#tablaUsuarios tbody tr').forEach(function (fila) {
-                fila.hidden = !fila.innerText.toLocaleLowerCase('es').includes(consulta);
-            });
-        });
-
-        function abrirCambioPassword(id, username) {
-            document.getElementById('idUsuarioPassword').value = id;
-            document.getElementById('nombreUsuarioPassword').textContent = username;
-            document.getElementById('panelCambiarPassword').hidden = false;
-            document.getElementById('panelCambiarPassword').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function cerrarCambioPassword() {
-            document.getElementById('panelCambiarPassword').hidden = true;
-            document.getElementById('formCambiarPassword').reset();
-        }
-
-        document.querySelectorAll('form').forEach(function (form) {
-            form.addEventListener('submit', function (event) {
-                const password = form.querySelector('[name="password"]');
-                const confirm = form.querySelector('[name="confirm_password"]');
-                const nueva = form.querySelector('[name="nueva_password"]');
-                const confirmarNueva = form.querySelector('[name="confirmar_nueva_password"]');
-
-                if (password && confirm && password.value !== confirm.value) {
-                    event.preventDefault();
-                    alert('Las contraseñas no coinciden.');
-                }
-                if (nueva && confirmarNueva && nueva.value !== confirmarNueva.value) {
-                    event.preventDefault();
-                    alert('Las contraseñas nuevas no coinciden.');
-                }
-            });
-        });
-    </script>
+    <!-- JavaScript externo -->
+    <script src="{% static 'configuracion/js/configuracion.js' %}"></script>
 </body>
 </html>

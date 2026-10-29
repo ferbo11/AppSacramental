@@ -1,600 +1,243 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <title>SACRANET - Matrimonios</title>
 
-    <title>
-        Parroquia El Calvario - Matrimonios
-    </title>
-
-
-    <!-- =================================
-         FONT AWESOME
-         ================================= -->
-
+    <!-- FONT AWESOME -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-
-    <!-- =================================
-         CSS PROPIO
-         ================================= -->
-
+    <!-- CSS PROPIO -->
     <link rel="stylesheet"
           href="{% static 'matrimonio/css/matrimonio.css' %}">
-
+    <link rel="stylesheet"
+          href="{% static 'css/sidebar.css' %}">
 </head>
-
 
 <body>
 
+    <!-- BARRA LATERAL -->
+    {% include 'partials/sidebar.html' %}
 
-    <!-- =================================
-         BARRA LATERAL
-         ================================= -->
-
-    <div class="sidebar">
-
-
-        <div class="sidebar-brand">
-
-            <img src="{% static 'img/Calvario.png' %}"
-                 alt="Parroquia El Calvario">
-
-            <span>
-                SACRANET
-            </span>
-
-        </div>
-
-
-        <!-- MATRIMONIOS -->
-
-        <a href="{% url 'matrimonio' %}"
-           class="nav-item active">
-
-            <i class="fas fa-ring"></i>
-
-            <span>
-                Matrimonios
-            </span>
-
-        </a>
-
-
-        <!-- HISTORIAL -->
-
-        <a href="{% url 'historial_matrimonio' %}"
-           class="nav-item">
-
-            <i class="fas fa-file-pdf"></i>
-
-            <span>
-                Historial de Constancias de Matrimonio
-            </span>
-
-        </a>
-
-
-        <!-- CONFIGURACIÓN -->
-
-        <a href="{% url 'configuracion' %}"
-           class="nav-item">
-
-            <i class="fas fa-cog"></i>
-
-            <span>
-                Configuración
-            </span>
-
-        </a>
-
-        <!-- SACRAMENTOS -->
-
-        <div class="nav-group">
-            <button class="nav-item nav-group-toggle" type="button" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-church"></i>
-                <span>Sacramentos</span>
-                <i class="fas fa-chevron-down nav-group-caret"></i>
-            </button>
-            <div class="nav-group-menu">
-                <a href="{% url 'listar_bautismos' %}" class="nav-subitem">
-                    <i class="fa-solid fa-person-breastfeeding"></i>
-                    <span>Bautismo</span>
-                </a>
-                <a href="{% url 'listar_comuniones' %}" class="nav-subitem">
-                    <i class="fa-sharp fa-solid fa-cross"></i>
-                    <span>Primera Comunión</span>
-                </a>
-                <a href="{% url 'listar_confirmaciones' %}" class="nav-subitem">
-                    <i class="fas fa-dove"></i>
-                    <span>Confirmación</span>
-                </a>
-                <a href="{% url 'listar_matrimonios' %}" class="nav-subitem active">
-                    <i class="fas fa-ring"></i>
-                    <span>Matrimonio</span>
-                </a>
-            </div>
-        </div>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var toggle = document.querySelector('.nav-group-toggle');
-                var group = document.querySelector('.nav-group');
-                if (toggle && group) {
-                    toggle.addEventListener('click', function() {
-                        var isOpen = group.classList.toggle('open');
-                        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-                    });
-                    if (group.querySelector('.nav-subitem.active')) {
-                        group.classList.add('open');
-                        toggle.setAttribute('aria-expanded', 'true');
-                    }
-                }
-            });
-        </script>
-    </div>
-
-
-
-    <!-- =================================
-         CONTENIDO PRINCIPAL
-         ================================= -->
-
+    <!-- CONTENIDO PRINCIPAL -->
     <div class="main-content">
 
-
-        <!-- =================================
-             ENCABEZADO
-             ================================= -->
-
+        <!-- ENCABEZADO -->
         <div class="header">
-
-
             <div>
-
-                <h1>
-                    Registro de Matrimonios
-                </h1>
-
-                <p>
-                    Cobán, Alta Verapaz, Guatemala, C.A.
-                </p>
-
+                <h1>Constancia de Matrimonios</h1>
+                <p>Cobán, Alta Verapaz, Guatemala, C.A.</p>
             </div>
 
-
-            <a href="{% url 'index' %}"
-               class="btn-back">
-
+            <a href="{% url 'index' %}" class="btn-back">
                 <i class="fas fa-arrow-left"></i>
-
                 Regresar
-
             </a>
-
-
         </div>
 
-
-
-        <!-- =================================
-             BÚSQUEDA DE MATRIMONIO
-             ================================= -->
-
+        <!-- BÚSQUEDA DE MATRIMONIO -->
         <div class="card">
 
-
             <div class="card-header">
-
-
                 <div>
-
-                    <h2>
-                        Buscar Matrimonio
-                    </h2>
-
-                    <p>
-                        Ingrese el nombre del esposo o esposa
-                    </p>
-
+                    <h2>Buscar Matrimonio</h2>
+                    <p>Ingrese el nombre del esposo o esposa</p>
                 </div>
-
 
                 <div class="card-icon">
-
                     <i class="fas fa-magnifying-glass"></i>
-
                 </div>
-
-
             </div>
 
-
-
             <!-- FORMULARIO DE BÚSQUEDA -->
-
             <form method="GET"
                   action="{% url 'buscar_matrimonio' %}"
                   class="search-form">
 
-
-                <!-- NOMBRE DEL ESPOSO -->
-
                 <div class="form-group">
-
-                    <label for="esposo">
-                        Nombre del esposo
-                    </label>
-
+                    <label for="esposo">Nombre del esposo</label>
                     <input
                         type="text"
                         id="esposo"
                         name="esposo"
                         value="{{ esposo }}"
                         placeholder="Ingrese el nombre del esposo"
-                        autocomplete="off"
-                    >
-
+                        autocomplete="off">
                 </div>
 
-
-                <!-- NOMBRE DE LA ESPOSA -->
-
                 <div class="form-group">
-
-                    <label for="esposa">
-                        Nombre de la esposa
-                    </label>
-
+                    <label for="esposa">Nombre de la esposa</label>
                     <input
                         type="text"
                         id="esposa"
                         name="esposa"
                         value="{{ esposa }}"
                         placeholder="Ingrese el nombre de la esposa"
-                        autocomplete="off"
-                    >
-
+                        autocomplete="off">
                 </div>
 
-
-                <!-- BOTÓN BUSCAR -->
-
-                <button type="submit"
-                        class="btn-search">
-
+                <button type="submit" class="btn-search">
                     <i class="fas fa-search"></i>
-
                     Buscar Matrimonio
-
                 </button>
 
-
             </form>
-
-
         </div>
 
-
-
-        <!-- =================================
-             RESULTADO DE BÚSQUEDA
-             ================================= -->
-
+        <!-- RESULTADOS DE BÚSQUEDA -->
         <div class="card">
 
-
             <div class="card-header">
-
-
                 <div>
-
-                    <h2>
-                        Emisión de Constancias de Matrimonio
-                    </h2>
-
-                    <p>
-                        Registro encontrado
-                    </p>
-
+                    <h2>Emisión de Constancias de Matrimonio</h2>
+                    <p>Registro encontrado</p>
                 </div>
-
 
                 <div class="card-icon">
-
                     <i class="fas fa-ring"></i>
-
                 </div>
-
-
             </div>
 
-
-
-            <!-- =================================
-                 CONTENEDOR DE RESULTADOS
-                 ================================= -->
-
-            <div class="result-container"
-                 id="resultado-matrimonio">
-
+            <!-- CONTENEDOR DE RESULTADOS -->
+            <div class="result-container" id="resultado-matrimonio">
 
                 {% if busqueda_realizada %}
 
-
-                    <!-- =================================
-                         HAY RESULTADOS
-                         ================================= -->
-
                     {% if resultados %}
-
 
                         {% for matrimonio in resultados %}
 
-
+                            <!-- DATOS DEL MATRIMONIO -->
                             <div class="matrimonio-result">
 
-
-                                <!-- NOMBRES -->
-
                                 <h3>
-
                                     {{ matrimonio.nombre_esposo }}
-
-                                    <span>
-                                        &amp;
-                                    </span>
-
+                                    <span>&amp;</span>
                                     {{ matrimonio.nombre_esposa }}
-
                                 </h3>
-
-
-
-                                <!-- DATOS DEL MATRIMONIO -->
 
                                 <div class="datos-matrimonio">
 
-
-                                    <!-- ESPOSO -->
-
                                     <p>
-
-                                        <strong>
-                                            Esposo:
-                                        </strong>
-
-                                        {{ matrimonio.nombre_esposo }}
-
+                                        <strong>Esposo:</strong>
+                                        {{ matrimonio.nombre_esposo|default:"No registrado" }}
                                     </p>
 
-
-
-                                    <!-- ESPOSA -->
-
                                     <p>
-
-                                        <strong>
-                                            Esposa:
-                                        </strong>
-
-                                        {{ matrimonio.nombre_esposa }}
-
+                                        <strong>Esposa:</strong>
+                                        {{ matrimonio.nombre_esposa|default:"No registrada" }}
                                     </p>
 
-
-
-                                    <!-- LIBRO -->
-
                                     <p>
-
-                                        <strong>
-                                            Libro:
-                                        </strong>
-
-                                        {{ matrimonio.libro }}
-
+                                        <strong>Libro:</strong>
+                                        {{ matrimonio.libro|default:"No registrado" }}
                                     </p>
 
-
-
-                                    <!-- FOLIO -->
-
                                     <p>
-
-                                        <strong>
-                                            Folio:
-                                        </strong>
-
-                                        {{ matrimonio.folio }}
-
+                                        <strong>Folio:</strong>
+                                        {{ matrimonio.folio|default:"No registrado" }}
                                     </p>
 
-
-
-                                    <!-- AÑO -->
-
                                     <p>
-
-                                        <strong>
-                                            Año:
-                                        </strong>
-
-                                        {{ matrimonio.anio }}
-
+                                        <strong>Año:</strong>
+                                        {{ matrimonio.anio|default:"No registrado" }}
                                     </p>
-
 
                                 </div>
 
+                                <!-- FORMULARIO DE CONSTANCIA -->
+                                <form
+                                    method="POST"
+                                    action="{% url 'generar_pdf_matrimonio' matrimonio.id %}"
+                                    class="form-constancia">
+
+                                    {% csrf_token %}
+
+                                    <!-- OBSERVACIONES -->
+                                    <div class="observaciones-container">
+
+                                        <label for="observacion_{{ matrimonio.id }}">
+                                            Observaciones
+                                        </label>
+
+                                        <textarea
+                                            id="observacion_{{ matrimonio.id }}"
+                                            name="observacion"
+                                            rows="3"
+                                            placeholder="Ingrese una observación (opcional)..."></textarea>
+
+                                    </div>
+
+                                    <!-- BOTONES DE ACCIÓN -->
+                                    <div class="acciones-constancia">
+
+                                        <button
+                                            type="button"
+                                            class="btn-limpiar"
+                                            onclick="limpiarMatrimonio()">
+                                            <i class="fas fa-eraser"></i>
+                                            Limpiar campos
+                                        </button>
+
+                                        <button type="submit" class="btn-pdf">
+                                            <i class="fas fa-file-pdf"></i>
+                                            Emitir Constancia de Matrimonio
+                                        </button>
+
+                                    </div>
+
+                                </form>
 
                             </div>
 
-
-                            <!-- ==============================
-                                 GENERAR CONSTANCIA
-                                 ============================== -->
-
-                            <form method="POST"
-                                  action="{% url 'generar_pdf_matrimonio' matrimonio.id %}"
-                                  class="form-constancia">
-
-
-                                {% csrf_token %}
-
-
-                                <div class="observaciones-container">
-
-                                    <label for="observacion_{{ matrimonio.id }}">
-
-                                        Observaciones
-
-                                    </label>
-
-
-                                    <textarea
-                                        id="observacion_{{ matrimonio.id }}"
-                                        name="observacion"
-                                        rows="3"
-                                        placeholder="Ingrese una observación (opcional)..."
-                                    ></textarea>
-
-
-                                </div>
-
-
-                                <!-- BOTONES DE ACCIÓN -->
-                                <div class="acciones-constancia">
-
-                                    <button
-                                        type="button"
-                                        class="btn-limpiar"
-                                        onclick="limpiarMatrimonio()">
-
-                                        <i class="fas fa-eraser"></i>
-
-                                        Limpiar campos
-
-                                    </button>
-
-                                    <button
-                                        type="submit"
-                                        class="btn-pdf">
-
-                                        <i class="fas fa-file-pdf"></i>
-
-                                        Emitir Constancia de Matrimonio
-
-                                    </button>
-
-                                </div>
-
-
-                            </form>
-
-
                         {% endfor %}
-
 
                     {% else %}
 
-
-                        <!-- =================================
-                             SIN RESULTADOS
-                             ================================= -->
-
+                        <!-- SIN RESULTADOS -->
                         <div class="empty-result">
-
                             <i class="fas fa-user-slash"></i>
-
                             <p>
                                 No se encontró ningún matrimonio
                                 con los datos ingresados.
                             </p>
-
                         </div>
-
 
                     {% endif %}
 
-
                 {% else %}
 
-
-                    <!-- =================================
-                         SIN REALIZAR BÚSQUEDA
-                         ================================= -->
-
+                    <!-- SIN REALIZAR BÚSQUEDA -->
                     <div class="empty-result">
-
-                        <i class="fas fa-search"></i>
-
+                        <i class="fas fa-user-search"></i>
                         <p>
                             Realice una búsqueda para consultar
                             el registro del matrimonio.
                         </p>
-
                     </div>
-
 
                 {% endif %}
 
-
             </div>
-
-
         </div>
 
-
-
-        <!-- =================================
-             BOTONES DE ACCIÓN
-             ================================= -->
-
-        <div class="acciones-constancia">
-
-            <button
-                type="button"
-                class="btn-limpiar"
-                onclick="limpiarMatrimonio()">
-
-                <i class="fas fa-eraser"></i>
-
-                Limpiar campos
-
-            </button>
-
-        </div>
-
-
-
-        <!-- =================================
-             FOOTER
-             ================================= -->
-
+        <!-- FOOTER -->
         <footer>
-
-            <p>
-                &copy; SISTEMAS UMG 2026 GRUPO SEMINARIO.
-            </p>
-
+            <p>&copy; SISTEMAS UMG 2026 COBÁN.</p>
+            <img
+                src="{% static 'img/logoSistemas.png' %}"
+                alt="Logotipo de Sistemas UMG">
         </footer>
 
-
     </div>
-
 
     <!-- JAVASCRIPT PROPIO -->
     <script src="{% static 'matrimonio/js/matrimonio.js' %}"></script>
 
 </body>
-
 </html>

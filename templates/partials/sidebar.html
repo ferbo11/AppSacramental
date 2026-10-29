@@ -1,0 +1,135 @@
+{% load static %}
+
+{% with url_name=request.resolver_match.url_name %}
+
+<div class="sidebar">
+
+    <div class="sidebar-brand">
+
+        <img src="{% static 'img/Calvario.png' %}"
+             alt="Parroquia El Calvario">
+
+        <span>Parroquia El Calvario</span>
+
+    </div>
+
+    <nav class="sidebar-nav"
+         aria-label="Menú principal">
+
+        <a href="{% url 'index' %}"
+           class="nav-item {% if url_name == 'index' %}active{% endif %}"
+           {% if url_name == 'index' %}aria-current="page"{% endif %}>
+
+            <i class="fa-solid fa-house" aria-hidden="true"></i>
+            <span>Inicio</span>
+
+        </a>
+
+        <a href="{% url 'configuracion' %}"
+           class="nav-item {% if url_name == 'configuracion' %}active{% endif %}"
+           {% if url_name == 'configuracion' %}aria-current="page"{% endif %}>
+
+            <i class="fas fa-cog" aria-hidden="true"></i>
+
+            <span>Configuración</span>
+
+        </a>
+
+        <div class="nav-group">
+
+            <button class="nav-item nav-group-toggle {% if 'bautismo' in url_name or 'comunion' in url_name or 'confirmacion' in url_name or 'matrimonio' in url_name %}active{% endif %}"
+                    type="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    aria-controls="sacramentos-menu">
+
+                <i class="fas fa-church" aria-hidden="true"></i>
+
+                <span>Sacramentos</span>
+
+                <i class="fas fa-chevron-down nav-group-caret" aria-hidden="true"></i>
+
+            </button>
+
+            <div class="nav-group-menu"
+                 id="sacramentos-menu">
+
+                <a href="{% url 'listar_bautismos' %}"
+                   class="nav-subitem {% if 'bautismo' in url_name %}active{% endif %}"
+                   {% if 'bautismo' in url_name %}aria-current="page"{% endif %}>
+
+                    <i class="fa-solid fa-person-breastfeeding" aria-hidden="true"></i>
+
+                    <span>Bautismo</span>
+
+                </a>
+
+                <a href="{% url 'listar_comuniones' %}"
+                   class="nav-subitem {% if 'comunion' in url_name %}active{% endif %}"
+                   {% if 'comunion' in url_name %}aria-current="page"{% endif %}>
+
+                    <i class="fa-sharp fa-solid fa-cross" aria-hidden="true"></i>
+
+                    <span>Primera Comunión</span>
+
+                </a>
+
+                <a href="{% url 'listar_confirmaciones' %}"
+                   class="nav-subitem {% if 'confirmacion' in url_name %}active{% endif %}"
+                   {% if 'confirmacion' in url_name %}aria-current="page"{% endif %}>
+
+                    <i class="fas fa-dove" aria-hidden="true"></i>
+
+                    <span>Confirmación</span>
+
+                </a>
+
+                <a href="{% url 'listar_matrimonios' %}"
+                   class="nav-subitem {% if 'matrimonio' in url_name %}active{% endif %}"
+                   {% if 'matrimonio' in url_name %}aria-current="page"{% endif %}>
+
+                    <i class="fas fa-ring" aria-hidden="true"></i>
+
+                    <span>Matrimonio</span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <a href="{% url 'agenda' %}"
+           class="nav-item {% if url_name == 'agenda' %}active{% endif %}"
+           {% if url_name == 'agenda' %}aria-current="page"{% endif %}>
+
+            <i class="fas fa-calendar" aria-hidden="true"></i>
+
+            <span>Agenda</span>
+
+        </a>
+
+    </nav>
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var toggle = document.querySelector('.nav-group-toggle');
+        var group = document.querySelector('.nav-group');
+
+        if (!toggle || !group) {
+            return;
+        }
+
+        toggle.addEventListener('click', function () {
+            var isOpen = group.classList.toggle('open');
+
+            toggle.setAttribute(
+                'aria-expanded',
+                isOpen ? 'true' : 'false'
+            );
+        });
+    });
+</script>
+
+{% endwith %}

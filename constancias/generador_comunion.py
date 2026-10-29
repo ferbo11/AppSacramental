@@ -1,7 +1,7 @@
 import io
 import os
 
-from datetime import datetime
+from datetime import date, datetime
 
 from django.conf import settings
 
@@ -11,6 +11,8 @@ from reportlab.pdfbase.ttfonts import TTFont
 
 from pypdf import PdfReader, PdfWriter
 
+from constancias.utilidades import numero_o_na
+
 
 # ============================================================
 # CONFIGURACIÓN
@@ -18,6 +20,7 @@ from pypdf import PdfReader, PdfWriter
 
 TAMANO_FUENTE = 14
 FUENTE_NOMBRE = 'TimesNewRoman'
+FUENTE_NEGRITA = 'Times-Bold'
 
 RUTA_FUENTE = os.path.join(
     settings.BASE_DIR,
@@ -99,32 +102,20 @@ def numero_a_letras(numero):
     if 0 <= numero <= 20:
         return unidades[numero]
 
-    if numero == 21:
-        return 'veintiuno'
+    especiales = {
+        21: 'veintiuno',
+        22: 'veintidós',
+        23: 'veintitrés',
+        24: 'veinticuatro',
+        25: 'veinticinco',
+        26: 'veintiséis',
+        27: 'veintisiete',
+        28: 'veintiocho',
+        29: 'veintinueve',
+    }
 
-    if numero == 22:
-        return 'veintidós'
-
-    if numero == 23:
-        return 'veintitrés'
-
-    if numero == 24:
-        return 'veinticuatro'
-
-    if numero == 25:
-        return 'veinticinco'
-
-    if numero == 26:
-        return 'veintiséis'
-
-    if numero == 27:
-        return 'veintisiete'
-
-    if numero == 28:
-        return 'veintiocho'
-
-    if numero == 29:
-        return 'veintinueve'
+    if numero in especiales:
+        return especiales[numero]
 
     if numero < 100:
 
@@ -220,20 +211,157 @@ def separar_nombre(nombre):
 
 
 # ============================================================
-# FECHA DE EMISIÓN
+# OBTENER FECHA DE PRIMERA COMUNIÓN
 # ============================================================
 
-def obtener_fecha_emision():
+def obtener_fecha_comunion(comunion):
+    """
+    Obtiene la fecha de Primera Comunión desde el registro.
+    """
 
-    fecha = datetime.now()
+    posibles_campos = (
+        'fecha_comunion',
+        'fecha_primera_comunion',
+        'fecha_sacramento',
+        'fecha',
+    )
 
-    dia = fecha.day
-    mes = MESES[fecha.month - 1]
-    anio = numero_a_letras(fecha.year)
+    valor_fecha = None
+
+    for campo in posibles_campos:
+        valor = getattr(comunion, campo, None)
+
+        if valor is not None and valor != '':
+            valor_fecha = valor
+            break
+
+    if not valor_fecha:
+        return 'No registrada'
+
+    if isinstance(valor_fecha, datetime):
+        fecha = valor_fecha.date()
+
+    elif isinstance(valor_fecha, date):
+        fecha = valor_fecha
+
+    else:
+        fecha = None
+        valor_texto = str(valor_fecha).strip()
+
+        formatos = (
+            '%Y-%m-%d',
+            '%d/%m/%Y',
+            '%d-%m-%Y',
+            '%Y-%m-%d %H:%M:%S',
+        )
+
+        for formato in formatos:
+            try:
+                fecha = datetime.strptime(
+                    valor_texto,
+                    formato
+                ).date()
+                break
+            except ValueError:
+                continue
+
+        if fecha is None:
+            return valor_texto
 
     return (
-        f'a los {dia} días del mes de '
-        f'{mes} del año {anio}'
+        f'{fecha.day} de '
+        f'{MESES[fecha.month - 1]} de '
+        f'{fecha.year}'
+    )
+
+
+# ============================================================
+# DIBUJAR TEXTO CON ESTILOS
+# ============================================================
+
+def dibujar_texto_con_estilos(
+    pdf,
+    segmentos,
+    x,
+    y,
+    tamano=TAMANO_FUENTE
+):
+    posicion_x = x
+
+    for texto, negrita in segmentos:
+
+        fuente = FUENTE_NEGRITA if negrita else FUENTE_NOMBRE
+
+        pdf.setFont(
+            fuente,
+            tamano
+        )
+
+        pdf.drawString(
+            posicion_x,
+            y,
+            texto
+        )
+
+        ancho = pdfmetrics.stringWidth(
+            texto,
+            fuente,
+            tamano
+        )
+
+        posicion_x += ancho
+
+
+# ============================================================
+# DIBUJAR VALORES SUBRAYADOS
+# ============================================================
+
+def dibujar_valor_subrayado(
+    pdf,
+    texto,
+    x,
+    y,
+    negrita=False,
+    mayusculas=False
+):
+
+    if texto is None:
+        return
+
+    texto = str(texto).strip()
+
+    if not texto:
+        return
+
+    if mayusculas:
+        texto = texto.upper()
+
+    fuente = FUENTE_NEGRITA if negrita else FUENTE_NOMBRE
+
+    pdf.setFont(
+        fuente,
+        TAMANO_FUENTE
+    )
+
+    pdf.drawString(
+        x,
+        y,
+        texto
+    )
+
+    ancho_texto = pdfmetrics.stringWidth(
+        texto,
+        fuente,
+        TAMANO_FUENTE
+    )
+
+    pdf.setLineWidth(0.5)
+
+    pdf.line(
+        x,
+        y - 2,
+        x + ancho_texto,
+        y - 2
     )
 
 
@@ -265,7 +393,7 @@ def generar_constancia_comunion(
         )
 
     # ========================================================
-    # DATOS
+    # DATOS DEL REGISTRO
     # ========================================================
 
     nombre, apellidos = separar_nombre(
@@ -284,8 +412,7 @@ def generar_constancia_comunion(
         else 'No registrada'
     )
 
-    # Actualmente la tabla no tiene fecha de comunión.
-    fecha_comunion = 'No registrada'
+    fecha_comunion = obtener_fecha_comunion(comunion)
 
     if not observacion:
         observacion = 'NINGUNO'
@@ -305,144 +432,206 @@ def generar_constancia_comunion(
         FUENTE_NOMBRE,
         TAMANO_FUENTE
     )
-    # =======================================================
+
+    # ========================================================
     # PÁRRAFO SUPERIOR
     # ========================================================
-    from constancias.utilidades import numero_o_na
-    libro_val = numero_o_na(getattr(comunion, 'libro', None), defecto='N/A')
-    folio_val = numero_o_na(getattr(comunion, 'folio', None), defecto='N/A')
-    partida_sac = None
+
+        # ========================================================
+    # PÁRRAFO SUPERIOR
+    # ========================================================
+
+    libro_val = numero_o_na(
+        getattr(comunion, 'libro', None),
+        defecto='N/A'
+    )
+
+    folio_val = numero_o_na(
+        getattr(comunion, 'folio', None),
+        defecto='N/A'
+    )
+
+    partida_val = numero_o_na(
+        numero_partida,
+        defecto='N/A'
+    )
+
     try:
-        partida_sac = getattr(comunion, 'partida', None)
-    except Exception:
-        partida_sac = None
-    if partida_sac is None or (isinstance(partida_sac, str) and partida_sac.strip() == ''):
-        partida_val = numero_o_na(numero_partida, defecto='N/A')
-    else:
-        partida_val = numero_o_na(partida_sac, defecto='N/A')
-    try:
-        libro_str = f'{int(libro_val):02d}' if str(libro_val).isdigit() and str(libro_val) != 'N/A' else str(libro_val)
-    except Exception:
+        libro_str = (
+            f'{int(libro_val):02d}'
+            if str(libro_val).isdigit()
+            else str(libro_val)
+        )
+    except (ValueError, TypeError):
         libro_str = str(libro_val)
+
     try:
-        folio_str = f'{int(folio_val):03d}' if str(folio_val).isdigit() and str(folio_val) != 'N/A' else str(folio_val)
-    except Exception:
+        folio_str = (
+            f'{int(folio_val):03d}'
+            if str(folio_val).isdigit()
+            else str(folio_val)
+        )
+    except (ValueError, TypeError):
         folio_str = str(folio_val)
+
     try:
-        if str(partida_val).isdigit() and str(partida_val) != 'N/A':
-            partida_str = f'{int(partida_val):03d}'
-        else:
-            partida_str = str(partida_val)
-    except Exception:
+        partida_str = (
+            f'{int(partida_val):03d}'
+            if str(partida_val).isdigit()
+            else str(partida_val)
+        )
+    except (ValueError, TypeError):
         partida_str = str(partida_val)
 
-    texto_registro_1 = (
-        'Que ha tenido a la vista el libro del '
-        'Sacramento de la Primera Comunión No. '
-        f'{libro_str}, '
-        'folio '
-        f'{folio_str}, '
+    # ========================================================
+    # TEXTO DEL REGISTRO
+    # ========================================================
+
+    texto_registro_1 = [
+        ('Que ha tenido a la vista el libro del ', False),
+        ('Sacramento de la Primera Comunión No. ', False),
+        (libro_str, True),
+        (', folio ', False),
+        (folio_str, True),
+        (', ', False),
+    ]
+
+    texto_registro_2 = [
+        ('partida No. ', False),
+        (partida_str, True),
+        (', en la cual se encuentra el registro de:', False),
+    ]
+
+    dibujar_texto_con_estilos(
+        pdf,
+        texto_registro_1,
+        x=44,
+        y=520
     )
 
-    texto_registro_2 = (
-        'partida No. '
-        f'{partida_str}, '
-        'en la cual se encuentra el registro de:'
-    )
-
-    pdf.drawString(
-        90,
-        580,
-        texto_registro_1
-    )
-
-    pdf.drawString(
-        90,
-        560,
-        texto_registro_2
+    dibujar_texto_con_estilos(
+        pdf,
+        texto_registro_2,
+        x=44,
+        y=500
     )
 
     # ========================================================
     # NOMBRE
     # ========================================================
 
-    pdf.drawString(
-        180,
-        527,
-        nombre
+    dibujar_valor_subrayado(
+        pdf,
+        nombre,
+        237,
+        460,
+        negrita=True,
+        mayusculas=True
     )
 
     # ========================================================
     # APELLIDOS
     # ========================================================
 
-    pdf.drawString(
-        187,
-        505,
-        apellidos
+    dibujar_valor_subrayado(
+        pdf,
+        apellidos,
+        237,
+        437,
+        negrita=True,
+        mayusculas=True
     )
 
     # ========================================================
     # PADRE
     # ========================================================
 
-    pdf.drawString(
+    dibujar_valor_subrayado(
+        pdf,
+        padre,
         237,
-        480,
-        padre
+        413
     )
 
     # ========================================================
     # MADRE
     # ========================================================
 
-    pdf.drawString(
-        252,
-        456,
-        madre
+    dibujar_valor_subrayado(
+        pdf,
+        madre,
+        237,
+        389
     )
 
     # ========================================================
     # FECHA DE PRIMERA COMUNIÓN
     # ========================================================
 
-    pdf.drawString(
-        315,
-        431,
-        fecha_comunion
+    dibujar_valor_subrayado(
+        pdf,
+        fecha_comunion,
+        274,
+        364
     )
 
     # ========================================================
-    # FECHA DE EMISIÓN
+    # FECHA DE EXPEDICIÓN
     # ========================================================
-    texto_fecha_emision = obtener_fecha_emision()
-    
+
+    fecha_actual = datetime.now()
+
+    dia = str(fecha_actual.day)
+    mes = MESES[fecha_actual.month - 1]
+    anio = numero_a_letras(fecha_actual.year)
+
+    pdf.setFont(
+        FUENTE_NOMBRE,
+        TAMANO_FUENTE
+    )
+
     pdf.drawString(
-        90,
-        335,
-        'Para el uso que al interesado (a), convenga se extiende en una hoja bond'
-        )
-    
-    pdf.drawString(
-        90,
+        44,
         315,
-        f'membretada tamaño carta {texto_fecha_emision}'
-        )
-    
+        'Para el uso que al interesado (a), convenga se extiende en una hoja bond'
+    )
+
+    segmentos_fecha = [
+        ('membretada tamaño carta a los ', False),
+        (dia, True),
+        (' días del mes de ', False),
+        (mes, True),
+        (' del año ', False),
+        (anio, True),
+    ]
+
+    dibujar_texto_con_estilos(
+        pdf,
+        segmentos_fecha,
+        x=44,
+        y=295
+    )
+
+    pdf.setFont(
+        FUENTE_NOMBRE,
+        TAMANO_FUENTE
+    )
+
     pdf.drawString(
-        90,
-        295,
+        44,
+        275,
         'en la ciudad de Cobán Alta Verapaz.'
-        )
+    )
 
     # ========================================================
     # OBSERVACIONES
     # ========================================================
 
-    pdf.drawString(
-        172,
-        263,
-        observacion
+    dibujar_valor_subrayado(
+        pdf,
+        observacion,
+        132,
+        215
     )
 
     # ========================================================

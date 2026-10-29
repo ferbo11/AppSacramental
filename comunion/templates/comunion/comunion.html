@@ -1,600 +1,249 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <title>SACRANET - Primera Comunión</title>
 
-    <title>
-        Parroquia El Calvario - Primera Comunión
-    </title>
-
-    <!-- =================================
-         FONT AWESOME
-         ================================= -->
-
+    <!-- FONT AWESOME -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-
-    <!-- =================================
-         CSS PROPIO
-         ================================= -->
-
+    <!-- CSS PROPIO -->
     <link rel="stylesheet"
           href="{% static 'comunion/css/comunion.css' %}">
-
+    <link rel="stylesheet"
+          href="{% static 'css/sidebar.css' %}">
 </head>
-
 
 <body>
 
+    <!-- BARRA LATERAL -->
+    {% include 'partials/sidebar.html' %}
 
-    <!-- =================================
-         BARRA LATERAL
-         ================================= -->
-
-    <div class="sidebar">
-
-
-        <div class="sidebar-brand">
-
-            <img src="{% static 'img/Calvario.png' %}"
-                 alt="Parroquia El Calvario">
-
-            <span>
-                Parroquia El Calvario
-            </span>
-
-        </div>
-
-
-        <!-- PRIMERA COMUNIÓN -->
-
-        <a href="{% url 'comunion' %}"
-           class="nav-item active">
-
-            <i class="fa-sharp fa-solid fa-cross"></i>
-
-            <span>
-                Primera Comunión
-            </span>
-
-        </a>
-
-
-        <!-- HISTORIAL -->
-
-        <a href="{% url 'historial_comunion' %}"
-           class="nav-item">
-
-            <i class="fas fa-file-pdf"></i>
-
-            <span>
-                Historial de Constancias de Primera Comunión
-            </span>
-
-        </a>
-
-
-        <!-- CONFIGURACIÓN -->
-
-        <a href="{% url 'configuracion' %}"
-           class="nav-item">
-
-            <i class="fas fa-cog"></i>
-
-            <span>
-                Configuración
-            </span>
-
-        </a>
-
-        <!-- SACRAMENTOS -->
-
-        <div class="nav-group">
-            <button class="nav-item nav-group-toggle" type="button" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-church"></i>
-                <span>Sacramentos</span>
-                <i class="fas fa-chevron-down nav-group-caret"></i>
-            </button>
-            <div class="nav-group-menu">
-                <a href="{% url 'listar_bautismos' %}" class="nav-subitem">
-                    <i class="fa-solid fa-person-breastfeeding"></i>
-                    <span>Bautismo</span>
-                </a>
-                <a href="{% url 'listar_comuniones' %}" class="nav-subitem active">
-                    <i class="fa-sharp fa-solid fa-cross"></i>
-                    <span>Primera Comunión</span>
-                </a>
-                <a href="{% url 'listar_confirmaciones' %}" class="nav-subitem">
-                    <i class="fas fa-dove"></i>
-                    <span>Confirmación</span>
-                </a>
-                <a href="{% url 'listar_matrimonios' %}" class="nav-subitem">
-                    <i class="fas fa-ring"></i>
-                    <span>Matrimonio</span>
-                </a>
-            </div>
-        </div>
-
-
-    </div>
-
-
-    <!-- =================================
-         CONTENIDO PRINCIPAL
-         ================================= -->
-
+    <!-- CONTENIDO PRINCIPAL -->
     <div class="main-content">
 
-
-        <!-- =================================
-             ENCABEZADO
-             ================================= -->
-
+        <!-- ENCABEZADO -->
         <div class="header">
-
-
             <div>
-
-                <h1>
-                    Registro de Primera Comunión
-                </h1>
-
-                <p>
-                    Cobán, Alta Verapaz, Guatemala, C.A.
-                </p>
-
+                <h1>Constancias de Primera Comunión</h1>
+                <p>Cobán, Alta Verapaz, Guatemala, C.A.</p>
             </div>
 
-
-            <a href="{% url 'index' %}"
-               class="btn-back">
-
+            <a href="{% url 'index' %}" class="btn-back">
                 <i class="fas fa-arrow-left"></i>
-
                 Regresar
-
             </a>
-
-
         </div>
 
-
-        <!-- =================================
-             BÚSQUEDA DE PRIMERA COMUNIÓN
-             ================================= -->
-
+        <!-- BÚSQUEDA DE PRIMERA COMUNIÓN -->
         <div class="card">
 
-
             <div class="card-header">
-
-
                 <div>
-
-                    <h2>
-                        Buscar Primera Comunión
-                    </h2>
-
-                    <p>
-                        Ingrese el nombre y apellido del niño o niña
-                    </p>
-
+                    <h2>Buscar Primera Comunión</h2>
+                    <p>Ingrese el nombre y apellido del niño o niña</p>
                 </div>
-
 
                 <div class="card-icon">
-
                     <i class="fas fa-magnifying-glass"></i>
-
                 </div>
-
-
             </div>
 
-
             <!-- FORMULARIO DE BÚSQUEDA -->
-
             <form method="GET"
                   action="{% url 'buscar_comunion' %}"
                   class="search-form">
 
-
-                <!-- NOMBRE -->
-
                 <div class="form-group">
-
-                    <label for="nombre">
-                        Nombre
-                    </label>
-
+                    <label for="nombre">Nombre</label>
                     <input
                         type="text"
                         id="nombre"
                         name="nombre"
                         value="{{ nombre }}"
                         placeholder="Ingrese el nombre"
-                        autocomplete="off"
-                    >
-
+                        autocomplete="off">
                 </div>
 
-
-                <!-- APELLIDOS -->
-
                 <div class="form-group">
-
-                    <label for="apellidos">
-                        Apellidos
-                    </label>
-
+                    <label for="apellidos">Apellidos</label>
                     <input
                         type="text"
                         id="apellidos"
                         name="apellidos"
                         value="{{ apellidos }}"
                         placeholder="Ingrese los apellidos"
-                        autocomplete="off"
-                    >
-
+                        autocomplete="off">
                 </div>
 
-
-                <!-- BOTÓN BUSCAR -->
-
-                <button type="submit"
-                        class="btn-search">
-
+                <button type="submit" class="btn-search">
                     <i class="fas fa-search"></i>
-
                     Buscar Primera Comunión
-
                 </button>
 
-
             </form>
-
-
         </div>
 
-
-        <!-- =================================
-             RESULTADO DE BÚSQUEDA
-             ================================= -->
-
+        <!-- RESULTADOS DE BÚSQUEDA -->
         <div class="card">
 
-
             <div class="card-header">
-
-
                 <div>
-
-                    <h2>
-                        Emisión de Constancias de Primera Comunión
-                    </h2>
-
-                    <p>
-                        Registro encontrado
-                    </p>
-
+                    <h2>Emisión de Constancias de Primera Comunión</h2>
+                    <p>Registro encontrado</p>
                 </div>
-
 
                 <div class="card-icon">
-
                     <i class="fa-sharp fa-solid fa-cross"></i>
-
                 </div>
-
-
             </div>
 
+            <!-- CONTENEDOR DE RESULTADOS -->
+        
+<div class="result-container" id="resultado-comunion">
 
-            <!-- =================================
-                 CONTENEDOR DE RESULTADOS
-                 ================================= -->
+    {% if busqueda_realizada %}
 
-            <div class="result-container"
-                 id="resultado-comunion">
+        {% if resultados %}
 
+            {% for comunionado in resultados %}
 
-                {% if busqueda_realizada %}
+                <div class="comunion-result">
 
+                    <h3>{{ comunionado.nombre_sacramentado }}</h3>
 
-                    <!-- =================================
-                         HAY RESULTADOS
-                         ================================= -->
-
-                    {% if resultados %}
-
-
-                        {% for comunionado in resultados %}
-
-
-                            <div class="confirmado-result">
-
-
-                                <h3>
-                                    {{ comunionado.nombre }}
-                                </h3>
-
-
-                                <div class="datos-confirmacion">
-
-
-                                    <p>
-
-                                        <strong>
-                                            Padre:
-                                        </strong>
-
-                                        {{ comunionado.nombre_padre|default:"No registrado" }}
-
-                                    </p>
-
-
-                                    <p>
-
-                                        <strong>
-                                            Madre:
-                                        </strong>
-
-                                        {{ comunionado.nombre_madre|default:"No registrada" }}
-
-                                    </p>
-
-
-                                    <p>
-
-                                        <strong>
-                                            Padrino:
-                                        </strong>
-
-                                        {{ comunionado.nombre_padrino|default:"No registrado" }}
-
-                                    </p>
-
-
-                                    <p>
-
-                                        <strong>
-                                            Madrina:
-                                        </strong>
-
-                                        {{ comunionado.nombre_madrina|default:"No registrada" }}
-
-                                    </p>
-
-
-                                    <p>
-
-                                        <strong>
-                                            Libro:
-                                        </strong>
-
-                                        {{ comunionado.libro|default:"No registrado" }}
-
-                                    </p>
-
-
-                                    <p>
-
-                                        <strong>
-                                            Folio:
-                                        </strong>
-
-                                        {{ comunionado.folio }}
-
-                                    </p>
-
-
-                                    <p>
-
-                                        <strong>
-                                            Fecha:
-                                        </strong>
-
-                                        {% if comunionado.fecha %}
-
-                                            {{ comunionado.fecha|date:"d/m/Y" }}
-
-                                        {% else %}
-
-                                            No registrada
-
-                                        {% endif %}
-
-                                    </p>
-
-
-                                </div>
-
-
-                                <!-- ==============================
-                                     GENERAR CONSTANCIA
-                                     ============================== -->
-
-                                <form method="POST"
-                                      action="{% url 'generar_pdf_comunion' comunionado.id_comunion %}"
-                                      class="form-constancia">
-
-
-                                    {% csrf_token %}
-
-
-                                    <div class="observaciones-container">
-
-                                        <label for="observacion_{{ comunionado.id_comunion }}">
-
-                                            Observaciones
-
-                                        </label>
-
-
-                                        <textarea
-                                            id="observacion_{{ comunionado.id_comunion }}"
-                                            name="observacion"
-                                            rows="3"
-                                            placeholder="Ingrese una observación (opcional)..."
-                                        ></textarea>
-
-
-                                    </div>
-
-
-                                    <!-- BOTONES DE ACCIÓN -->
-                                    <div class="acciones-constancia">
-
-                                        <button
-                                            type="button"
-                                            class="btn-limpiar"
-                                            onclick="limpiarComunion()">
-
-                                            <i class="fas fa-eraser"></i>
-
-                                            Limpiar campos
-
-                                        </button>
-
-                                        <button
-                                            type="submit"
-                                            class="btn-pdf">
-
-                                            <i class="fas fa-file-pdf"></i>
-
-                                            Emitir Constancia de Primera Comunión
-
-                                        </button>
-
-                                    </div>
-
-
-                                </form>
-
-
-                            </div>
-
-
-                        {% endfor %}
-
-
-                    {% else %}
-
-
-                        <!-- =================================
-                             SIN RESULTADOS
-                             ================================= -->
-
-                        <div class="empty-result">
-
-
-                            <i class="fas fa-user-slash"></i>
-
-
-                            <p>
-
-                                No se encontró ningún registro
-                                de Primera Comunión con los
-                                datos ingresados.
-
-                            </p>
-
-
-                        </div>
-
-
-                    {% endif %}
-
-
-                {% else %}
-
-
-                    <!-- =================================
-                         SIN REALIZAR BÚSQUEDA
-                         ================================= -->
-
-                    <div class="empty-result">
-
-
-                        <i class="fas fa-user-search"></i>
-
+                    <div class="datos-comunion">
 
                         <p>
-
-                            Realice una búsqueda para consultar
-                            el registro de Primera Comunión.
-
+                            <strong>Padre:</strong>
+                            {{ comunionado.padre|default:"No registrado" }}
                         </p>
 
+                        <p>
+                            <strong>Madre:</strong>
+                            {{ comunionado.madre|default:"No registrada" }}
+                        </p>
+
+                        <p>
+                            <strong>Libro:</strong>
+                            {{ comunionado.libro|default:"No registrado" }}
+                        </p>
+
+                        <p>
+                            <strong>Folio:</strong>
+                            {{ comunionado.folio|default:"No registrado" }}
+                        </p>
+
+                        <p>
+                            <strong>Fecha de Primera Comunión:</strong>
+                            {% if comunionado.fecha_sacramento %}
+                                {{ comunionado.fecha_sacramento|date:"d/m/Y" }}
+                            {% else %}
+                                No registrada
+                            {% endif %}
+                        </p>
 
                     </div>
 
+                    <form
+                        method="POST"
+                        action="{% url 'generar_pdf_comunion' comunionado.id %}"
+                        class="form-constancia">
 
-                {% endif %}
+                        {% csrf_token %}
 
+                        <div class="observaciones-container">
+
+                            <label for="observacion_{{ comunionado.id }}">
+                                Observaciones
+                            </label>
+
+                            <textarea
+                                id="observacion_{{ comunionado.id }}"
+                                name="observacion"
+                                rows="3"
+                                placeholder="Ingrese una observación (opcional)..."></textarea>
+
+                        </div>
+
+                        <div class="acciones-constancia">
+
+                            <button
+                                type="button"
+                                class="btn-limpiar"
+                                onclick="limpiarComunion()">
+
+                                <i class="fas fa-eraser"></i>
+                                Limpiar campos
+
+                            </button>
+
+                            <button type="submit" class="btn-pdf">
+
+                                <i class="fas fa-file-pdf"></i>
+                                Emitir Constancia de Primera Comunión
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty-result">
+
+                <i class="fas fa-user-slash"></i>
+
+                <p>
+                    No se encontró ningún registro de Primera Comunión
+                    con los datos ingresados.
+                </p>
 
             </div>
 
+        {% endif %}
+
+    {% else %}
+
+        <div class="empty-result">
+
+            <i class="fas fa-user-search"></i>
+
+            <p>
+                Realice una búsqueda para consultar
+                el registro de Primera Comunión.
+            </p>
 
         </div>
 
+    {% endif %}
 
-        <!-- =================================
-             BOTÓN DE IMPRESIÓN
-             ================================= -->
+</div>
 
-        <button type="button"
-                class="btn-pdf">
+        </div>
 
-            <i class="fas fa-file-pdf"></i>
-
-            Imprimir PDF
-
-        </button>
-
-
-        <!-- =================================
-             FOOTER
-             ================================= -->
-
+        <!-- FOOTER -->
         <footer>
-
-            <p>
-                &copy; SISTEMAS UMG 2026 GRUPO SEMINARIO.
-            </p>
-
+            <p>&copy; SISTEMAS UMG 2026 COBÁN.</p>
+            <img
+                src="{% static 'img/logoSistemas.png' %}"
+                alt="Logotipo de Sistemas UMG">
         </footer>
 
-
     </div>
-
 
     <!-- JAVASCRIPT PROPIO -->
     <script src="{% static 'comunion/js/comunion.js' %}"></script>
 
 </body>
-
-</html>        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var toggle = document.querySelector('.nav-group-toggle');
-                var group = document.querySelector('.nav-group');
-                if (toggle && group) {
-                    toggle.addEventListener('click', function() {
-                        var isOpen = group.classList.toggle('open');
-                        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-                    });
-                    if (group.querySelector('.nav-subitem.active')) {
-                        group.classList.add('open');
-                        toggle.setAttribute('aria-expanded', 'true');
-                    }
-                }
-            });
-        </script>
+</html>

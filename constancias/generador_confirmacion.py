@@ -19,6 +19,7 @@ from pypdf import PdfReader, PdfWriter
 TAMANO_FUENTE = 14
 
 FUENTE_NOMBRE = 'TimesNewRoman'
+FUENTE_NEGRITA = 'Times-Bold'
 
 
 # ============================================================
@@ -301,6 +302,21 @@ def obtener_fecha_emision():
 
 
 # ============================================================
+# DIBUJAR NOMBRE EN NEGRITA Y MAYÚSCULAS
+# ============================================================
+
+def dibujar_nombre_destacado(pdf, texto, x, y):
+    """Dibuja el nombre o los apellidos en mayúsculas y negrita."""
+    texto = str(texto or '').strip().upper()
+
+    if not texto:
+        return
+
+    pdf.setFont(FUENTE_NEGRITA, TAMANO_FUENTE)
+    pdf.drawString(x, y, texto)
+
+
+# ============================================================
 # GENERAR CONSTANCIA DE CONFIRMACIÓN
 # ============================================================
 
@@ -335,6 +351,9 @@ def generar_constancia_confirmacion(
     nombre, apellidos = separar_nombre(
         confirmacion.nombre or ''
     )
+
+    nombre = nombre.upper()
+    apellidos = apellidos.upper()
 
     padre = (
         confirmacion.nombre_padre.strip()
@@ -394,16 +413,10 @@ def generar_constancia_confirmacion(
     from constancias.utilidades import numero_o_na
     libro_val = numero_o_na(getattr(confirmacion, 'libro', None), defecto='N/A')
     folio_val = numero_o_na(getattr(confirmacion, 'folio', None), defecto='N/A')
-    # Try to get partida from sacramental record if exists, else use provided numero_partida
-    partida_sac = None
-    try:
-        partida_sac = getattr(confirmacion, 'partida', None)
-    except Exception:
-        partida_sac = None
-    if partida_sac is None or (isinstance(partida_sac, str) and partida_sac.strip() == ''):
-        partida_val = numero_o_na(numero_partida, defecto='N/A')
-    else:
-        partida_val = numero_o_na(partida_sac, defecto='N/A')
+    # La partida se obtiene exclusivamente del registro de la base de datos.
+    partida_sac = getattr(confirmacion, 'partida', None)
+    partida_val = numero_o_na(partida_sac, defecto='N/A')
+
     try:
         libro_str = f'{int(libro_val):02d}' if str(libro_val).isdigit() else str(libro_val)
     except Exception:
@@ -435,14 +448,14 @@ def generar_constancia_confirmacion(
     )
 
     pdf.drawString(
-        72,
-        560,
+        43,
+        545,
         texto_registro_1
     )
 
     pdf.drawString(
-        72,
-        540,
+        43,
+        525,
         texto_registro_2
     )
 
@@ -450,39 +463,41 @@ def generar_constancia_confirmacion(
     # DATOS DE LA PERSONA
     # ========================================================
 
-    pdf.drawString(
-        125,
-        495,
-        nombre
+    dibujar_nombre_destacado(
+        pdf,
+        nombre,
+        235,
+        475
+    )
+
+    dibujar_nombre_destacado(
+        pdf,
+        apellidos,
+        235,
+        451
     )
 
     pdf.drawString(
-        130,
-        471,
-        apellidos
-    )
-
-    pdf.drawString(
-        180,
-        447,
+        235,
+        427,
         padre
     )
 
     pdf.drawString(
-        195,
-        422,
+        235,
+        403,
         madre
     )
 
     pdf.drawString(
-        125,
-        398,
+        235,
+        380,
         padrinos
     )
 
     pdf.drawString(
-        207,
-        374,
+        235,
+        354,
         fecha_confirmacion
     )
 
@@ -492,20 +507,20 @@ def generar_constancia_confirmacion(
     texto_fecha_emision = obtener_fecha_emision()
 
     pdf.drawString(
-    72,
-    295,
+    43,
+    315,
     'Para el uso que al interesado (a), convenga se extiende en una hoja bond'
     )
 
     pdf.drawString(
-    72,
-    275,
+    43,
+    295,
     f'membretada tamaño carta {texto_fecha_emision}'
     )
 
     pdf.drawString(
-    72,
-    255,
+    43,
+    275,
     'en la ciudad de Cobán Alta Verapaz.'
     )
     
@@ -515,8 +530,8 @@ def generar_constancia_confirmacion(
     # ========================================================
 
     pdf.drawString(
-        175,
-        233,
+        132,
+        240,
         observacion
     )
 

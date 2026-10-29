@@ -9,7 +9,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Parroquia El Calvario - Confirmaciones</title>
+    <title>SACRANET - Confirmaciones</title>
 
     <!-- FONT AWESOME -->
     <link rel="stylesheet"
@@ -18,94 +18,13 @@
     <!-- CSS PROPIO -->
     <link rel="stylesheet"
           href="{% static 'confirmacion/css/confirmacion.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
 </head>
 
 <body>
 
     <!-- BARRA LATERAL -->
-    <div class="sidebar">
-
-        <div class="sidebar-brand">
-
-            <img src="{% static 'img/Calvario.png' %}"
-                 alt="Parroquia El Calvario">
-
-            <span>Parroquia El Calvario</span>
-
-        </div>
-
-        <!-- CONFIRMACIONES -->
-        <a href="{% url 'confirmacion' %}"
-           class="nav-item active">
-
-            <i class="fas fa-dove"></i>
-            <span>Confirmaciones</span>
-
-        </a>
-
-        <!-- HISTORIAL -->
-        <a href="{% url 'historial_confirmacion' %}"
-           class="nav-item">
-
-            <i class="fas fa-file-pdf"></i>
-            <span>Historial de Constancias de Confirmación</span>
-
-        </a>
-
-        <!-- CONFIGURACIÓN -->
-        <a href="{% url 'configuracion' %}"
-           class="nav-item">
-
-            <i class="fas fa-cog"></i>
-            <span>Configuración</span>
-
-        </a>
-
-        <!-- SACRAMENTOS -->
-
-        <div class="nav-group">
-            <button class="nav-item nav-group-toggle" type="button" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-church"></i>
-                <span>Sacramentos</span>
-                <i class="fas fa-chevron-down nav-group-caret"></i>
-            </button>
-            <div class="nav-group-menu">
-                <a href="{% url 'listar_bautismos' %}" class="nav-subitem">
-                    <i class="fa-solid fa-person-breastfeeding"></i>
-                    <span>Bautismo</span>
-                </a>
-                <a href="{% url 'listar_comuniones' %}" class="nav-subitem">
-                    <i class="fa-sharp fa-solid fa-cross"></i>
-                    <span>Primera Comunión</span>
-                </a>
-                <a href="{% url 'listar_confirmaciones' %}" class="nav-subitem active">
-                    <i class="fas fa-dove"></i>
-                    <span>Confirmación</span>
-                </a>
-                <a href="{% url 'listar_matrimonios' %}" class="nav-subitem">
-                    <i class="fas fa-ring"></i>
-                    <span>Matrimonio</span>
-                </a>
-            </div>
-        </div>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var toggle = document.querySelector('.nav-group-toggle');
-                var group = document.querySelector('.nav-group');
-                if (toggle && group) {
-                    toggle.addEventListener('click', function() {
-                        var isOpen = group.classList.toggle('open');
-                        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-                    });
-                    if (group.querySelector('.nav-subitem.active')) {
-                        group.classList.add('open');
-                        toggle.setAttribute('aria-expanded', 'true');
-                    }
-                }
-            });
-        </script>
-    </div>
+        {% include 'partials/sidebar.html' %}
 
 
     <!-- CONTENIDO PRINCIPAL -->
@@ -115,7 +34,7 @@
         <div class="header">
 
             <div>
-                <h1>Registro de Confirmaciones</h1>
+                <h1>Constancias de Confirmaciones</h1>
 
                 <p>
                     Cobán, Alta Verapaz, Guatemala, C.A.
@@ -316,21 +235,21 @@
                                     <div class="acciones-constancia">
 
                                         <button
+                                            type="submit"
+                                            class="btn-pdf">
+
+                                            <i class="fas fa-file-pdf"></i>
+                                            Emitir Constancia de Confirmación
+
+                                        </button>
+
+                                        <button
                                             type="button"
                                             class="btn-limpiar"
                                             onclick="limpiarConfirmacion()">
 
                                             <i class="fas fa-eraser"></i>
                                             Limpiar campos
-
-                                        </button>
-
-                                        <button
-                                            type="submit"
-                                            class="btn-pdf">
-
-                                            <i class="fas fa-file-pdf"></i>
-                                            Emitir Constancia de Confirmación
 
                                         </button>
 
@@ -380,13 +299,13 @@
 
 
         <!-- FOOTER -->
+
         <footer>
-
-            <p>
-                &copy; SISTEMAS UMG 2026 GRUPO SEMINARIO.
-            </p>
-
+            <p>&copy; SISTEMAS UMG 2026 COBÁN.</p>
+            <img src="{% static 'img/logoSistemas.png' %}"
+                 alt="Logotipo de Sistemas UMG">
         </footer>
+
 
     </div>
 

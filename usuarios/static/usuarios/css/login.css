@@ -1,443 +1,296 @@
-/* =========================================================
-   LOGIN.CSS
-   Parroquia El Calvario
-   ========================================================= */
-
-
-/* =========================================================
-   VARIABLES
-   ========================================================= */
-
 :root {
-
     --navy: #172033;
-    --navy-dark: #0f172a;
-    --navy-light: #26344d;
-
     --blue: #0ea5e9;
     --blue-dark: #0284c7;
-    --blue-soft: #e0f2fe;
-
-    --background: #eef2f7;
-
-    --surface: #ffffff;
-
     --text: #1e293b;
     --muted: #64748b;
-
     --border: #e2e8f0;
+    --white: #ffffff;
 
+    --radius-card: 16px;
+    --radius-input: 9px;
+
+    --shadow-card: 0 15px 40px rgba(15, 23, 42, 0.12);
+    --shadow-button: 0 7px 18px rgba(14, 165, 233, 0.20);
+    --shadow-button-hover: 0 10px 22px rgba(14, 165, 233, 0.28);
 }
-
 
 /* =========================================================
    RESET
    ========================================================= */
 
 * {
-
     margin: 0;
     padding: 0;
-
     box-sizing: border-box;
-
 }
 
+html {
+    min-height: 100%;
+}
 
 /* =========================================================
-   BODY
+   FONDO Y CONTENEDOR PRINCIPAL
    ========================================================= */
 
 body {
-
     min-height: 100vh;
-
     display: flex;
-
     justify-content: center;
-
     align-items: center;
+    padding: 35px 20px;
 
-    padding: 30px 20px;
-
-    font-family:
-        "Segoe UI",
-        Arial,
-        sans-serif;
-
+    font-family: "Segoe UI", Arial, sans-serif;
     color: var(--text);
 
     background:
-
-        radial-gradient(
-            circle at 10% 10%,
-            rgba(14, 165, 233, 0.10),
-            transparent 30%
-        ),
-
-        radial-gradient(
-            circle at 90% 85%,
-            rgba(14, 165, 233, 0.08),
-            transparent 30%
-        ),
-
         linear-gradient(
             rgba(238, 242, 247, 0.88),
-            rgba(238, 242, 247, 0.94)
+            rgba(238, 242, 247, 0.92)
         ),
-
-        url("/static/img/fondo.png");
-
-    background-size: cover;
-
-    background-position: center;
-
-    background-attachment: fixed;
-
+        url("/static/img/fondo.png") center / cover fixed;
 }
-
-
-/* =========================================================
-   CONTENEDOR DEL LOGIN
-   ========================================================= */
 
 .login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     width: 100%;
-
-    max-width: 440px;
-
-    padding: 20px;
-
+    max-width: 400px;
+    margin: auto;
 }
 
+/* =========================================================
+   LOGO DE LA PARROQUIA
+   ========================================================= */
+
+.login-logo-parroquia {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.login-logo-parroquia img {
+    display: block;
+    width: 260px;
+    height: 150px;
+    max-width: 100%;
+    object-fit: contain;
+}
 
 /* =========================================================
-   TARJETA
+   TARJETA DE INICIO DE SESIÓN
    ========================================================= */
 
 .login-card {
-
     position: relative;
-
     width: 100%;
+    padding: 32px 35px;
 
-    padding: 40px;
-
-    background:
-        rgba(255, 255, 255, 0.97);
-
-    border:
-        1px solid var(--border);
-
-    border-radius: 18px;
-
-    box-shadow:
-        0 15px 40px rgba(15, 23, 42, 0.12);
+    background: rgba(255, 255, 255, 0.97);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
 
     overflow: hidden;
-
 }
 
-
-/* Línea superior azul */
-
 .login-card::before {
-
     content: "";
-
     position: absolute;
-
     top: 0;
     left: 0;
 
     width: 100%;
+    height: 4px;
 
-    height: 5px;
-
-    background:
-        linear-gradient(
-            90deg,
-            var(--blue),
-            var(--blue-dark)
-        );
-
+    background: linear-gradient(
+        90deg,
+        var(--blue),
+        var(--blue-dark)
+    );
 }
 
-
 /* =========================================================
-   TÍTULO
+   ENCABEZADO
    ========================================================= */
 
-.login-card h1 {
-
-    text-align: center;
-
-    margin-bottom: 8px;
+.login-header h1 {
+    margin-bottom: 5px;
 
     color: var(--navy);
-
-    font-size: 27px;
-
-    font-weight: 700;
-
+    font-size: 25px;
+    font-weight: 750;
+    text-align: center;
+    letter-spacing: -0.5px;
 }
 
-
-/* =========================================================
-   SUBTÍTULO
-   ========================================================= */
-
-.login-card p {
-
-    text-align: center;
-
-    margin-bottom: 30px;
+.login-subtitle {
+    margin-bottom: 27px;
 
     color: var(--muted);
-
-    font-size: 14px;
-
+    font-size: 12px;
+    text-align: center;
 }
-
 
 /* =========================================================
    FORMULARIO
    ========================================================= */
 
 .form-group {
-
-    margin-bottom: 20px;
-
+    margin-bottom: 17px;
 }
-
-
-/* =========================================================
-   LABEL
-   ========================================================= */
 
 .form-group label {
-
     display: block;
-
-    margin-bottom: 8px;
+    margin-bottom: 7px;
 
     color: var(--navy);
-
-    font-size: 13px;
-
-    font-weight: 600;
-
+    font-size: 12px;
+    font-weight: 650;
 }
 
-
-/* =========================================================
-   CAMPOS DE TEXTO
-   ========================================================= */
-
 .form-group input {
-
     display: block;
 
     width: 100%;
+    height: 44px;
+    padding: 0 13px;
 
-    height: 48px;
-
-    padding:
-        0 15px;
-
-    border:
-        1px solid var(--border);
-
-    border-radius: 10px;
-
+    border: 1px solid var(--border);
+    border-radius: var(--radius-input);
     outline: none;
 
-    background:
-        #ffffff;
-
+    background: var(--white);
     color: var(--text);
 
-    font-family:
-        "Segoe UI",
-        Arial,
-        sans-serif;
-
-    font-size: 14px;
+    font: inherit;
+    font-size: 13px;
 
     transition:
-        border-color 0.25s ease,
-        box-shadow 0.25s ease,
-        background 0.25s ease;
-
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
-
 
 .form-group input::placeholder {
-
     color: #94a3b8;
-
 }
-
-
-/* Cuando se selecciona el campo */
 
 .form-group input:focus {
-
-    border-color:
-        var(--blue);
-
-    background:
-        #ffffff;
-
-    box-shadow:
-        0 0 0 4px
-        rgba(14, 165, 233, 0.10);
-
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.12);
 }
-
 
 /* =========================================================
    BOTÓN
    ========================================================= */
 
-button {
-
+.login-card button {
     display: flex;
-
+    justify-content: center;
     align-items: center;
 
-    justify-content: center;
-
     width: 100%;
-
-    height: 48px;
-
-    margin-top: 8px;
-
-    padding:
-        0 20px;
+    min-height: 43px;
+    margin-top: 5px;
+    padding: 0 18px;
 
     border: none;
+    border-radius: var(--radius-input);
 
-    border-radius: 10px;
+    background: linear-gradient(
+        135deg,
+        var(--blue),
+        var(--blue-dark)
+    );
 
-    background:
-        linear-gradient(
-            135deg,
-            var(--blue),
-            var(--blue-dark)
-        );
-
-    color: #ffffff;
-
-    font-family:
-        "Segoe UI",
-        Arial,
-        sans-serif;
-
-    font-size: 14px;
-
-    font-weight: 600;
+    color: var(--white);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 650;
 
     cursor: pointer;
-
-    box-shadow:
-        0 8px 20px
-        rgba(14, 165, 233, 0.23);
+    box-shadow: var(--shadow-button);
 
     transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease,
-        background 0.25s ease;
-
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-
-button:hover {
-
-    transform:
-        translateY(-2px);
-
-    box-shadow:
-        0 12px 26px
-        rgba(14, 165, 233, 0.30);
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--blue-dark),
-            #0369a1
-        );
-
+.login-card button:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-button-hover);
 }
 
-
-button:active {
-
-    transform:
-        translateY(0);
-
+.login-card button:active {
+    transform: translateY(0);
 }
 
-button:focus-visible {
-
-    outline:
-        3px solid
-        rgba(14, 165, 233, 0.35);
-
-    outline-offset: 2px;
-
+.login-card button:focus-visible {
+    outline: 3px solid rgba(14, 165, 233, 0.35);
+    outline-offset: 3px;
 }
 
-button:disabled {
+/* =========================================================
+   LOGO DE SISTEMAS UMG COBÁN
+   ========================================================= */
 
-    opacity: 0.65;
+.login-logo-sistemas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    cursor: not-allowed;
-
-    transform: none;
-
-    box-shadow: none;
-
+    width: 100%;
+    margin-top: 22px;
 }
 
+.login-logo-sistemas img {
+    display: block;
+
+    width: 145px;
+    height: 45px;
+    max-width: 100%;
+
+    object-fit: contain;
+}
 
 /* =========================================================
    RESPONSIVE
    ========================================================= */
 
 @media (max-width: 500px) {
-
     body {
-
-        padding:
-            20px 15px;
-
+        padding: 25px 18px;
+        background-attachment: scroll;
     }
-
 
     .login-container {
-
-        padding: 10px;
-
+        max-width: 360px;
     }
 
+    .login-logo-parroquia img {
+        width: 150px;
+        height: 90px;
+    }
 
     .login-card {
-
-        padding:
-            32px 25px;
-
-        border-radius: 15px;
-
+        padding: 30px 24px;
+        border-radius: 14px;
     }
 
-
-    .login-card h1 {
-
+    .login-header h1 {
         font-size: 23px;
-
     }
 
+    .login-logo-sistemas {
+        margin-top: 18px;
+    }
+
+    .login-logo-sistemas img {
+        width: 125px;
+        height: 42px;
+    }
 }

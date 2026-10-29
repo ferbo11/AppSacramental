@@ -17,31 +17,14 @@
 
     <link rel="stylesheet"
           href="{% static 'css/sacramentos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
 </head>
 
 <body>
 
     <!-- BARRA LATERAL -->
 
-    <div class="sidebar">
-
-        <div class="sidebar-brand">
-            <img src="{% static 'img/Calvario.png' %}"
-                 alt="Parroquia El Calvario">
-            <span>Parroquia El Calvario</span>
-        </div>
-
-        <a href="{% url 'listar_confirmaciones' %}" class="nav-item active">
-            <i class="fas fa-dove"></i>
-            <span>CRUD Confirmación</span>
-        </a>
-
-        <a href="{% url 'configuracion' %}" class="nav-item">
-            <i class="fas fa-cog"></i>
-            <span>Configuración</span>
-        </a>
-
-    </div>
+        {% include 'partials/sidebar.html' %}
 
     <!-- CONTENIDO PRINCIPAL -->
 
@@ -141,6 +124,13 @@
             </div>
 
         </section>
+
+
+        <footer>
+            <p>&copy; SISTEMAS UMG 2026 COBÁN.</p>
+            <img src="{% static 'img/logoSistemas.png' %}"
+                 alt="Logotipo de Sistemas UMG">
+        </footer>
 
     </main>
 

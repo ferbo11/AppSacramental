@@ -10,9 +10,7 @@ class ConstanciaEmitida(models.Model):
         ('matrimonio', 'Matrimonio'),
     ]
 
-    nombre = models.CharField(
-        max_length=200
-    )
+    nombre = models.CharField(max_length=200)
 
     sacramento = models.CharField(
         max_length=30,
@@ -27,6 +25,12 @@ class ConstanciaEmitida(models.Model):
 
     fecha_emision = models.DateTimeField(
         auto_now_add=True,
+        db_index=True,
+    )
+
+    id_constancia = models.IntegerField(
+        null=True,
+        blank=True,
         db_index=True,
     )
 

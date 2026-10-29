@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'AppSacramental.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Sacranet_BD',
+        'NAME': 'SACRANET_BD',
         'USER': 'postgres',
         'PASSWORD': 'pedferdev112',
         'HOST': 'localhost',
@@ -129,7 +129,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es-gt'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Guatemala'
 
 USE_I18N = True
 

@@ -14,6 +14,21 @@ class Bautismo(models.Model):
     libro = models.IntegerField()
     requiere_revision = models.BooleanField(blank=True, null=True)
 
+    fecha_nacimiento = models.DateField(
+        blank=True,
+        null=True,
+    )
+
+    fecha_bautismo = models.DateField(
+        blank=True,
+        null=True,
+    )
+
+    partida = models.IntegerField(
+        blank=True,
+        null=True,
+    )
+
     class Meta:
         managed = False
         db_table = 'bautizos'

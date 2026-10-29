@@ -1,2 +1,113 @@
 {% load static %}
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Eliminar</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="{% static 'matrimonio/css/matrimonio.css' %}"></head><body><div class="sidebar"><div class="sidebar-brand"><img src="{% static 'img/Calvario.png' %}"><span>Parroquia El Calvario</span></div><a href="{% url 'listar_matrimonios' %}" class="nav-item active"><i class="fas fa-ring"></i><span>CRUD</span></a></div><div class="main-content"><div class="header"><div><h1>Eliminar</h1></div><a class="btn-back" href="{% url 'listar_matrimonios' %}"><i class="fas fa-arrow-left"></i>Regresar</a></div><div class="card"><p>¿Eliminar matrimonio de {{ registro.esposo }} y {{ registro.esposa }} (ID {{ registro.id }})?</p><form method="post" style="margin-top:16px;display:flex;gap:10px;">{% csrf_token %}<button class="btn-limpiar" type="submit">Eliminar</button><a class="btn-buscar" href="{% url 'ver_matrimonio' registro.id %}" style="text-decoration:none;">Cancelar</a></form></div></div></body></html>
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SACRANET - Eliminar Matrimonio</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="{% static 'matrimonio/css/matrimonio.css' %}">
+
+    <link rel="stylesheet"
+          href="{% static 'css/sacramentos.css' %}">
+</head>
+
+<body>
+
+    <!-- BARRA LATERAL -->
+
+    <div class="sidebar">
+
+        <div class="sidebar-brand">
+            <img src="{% static 'img/Calvario.png' %}"
+                 alt="Parroquia El Calvario">
+            <span>Parroquia El Calvario</span>
+        </div>
+
+        <a href="{% url 'listar_matrimonios' %}" class="nav-item active">
+            <i class="fas fa-ring"></i>
+            <span>CRUD Matrimonio</span>
+        </a>
+
+        <a href="{% url 'configuracion' %}" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>Configuración</span>
+        </a>
+
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+
+    <main class="main-content">
+
+        <header class="header">
+
+            <div>
+                <h1>Eliminar registro</h1>
+                <p>Cobán, Alta Verapaz, Guatemala, C.A.</p>
+            </div>
+
+            <a href="{% url 'listar_matrimonios' %}" class="btn btn-back">
+                <i class="fas fa-arrow-left"></i>
+                Regresar
+            </a>
+
+        </header>
+
+        <!-- CONFIRMACIÓN DE ELIMINACIÓN -->
+
+        <section class="card delete-card">
+
+            <div class="delete-warning">
+
+                <div class="delete-icon">
+                    <i class="fas fa-trash"></i>
+                </div>
+
+                <div>
+                    <h2>¿Eliminar este registro de matrimonio?</h2>
+                    <p>
+                        ¿Confirma que desea eliminar el matrimonio de
+                        <span class="delete-record">{{ registro.esposo }} y {{ registro.esposa }}</span>
+                        (ID {{ registro.id }})? Esta acción no se puede deshacer.
+                    </p>
+                </div>
+
+            </div>
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                <div class="form-actions">
+
+                    <a href="{% url 'ver_matrimonio' registro.id %}"
+                       class="form-button btn-cancel">
+                        <i class="fas fa-xmark"></i>
+                        Cancelar
+                    </a>
+
+                    <button type="submit"
+                            class="form-button btn-danger">
+                        <i class="fas fa-trash"></i>
+                        Eliminar
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

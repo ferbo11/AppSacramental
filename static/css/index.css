@@ -1358,3 +1358,124 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+/* =========================================
+   SACRANET - MENÚ DESPLEGABLE
+   ========================================= */
+
+.sidebar .nav-group {
+    width: 100%;
+    margin: 6px 0;
+    gap: 4px;
+}
+
+.sidebar .nav-group-toggle {
+    width: 100%;
+    min-height: 46px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 15px;
+
+    color: #cbd5e1;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 12px;
+
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 500;
+    text-align: left;
+
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.sidebar .nav-group-toggle:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.07);
+    transform: none;
+}
+
+.sidebar .nav-group-toggle[aria-expanded="true"] {
+    color: #38bdf8;
+    background: rgba(14, 165, 233, 0.13);
+    border-color: rgba(56, 189, 248, 0.15);
+}
+
+.sidebar .nav-group-toggle > i:first-child {
+    width: 22px;
+    text-align: center;
+}
+
+.sidebar .nav-group-caret {
+    margin-left: auto;
+    transition: transform 0.25s ease;
+}
+
+.sidebar .nav-group.open .nav-group-caret {
+    transform: rotate(180deg);
+}
+
+.sidebar .nav-group-menu {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+
+    margin: 4px 0 8px 15px;
+    padding: 5px 0 5px 12px;
+
+    border-left: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.sidebar .nav-group.open .nav-group-menu {
+    display: flex;
+}
+
+.sidebar .nav-group-menu .nav-subitem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    width: 100%;
+    min-height: 40px;
+    padding: 10px 12px;
+
+    color: #cbd5e1 !important;
+    background: transparent;
+
+    border: 1px solid transparent;
+    border-radius: 9px;
+
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 500;
+
+    text-decoration: none !important;
+
+    transition: background 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
+}
+
+.sidebar .nav-group-menu .nav-subitem i {
+    flex-shrink: 0;
+    width: 18px;
+    color: #94a3b8;
+    text-align: center;
+}
+
+.sidebar .nav-group-menu .nav-subitem:hover {
+    color: #fff !important;
+    background: rgba(255, 255, 255, 0.07);
+    transform: translateX(3px);
+}
+
+.sidebar .nav-group-menu .nav-subitem.active {
+    color: #38bdf8 !important;
+    background: rgba(14, 165, 233, 0.13);
+    border-color: rgba(56, 189, 248, 0.12);
+}
+
+.sidebar .nav-group-menu .nav-subitem.active i {
+    color: #38bdf8;
+}

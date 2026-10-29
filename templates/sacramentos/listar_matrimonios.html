@@ -1,2 +1,353 @@
 {% load static %}
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>SACRANET - Matrimonio</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="{% static 'matrimonio/css/matrimonio.css' %}"></head><body><div class="sidebar"><div class="sidebar-brand"><img src="{% static 'img/Calvario.png' %}"><span>Parroquia El Calvario</span></div><a href="{% url 'matrimonio' %}" class="nav-item"><i class="fas fa-ring"></i><span>Matrimonio</span></a><a href="{% url 'historial_matrimonio' %}" class="nav-item"><i class="fas fa-file-pdf"></i><span>Historial</span></a><a href="{% url 'configuracion' %}" class="nav-item"><i class="fas fa-cog"></i><span>Configuración</span></a><div class="nav-group"><button class="nav-item nav-group-toggle"><i class="fas fa-church"></i><span>Sacramentos</span><i class="fas fa-chevron-down nav-group-caret"></i></button><div class="nav-group-menu"><a href="{% url 'listar_bautismos' %}" class="nav-subitem"><i class="fas fa-water"></i><span>Bautismo</span></a><a href="{% url 'listar_comuniones' %}" class="nav-subitem"><i class="fas fa-bread-slice"></i><span>Primera Comunión</span></a><a href="{% url 'listar_confirmaciones' %}" class="nav-subitem"><i class="fas fa-dove"></i><span>Confirmación</span></a><a href="{% url 'listar_matrimonios' %}" class="nav-subitem active"><i class="fas fa-ring"></i><span>Matrimonio</span></a></div></div><script>document.addEventListener('DOMContentLoaded',function(){var t=document.querySelector('.nav-group-toggle'),g=document.querySelector('.nav-group');if(t&&g){t.addEventListener('click',function(){var o=g.classList.toggle('open');t.setAttribute('aria-expanded',o?'true':'false');});if(g.querySelector('.nav-subitem.active')){g.classList.add('open');t.setAttribute('aria-expanded','true');}}});</script></div><div class="main-content"><div class="header"><div><h1>CRUD de Matrimonio</h1></div><div style="display:flex;gap:10px;"><a href="{% url 'index' %}" class="btn-back"><i class="fas fa-arrow-left"></i>Regresar</a><a href="{% url 'crear_matrimonio' %}" class="btn-buscar"><i class="fas fa-plus"></i>Nuevo registro</a></div></div>{% if messages %}<div class="card">{% for message in messages %}<p>{{ message }}</p>{% endfor %}</div>{% endif %}<div class="card"><form method="get"><div class="search-row"><div class="search-group"><input type="text" name="q" value="{{ consulta }}" placeholder="Esposo, esposa o libro..."></div><button class="btn-buscar" type="submit">Buscar</button><a class="btn-limpiar" href="{% url 'listar_matrimonios' %}">Limpiar</a></div></form><p>Total: {{ total }}</p></div><div class="card"><div class="table-container"><table class="data-table"><thead><tr><th>ID</th><th>Esposo</th><th>Esposa</th><th>Libro/Folio/Año</th><th>Fecha matrimonio</th><th>Acciones</th></tr></thead><tbody>{% for registro in page_obj %}<tr><td>{{ registro.id }}</td><td>{{ registro.esposo|default:"-" }}</td><td>{{ registro.esposa|default:"-" }}</td><td>{{ registro.libro|default:"-" }} / {{ registro.folio|default:"-" }} / {{ registro.ano|default:"-" }}</td><td>{{ registro.fecha_matrimonio|default:"-" }}</td><td style="display:flex;gap:8px;"><a href="{% url 'ver_matrimonio' registro.id %}" class="btn-pdf" style="text-decoration:none;">Ver</a><a href="{% url 'editar_matrimonio' registro.id %}" class="btn-buscar" style="text-decoration:none;">Editar</a><a href="{% url 'eliminar_matrimonio' registro.id %}" class="btn-limpiar" style="text-decoration:none;">Eliminar</a></td></tr>{% empty %}<tr><td colspan="6">No existen resultados.</td></tr>{% endfor %}</tbody></table></div>{% if page_obj.has_other_pages %}<div style="margin-top:12px;display:flex;gap:10px;">{% if page_obj.has_previous %}<a class="btn-limpiar" href="?q={{ consulta }}&pagina={{ page_obj.previous_page_number }}">Anterior</a>{% endif %}<span>{{ page_obj.number }}/{{ page_obj.paginator.num_pages }}</span>{% if page_obj.has_next %}<a class="btn-limpiar" href="?q={{ consulta }}&pagina={{ page_obj.next_page_number }}">Siguiente</a>{% endif %}</div>{% endif %}</div></div></body></html>
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SACRANET - Matrimonio</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="{% static 'matrimonio/css/matrimonio.css' %}">
+
+    <link rel="stylesheet"
+          href="{% static 'css/sacramentos.css' %}">
+</head>
+
+<body>
+
+    <!-- BARRA LATERAL -->
+
+    <div class="sidebar">
+
+        <div class="sidebar-brand">
+            <img src="{% static 'img/Calvario.png' %}"
+                 alt="Parroquia El Calvario">
+            <span>Parroquia El Calvario</span>
+        </div>
+
+        <a href="{% url 'matrimonio' %}" class="nav-item">
+            <i class="fas fa-ring"></i>
+            <span>Matrimonio</span>
+        </a>
+
+        <a href="{% url 'historial_matrimonio' %}" class="nav-item">
+            <i class="fas fa-file-pdf"></i>
+            <span>Historial</span>
+        </a>
+
+        <a href="{% url 'configuracion' %}" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>Configuración</span>
+        </a>
+
+        <div class="nav-group">
+
+            <button class="nav-item nav-group-toggle"
+                    type="button"
+                    aria-expanded="false">
+                <i class="fas fa-church"></i>
+                <span>Sacramentos</span>
+                <i class="fas fa-chevron-down nav-group-caret"></i>
+            </button>
+
+            <div class="nav-group-menu">
+
+                <a href="{% url 'listar_bautismos' %}" class="nav-subitem">
+                    <i class="fas fa-water"></i>
+                    <span>Bautismo</span>
+                </a>
+
+                <a href="{% url 'listar_comuniones' %}" class="nav-subitem">
+                    <i class="fas fa-bread-slice"></i>
+                    <span>Primera Comunión</span>
+                </a>
+
+                <a href="{% url 'listar_confirmaciones' %}" class="nav-subitem">
+                    <i class="fas fa-dove"></i>
+                    <span>Confirmación</span>
+                </a>
+
+                <a href="{% url 'listar_matrimonios' %}"
+                   class="nav-subitem active">
+                    <i class="fas fa-ring"></i>
+                    <span>Matrimonio</span>
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+
+    <main class="main-content">
+
+        <header class="header">
+
+            <div>
+                <h1>CRUD de Matrimonio</h1>
+                <p>Cobán, Alta Verapaz, Guatemala, C.A.</p>
+            </div>
+
+            <div class="header-actions">
+
+                <a href="{% url 'index' %}" class="btn btn-back">
+                    <i class="fas fa-arrow-left"></i>
+                    Regresar
+                </a>
+
+                <a href="{% url 'crear_matrimonio' %}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i>
+                    Nuevo registro
+                </a>
+
+            </div>
+
+        </header>
+
+        <!-- MENSAJES -->
+
+        {% if messages %}
+        <section class="card messages-card">
+
+            {% for message in messages %}
+            <p class="message">
+                <i class="fas fa-circle-info"></i>
+                <span>{{ message }}</span>
+            </p>
+            {% endfor %}
+
+        </section>
+        {% endif %}
+
+        <!-- BUSCADOR -->
+
+        <section class="card">
+
+            <div class="section-heading">
+                <div>
+                    <h2>
+                        <i class="fas fa-magnifying-glass"></i>
+                        Buscar matrimonios
+                    </h2>
+                    <p>Esposo, esposa o libro del registro.</p>
+                </div>
+            </div>
+
+            <form method="get" class="search-form">
+
+                <div class="search-row">
+
+                    <div class="search-group">
+                        <i class="fas fa-search"></i>
+
+                        <input type="text"
+                               name="q"
+                               value="{{ consulta }}"
+                               placeholder="Ingresá un término de búsqueda..."
+                               aria-label="Buscar matrimonios">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                        Buscar
+                    </button>
+
+                    <a href="{% url 'listar_matrimonios' %}"
+                       class="btn btn-secondary">
+                        <i class="fas fa-eraser"></i>
+                        Limpiar
+                    </a>
+
+                </div>
+
+            </form>
+
+            <div class="search-summary">
+                <i class="fas fa-database"></i>
+                <span>Total de registros:</span>
+                <strong>{{ total }}</strong>
+            </div>
+
+        </section>
+
+        <!-- TABLA DE REGISTROS -->
+
+        <section class="card">
+
+            <div class="section-heading">
+                <div>
+                    <h2>
+                        <i class="fas fa-list"></i>
+                        Registros de Matrimonio
+                    </h2>
+                    <p>Consultá y administrá los registros existentes.</p>
+                </div>
+            </div>
+
+            <div class="table-container">
+
+                <table class="data-table">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Esposo</th>
+                            <th>Esposa</th>
+                            <th>Libro / Folio / Año</th>
+                            <th>Fecha matrimonio</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for registro in page_obj %}
+
+                        <tr>
+
+                            <td class="id-cell">{{ registro.id }}</td>
+
+                            <td class="name-cell">{{ registro.esposo|default:"-" }}</td>
+
+                            <td>{{ registro.esposa|default:"-" }}</td>
+
+                            <td class="book-cell">
+                                {{ registro.libro|default:"-" }}
+                                /
+                                {{ registro.folio|default:"-" }}
+                                /
+                                {{ registro.ano|default:"-" }}
+                            </td>
+
+                            <td class="date-cell">
+                                {{ registro.fecha_matrimonio|default:"-" }}
+                            </td>
+
+                            <td class="actions-cell">
+
+                                <div class="table-actions">
+
+                                    <a href="{% url 'ver_matrimonio' registro.id %}"
+                                       class="action-btn action-view"
+                                       title="Ver registro">
+                                        <i class="fas fa-eye"></i>
+                                        Ver
+                                    </a>
+
+                                    <a href="{% url 'editar_matrimonio' registro.id %}"
+                                       class="action-btn action-edit"
+                                       title="Editar registro">
+                                        <i class="fas fa-pen-to-square"></i>
+                                        Editar
+                                    </a>
+
+                                    <a href="{% url 'eliminar_matrimonio' registro.id %}"
+                                       class="action-btn action-delete"
+                                       title="Eliminar registro">
+                                        <i class="fas fa-trash"></i>
+                                        Eliminar
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="6" class="empty-state">
+                                <i class="fas fa-folder-open"></i>
+                                <strong>No se encontraron registros</strong>
+                                <span>
+                                    Probá con otro término de búsqueda o creá un registro nuevo.
+                                </span>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <!-- PAGINACIÓN -->
+
+            {% if page_obj.has_other_pages %}
+
+            <div class="pagination">
+
+                <div class="pagination-info">
+                    Página
+                    <strong>{{ page_obj.number }}</strong>
+                    de
+                    <strong>{{ page_obj.paginator.num_pages }}</strong>
+                </div>
+
+                <div class="pagination-actions">
+
+                    {% if page_obj.has_previous %}
+                    <a class="btn btn-secondary"
+                       href="?q={{ consulta|urlencode }}&pagina={{ page_obj.previous_page_number }}">
+                        <i class="fas fa-chevron-left"></i>
+                        Anterior
+                    </a>
+                    {% endif %}
+
+                    {% if page_obj.has_next %}
+                    <a class="btn btn-primary"
+                       href="?q={{ consulta|urlencode }}&pagina={{ page_obj.next_page_number }}">
+                        Siguiente
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+    <!-- JAVASCRIPT DEL MENÚ -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const toggle = document.querySelector(".nav-group-toggle");
+            const group = document.querySelector(".nav-group");
+
+            if (!toggle || !group) {
+                return;
+            }
+
+            toggle.addEventListener("click", function () {
+
+                const isOpen = group.classList.toggle("open");
+
+                toggle.setAttribute(
+                    "aria-expanded",
+                    isOpen ? "true" : "false"
+                );
+
+            });
+
+        });
+    </script>
+
+</body>
+
+</html>

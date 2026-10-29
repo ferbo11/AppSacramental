@@ -106,11 +106,11 @@
             </button>
             <div class="nav-group-menu">
                 <a href="{% url 'listar_bautismos' %}" class="nav-subitem {% if request.resolver_match.url_name == 'listar_bautismos' or request.resolver_match.url_name == 'crear_bautismo' or request.resolver_match.url_name == 'ver_bautismo' or request.resolver_match.url_name == 'editar_bautismo' or request.resolver_match.url_name == 'eliminar_bautismo' %}active{% endif %}">
-                    <i class="fas fa-water"></i>
+                    <i class="fa-solid fa-person-breastfeeding"></i>
                     <span>Bautismo</span>
                 </a>
                 <a href="{% url 'listar_comuniones' %}" class="nav-subitem {% if request.resolver_match.url_name == 'listar_comuniones' or request.resolver_match.url_name == 'crear_comunion' or request.resolver_match.url_name == 'ver_comunion' or request.resolver_match.url_name == 'editar_comunion' or request.resolver_match.url_name == 'eliminar_comunion' %}active{% endif %}">
-                    <i class="fas fa-bread-slice"></i>
+                    <i class="fa-sharp fa-solid fa-cross"></i>
                     <span>Primera Comunión</span>
                 </a>
                 <a href="{% url 'listar_confirmaciones' %}" class="nav-subitem {% if request.resolver_match.url_name == 'listar_confirmaciones' or request.resolver_match.url_name == 'crear_confirmacion' or request.resolver_match.url_name == 'ver_confirmacion' or request.resolver_match.url_name == 'editar_confirmacion' or request.resolver_match.url_name == 'eliminar_confirmacion' %}active{% endif %}">

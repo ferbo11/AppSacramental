@@ -1,2 +1,147 @@
 {% load static %}
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Ver Matrimonio</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="{% static 'matrimonio/css/matrimonio.css' %}"></head><body><div class="sidebar"><div class="sidebar-brand"><img src="{% static 'img/Calvario.png' %}"><span>Parroquia El Calvario</span></div><a href="{% url 'listar_matrimonios' %}" class="nav-item active"><i class="fas fa-ring"></i><span>CRUD</span></a><a href="{% url 'configuracion' %}" class="nav-item"><i class="fas fa-cog"></i><span>Configuración</span></a></div><div class="main-content"><div class="header"><div><h1>Detalle</h1></div><div style="display:flex;gap:10px;"><a class="btn-buscar" href="{% url 'editar_matrimonio' registro.id %}" style="text-decoration:none;">Editar</a><a class="btn-back" href="{% url 'listar_matrimonios' %}"><i class="fas fa-arrow-left"></i>Regresar</a></div></div><div class="card"><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;"><p><strong>ID:</strong> {{ registro.id }}</p><p><strong>Esposo:</strong> {{ registro.esposo|default:"-" }}</p><p><strong>Esposa:</strong> {{ registro.esposa|default:"-" }}</p><p><strong>Libro:</strong> {{ registro.libro|default:"-" }}</p><p><strong>Folio:</strong> {{ registro.folio|default:"-" }}</p><p><strong>Año:</strong> {{ registro.ano|default:"-" }}</p><p><strong>Mes/Día:</strong> {{ registro.mes|default:"-" }} / {{ registro.dia|default:"-" }}</p><p><strong>Fecha matrimonio:</strong> {{ registro.fecha_matrimonio|default:"-" }}</p><p><strong>Requiere revisión:</strong> {{ registro.requiere_revision|yesno:"Sí,No,-" }}</p></div></div></div></body></html>
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SACRANET - Ver Matrimonio</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="{% static 'matrimonio/css/matrimonio.css' %}">
+
+    <link rel="stylesheet"
+          href="{% static 'css/sacramentos.css' %}">
+</head>
+
+<body>
+
+    <!-- BARRA LATERAL -->
+
+    <div class="sidebar">
+
+        <div class="sidebar-brand">
+            <img src="{% static 'img/Calvario.png' %}"
+                 alt="Parroquia El Calvario">
+            <span>Parroquia El Calvario</span>
+        </div>
+
+        <a href="{% url 'listar_matrimonios' %}" class="nav-item active">
+            <i class="fas fa-ring"></i>
+            <span>CRUD Matrimonio</span>
+        </a>
+
+        <a href="{% url 'configuracion' %}" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>Configuración</span>
+        </a>
+
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+
+    <main class="main-content">
+
+        <header class="header">
+
+            <div>
+                <h1>Detalle del matrimonio</h1>
+                <p>Cobán, Alta Verapaz, Guatemala, C.A.</p>
+            </div>
+
+            <div class="header-actions">
+
+                <a href="{% url 'editar_matrimonio' registro.id %}"
+                   class="btn btn-primary">
+                    <i class="fas fa-pen-to-square"></i>
+                    Editar
+                </a>
+
+                <a href="{% url 'listar_matrimonios' %}" class="btn btn-back">
+                    <i class="fas fa-arrow-left"></i>
+                    Regresar
+                </a>
+
+            </div>
+
+        </header>
+
+        <!-- DATOS DEL REGISTRO -->
+
+        <section class="card">
+
+            <div class="section-heading">
+                <div>
+                    <h2>
+                        <i class="fas fa-ring"></i>
+                        Datos del matrimonio
+                    </h2>
+                    <p>Información registrada del sacramento.</p>
+                </div>
+            </div>
+
+            <div class="detail-grid">
+
+                <div class="detail-item">
+                    <span class="detail-label">ID</span>
+                    <p class="detail-value">{{ registro.id }}</p>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Esposo</span>
+                    <p class="detail-value">{{ registro.esposo|default:"-" }}</p>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Esposa</span>
+                    <p class="detail-value">{{ registro.esposa|default:"-" }}</p>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Libro</span>
+                    <p class="detail-value">{{ registro.libro|default:"-" }}</p>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Folio</span>
+                    <p class="detail-value">{{ registro.folio|default:"-" }}</p>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Año</span>
+                    <p class="detail-value">{{ registro.ano|default:"-" }}</p>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Mes / Día</span>
+                    <p class="detail-value">
+                        {{ registro.mes|default:"-" }}
+                        /
+                        {{ registro.dia|default:"-" }}
+                    </p>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Fecha del matrimonio</span>
+                    <p class="detail-value">{{ registro.fecha_matrimonio|default:"-" }}</p>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Requiere revisión</span>
+                    <p class="detail-value">{{ registro.requiere_revision|yesno:"Sí,No,-" }}</p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

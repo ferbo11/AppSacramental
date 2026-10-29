@@ -1,2 +1,142 @@
 {% load static %}
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Ver Primera Comunión</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="{% static 'comunion/css/comunion.css' %}"></head><body><div class="sidebar"><div class="sidebar-brand"><img src="{% static 'img/Calvario.png' %}"><span>Parroquia El Calvario</span></div><a href="{% url 'listar_comuniones' %}" class="nav-item active"><i class="fas fa-bread-slice"></i><span>CRUD</span></a><a href="{% url 'configuracion' %}" class="nav-item"><i class="fas fa-cog"></i><span>Configuración</span></a></div><div class="main-content"><div class="header"><div><h1>Detalle</h1></div><div style="display:flex;gap:10px;"><a class="btn-buscar" href="{% url 'editar_comunion' registro.id %}" style="text-decoration:none;">Editar</a><a class="btn-back" href="{% url 'listar_comuniones' %}"><i class="fas fa-arrow-left"></i>Regresar</a></div></div><div class="card"><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;"><p><strong>ID:</strong> {{ registro.id }}</p><p><strong>Nombre:</strong> {{ registro.nombre_sacramentado }}</p><p><strong>Padre:</strong> {{ registro.padre|default:"-" }}</p><p><strong>Madre:</strong> {{ registro.madre|default:"-" }}</p><p><strong>Bautizado en:</strong> {{ registro.bautizado_en|default:"-" }}</p><p><strong>Fecha sacramento:</strong> {{ registro.fecha_sacramento|default:"-" }}</p><p><strong>Libro/Folio:</strong> {{ registro.libro }} / {{ registro.folio }}</p><p><strong>Requiere revisión:</strong> {{ registro.requiere_revision|yesno:"Sí,No,-" }}</p></div></div></div></body></html>
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SACRANET - Ver Primera Comunión</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="{% static 'comunion/css/comunion.css' %}">
+
+    <link rel="stylesheet"
+          href="{% static 'css/sacramentos.css' %}">
+</head>
+
+<body>
+
+    <!-- BARRA LATERAL -->
+
+    <div class="sidebar">
+
+        <div class="sidebar-brand">
+            <img src="{% static 'img/Calvario.png' %}"
+                 alt="Parroquia El Calvario">
+            <span>Parroquia El Calvario</span>
+        </div>
+
+        <a href="{% url 'listar_comuniones' %}" class="nav-item active">
+            <i class="fas fa-bread-slice"></i>
+            <span>CRUD Primera Comunión</span>
+        </a>
+
+        <a href="{% url 'configuracion' %}" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>Configuración</span>
+        </a>
+
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+
+    <main class="main-content">
+
+        <header class="header">
+
+            <div>
+                <h1>Detalle de la primera comunión</h1>
+                <p>Cobán, Alta Verapaz, Guatemala, C.A.</p>
+            </div>
+
+            <div class="header-actions">
+
+                <a href="{% url 'editar_comunion' registro.id %}"
+                   class="btn btn-primary">
+                    <i class="fas fa-pen-to-square"></i>
+                    Editar
+                </a>
+
+                <a href="{% url 'listar_comuniones' %}" class="btn btn-back">
+                    <i class="fas fa-arrow-left"></i>
+                    Regresar
+                </a>
+
+            </div>
+
+        </header>
+
+        <!-- DATOS DEL REGISTRO -->
+
+        <section class="card">
+
+            <div class="section-heading">
+                <div>
+                    <h2>
+                        <i class="fas fa-bread-slice"></i>
+                        Datos de la primera comunión
+                    </h2>
+                    <p>Información registrada del sacramento.</p>
+                </div>
+            </div>
+
+            <div class="detail-grid">
+
+                <div class="detail-item">
+                    <span class="detail-label">ID</span>
+                    <p class="detail-value">{{ registro.id }}</p>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Nombre del sacramentado</span>
+                    <p class="detail-value">{{ registro.nombre_sacramentado }}</p>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Padre</span>
+                    <p class="detail-value">{{ registro.padre|default:"-" }}</p>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Madre</span>
+                    <p class="detail-value">{{ registro.madre|default:"-" }}</p>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Bautizado en</span>
+                    <p class="detail-value">{{ registro.bautizado_en|default:"-" }}</p>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Fecha del sacramento</span>
+                    <p class="detail-value">{{ registro.fecha_sacramento|default:"-" }}</p>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Libro / Folio</span>
+                    <p class="detail-value">
+                        {{ registro.libro|default:"-" }}
+                        /
+                        {{ registro.folio|default:"-" }}
+                    </p>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Requiere revisión</span>
+                    <p class="detail-value">{{ registro.requiere_revision|yesno:"Sí,No,-" }}</p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

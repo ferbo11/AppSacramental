@@ -1,2 +1,183 @@
 {% load static %}
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Matrimonio</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="{% static 'matrimonio/css/matrimonio.css' %}"></head><body><div class="sidebar"><div class="sidebar-brand"><img src="{% static 'img/Calvario.png' %}"><span>Parroquia El Calvario</span></div><a href="{% url 'listar_matrimonios' %}" class="nav-item active"><i class="fas fa-ring"></i><span>CRUD</span></a><a href="{% url 'matrimonio' %}" class="nav-item"><i class="fas fa-ring"></i><span>Buscar</span></a><a href="{% url 'configuracion' %}" class="nav-item"><i class="fas fa-cog"></i><span>Configuración</span></a></div><div class="main-content"><div class="header"><div><h1>{{ accion }} matrimonio</h1></div><a href="{% url 'listar_matrimonios' %}" class="btn-back"><i class="fas fa-arrow-left"></i>Regresar</a></div>{% if messages %}<div class="card">{% for message in messages %}<p>{{ message }}</p>{% endfor %}</div>{% endif %}<div class="card"><form method="post" novalidate>{% csrf_token %}<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;">{% for campo in formulario %}<div><label>{{ campo.label }}{% if campo.field.required %} *{% endif %}</label>{{ campo }}{% if campo.errors %}<div style="color:#dc2626;">{{ campo.errors }}</div>{% endif %}</div>{% endfor %}</div><div style="margin-top:16px;display:flex;gap:10px;"><button class="btn-buscar" type="submit">Guardar</button><a class="btn-limpiar" href="{% url 'listar_matrimonios' %}" style="text-decoration:none;">Cancelar</a></div></form></div></div></body></html>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ accion }} matrimonio | SACRANET</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="{% static 'matrimonio/css/matrimonio.css' %}">
+
+    <link rel="stylesheet"
+          href="{% static 'css/sacramentos.css' %}">
+</head>
+
+<body>
+
+    <!-- BARRA LATERAL -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+            <img src="{% static 'img/Calvario.png' %}"
+                 alt="Parroquia El Calvario">
+            <span>Parroquia El Calvario</span>
+        </div>
+
+        <a href="{% url 'listar_matrimonios' %}" class="nav-item active">
+            <i class="fas fa-list"></i>
+            <span>CRUD Matrimonio</span>
+        </a>
+
+        <a href="{% url 'matrimonio' %}" class="nav-item">
+            <i class="fas fa-search"></i>
+            <span>Buscar</span>
+        </a>
+
+        <a href="{% url 'configuracion' %}" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>Configuración</span>
+        </a>
+
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+
+    <main class="main-content">
+
+        <header class="header">
+
+            <div>
+                <h1>{{ accion }} matrimonio</h1>
+                <p>Cobán, Alta Verapaz, Guatemala, C.A.</p>
+            </div>
+
+            <a href="{% url 'listar_matrimonios' %}" class="btn btn-back">
+                <i class="fas fa-arrow-left"></i>
+                Regresar
+            </a>
+
+        </header>
+
+        <!-- MENSAJES -->
+
+        {% if messages %}
+        <section class="form-messages">
+            {% for message in messages %}
+            <p>
+                <i class="fas fa-circle-check"></i>
+                {{ message }}
+            </p>
+            {% endfor %}
+        </section>
+        {% endif %}
+
+        <!-- FORMULARIO -->
+
+        <section class="form-card">
+
+            <div class="form-intro">
+                <div class="form-intro-icon">
+                    <i class="fas fa-ring"></i>
+                </div>
+
+                <div>
+                    <h2>Datos del matrimonio</h2>
+                    <p>
+                        Completá los campos correspondientes al registro
+                        sacramental. Los campos con * son obligatorios.
+                    </p>
+                </div>
+            </div>
+
+            <form method="post" novalidate>
+                {% csrf_token %}
+
+                {% if formulario.non_field_errors %}
+                <div class="form-error-summary">
+                    <strong>
+                        <i class="fas fa-circle-exclamation"></i>
+                        Revisá los datos del formulario.
+                    </strong>
+                    {{ formulario.non_field_errors }}
+                </div>
+                {% endif %}
+
+                <div class="form-grid">
+
+                    {% for campo in formulario %}
+
+                    <div class="form-field{% if campo.field.widget.input_type == 'checkbox' %} checkbox-field{% endif %}">
+
+                        {% if campo.field.widget.input_type == 'checkbox' %}
+
+                            {{ campo }}
+
+                            <label for="{{ campo.id_for_label }}">
+                                {{ campo.label }}
+                                {% if campo.field.required %}
+                                    <span class="required-mark">*</span>
+                                {% endif %}
+                            </label>
+
+                        {% else %}
+
+                            <label for="{{ campo.id_for_label }}">
+                                {{ campo.label }}
+                                {% if campo.field.required %}
+                                    <span class="required-mark">*</span>
+                                {% endif %}
+                            </label>
+
+                            {{ campo }}
+
+                        {% endif %}
+
+                        {% if campo.help_text %}
+                        <small class="help-text">
+                            {{ campo.help_text }}
+                        </small>
+                        {% endif %}
+
+                        {% if campo.errors %}
+                        <div class="field-errors">
+                            {{ campo.errors }}
+                        </div>
+                        {% endif %}
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+                <div class="form-actions">
+
+                    <a href="{% url 'listar_matrimonios' %}"
+                       class="form-button btn-cancel">
+                        <i class="fas fa-xmark"></i>
+                        Cancelar
+                    </a>
+
+                    <button type="submit"
+                            class="form-button btn-save">
+                        <i class="fas fa-floppy-disk"></i>
+                        Guardar registro
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

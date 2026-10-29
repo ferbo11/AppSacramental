@@ -595,6 +595,24 @@ body {
 .btn-search:active {
     transform: translateY(0);
 }
+
+.btn-search:focus-visible,
+.btn-back:focus-visible {
+    outline: 3px solid rgba(14, 165, 233, 0.35);
+    outline-offset: 2px;
+}
+
+.btn-back:active {
+    transform: translateY(0);
+}
+
+.btn-search:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
 /* =========================================================
    CONTENEDOR DEL HISTORIAL
    ========================================================= */

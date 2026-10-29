@@ -923,3 +923,30 @@ a {
         align-items: flex-start;
     }
 }
+
+
+/* =========================================================
+   ESTADOS DE LOS BOTONES
+   ========================================================= */
+
+.btn:focus-visible,
+.action-btn:focus-visible,
+.form-button:focus-visible {
+    outline: 3px solid rgba(14, 165, 233, 0.35);
+    outline-offset: 2px;
+}
+
+.btn:active,
+.action-btn:active,
+.form-button:active {
+    transform: translateY(0);
+}
+
+.btn:disabled,
+.action-btn:disabled,
+.form-button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}

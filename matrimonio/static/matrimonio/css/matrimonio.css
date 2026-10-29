@@ -1097,9 +1097,41 @@ footer {
         box-shadow 0.25s ease;
 }
 
+.btn-limpiar:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 10px 23px
+        rgba(14, 165, 233, 0.28);
+}
+
 /* Efecto al presionar */
 .btn-limpiar:active {
     transform: scale(0.98);
+}
+
+.btn-back:focus-visible,
+.btn-search:focus-visible,
+.btn-pdf:focus-visible,
+.btn-limpiar:focus-visible {
+    outline: 3px solid rgba(14, 165, 233, 0.35);
+    outline-offset: 2px;
+}
+
+.btn-back:active,
+.btn-pdf:active {
+    transform: translateY(0);
+}
+
+.btn-search:disabled,
+.btn-pdf:disabled,
+.btn-limpiar:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 /* Mantener el estilo del botón PDF */

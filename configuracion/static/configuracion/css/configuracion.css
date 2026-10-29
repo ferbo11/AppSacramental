@@ -676,3 +676,19 @@ footer {
         transition-duration: .01ms !important;
     }
 }
+
+.btn-secondary:focus-visible,
+.btn-save:focus-visible,
+.btn-action:focus-visible {
+    outline: 3px solid rgba(14, 165, 233, .35);
+    outline-offset: 2px;
+}
+
+.btn-secondary:disabled,
+.btn-save:disabled,
+.btn-action:disabled {
+    opacity: .65;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}

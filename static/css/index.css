@@ -1479,3 +1479,13 @@ footer {
 .sidebar .nav-group-menu .nav-subitem.active i {
     color: #38bdf8;
 }
+
+.nav-item:focus-visible,
+.nav-subitem:focus-visible,
+.nav-group-toggle:focus-visible,
+.tab:focus-visible,
+.btn-logout:focus-visible,
+.btn-pdf:focus-visible {
+    outline: 3px solid rgba(14, 165, 233, 0.35);
+    outline-offset: 2px;
+}

@@ -10,22 +10,60 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+def env_bool(name, default=False):
+    value = os.environ.get(name)
+
+    if value is None:
+        return default
+
+    return value.strip().lower() in {
+        '1',
+        'true',
+        'yes',
+        'si',
+        'sí',
+        'on',
+    }
+
+
+def env_list(name, default=''):
+    value = os.environ.get(name, default)
+
+    return [
+        item.strip()
+        for item in value.split(',')
+        if item.strip()
+    ]
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-@(!th%iwr4)#1v*8h*+ugr@j-1ef8gpou3w87y$6kpk1_az!ok'
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY',
+    'django-insecure-@(!th%iwr4)#1v*8h*+ugr@j-1ef8gpou3w87y$6kpk1_az!ok',
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env_bool('DEBUG', True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env_list(
+    'ALLOWED_HOSTS',
+    'localhost,127.0.0.1',
+)
+
+CSRF_TRUSTED_ORIGINS = env_list(
+    'CSRF_TRUSTED_ORIGINS',
+    'http://localhost,http://127.0.0.1',
+)
 
 
 # Application definition
@@ -82,25 +120,99 @@ WSGI_APPLICATION = 'AppSacramental.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
+DATA_DIR = Path(
+    os.environ.get('DATA_DIR', str(BASE_DIR))
+)
+
+DB_ENGINE = os.environ.get(
+    'DB_ENGINE',
+    'postgresql',
+).strip().lower()
+
+DB_NAME = (
+    os.environ.get('DB_NAME')
+    or os.environ.get('POSTGRES_DB')
+    or 'SACRANET_BD'
+)
+
+DB_USER = (
+    os.environ.get('DB_USER')
+    or os.environ.get('POSTGRES_USER')
+    or 'postgres'
+)
+
+DB_PASSWORD = (
+    os.environ.get('DB_PASSWORD')
+    or os.environ.get('POSTGRES_PASSWORD')
+    or ''
+)
+
+DB_HOST = os.environ.get('DB_HOST', 'localhost')
+DB_PORT = os.environ.get('DB_PORT', '5432')
+DB_CONN_MAX_AGE = int(os.environ.get('DB_CONN_MAX_AGE', '60'))
+
+
+def postgres_database(name):
+    return {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'SACRANET_BD',
-        'USER': 'postgres',
-        'PASSWORD': 'pedferdev112',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    },
+        'NAME': name,
+        'USER': DB_USER,
+        'PASSWORD': DB_PASSWORD,
+        'HOST': DB_HOST,
+        'PORT': DB_PORT,
+        'CONN_MAX_AGE': DB_CONN_MAX_AGE,
+    }
 
-    'agenda': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'agenda.sqlite3',
-    },
 
-    'historial': {
+def sqlite_database(name):
+    return {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'historial.sqlite3',
-    },
+        'NAME': str(name),
+    }
+
+
+def secondary_database(alias, sqlite_filename, postgres_name):
+    engine = os.environ.get(
+        f'{alias.upper()}_DB_ENGINE',
+        'sqlite3',
+    ).strip().lower()
+
+    if engine in {'postgresql', 'postgres'}:
+        name = os.environ.get(
+            f'{alias.upper()}_DB_NAME',
+            postgres_name,
+        )
+
+        return postgres_database(name)
+
+    name = os.environ.get(f'{alias.upper()}_DB_NAME')
+
+    if name:
+        return sqlite_database(name)
+
+    return sqlite_database(DATA_DIR / sqlite_filename)
+
+
+if DB_ENGINE in {'sqlite3', 'sqlite'}:
+    default_database = sqlite_database(
+        os.environ.get('DB_NAME', str(DATA_DIR / 'db.sqlite3'))
+    )
+else:
+    default_database = postgres_database(DB_NAME)
+
+
+DATABASES = {
+    'default': default_database,
+    'agenda': secondary_database(
+        'agenda',
+        'agenda.sqlite3',
+        'agenda',
+    ),
+    'historial': secondary_database(
+        'historial',
+        'historial.sqlite3',
+        'historial',
+    ),
 }
 
 DATABASE_ROUTERS = ['AppSacramental.db_router.AgendaRouter']
@@ -139,10 +251,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+STATIC_ROOT = Path(
+    os.environ.get(
+        'STATIC_ROOT',
+        str(BASE_DIR / 'staticfiles'),
+    )
+)
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / 'static',
 ]
 
 # Email
@@ -154,6 +273,24 @@ MAILERS = {
     },
 }
 
-# Static files (CSS, JavaScript, Images)
+# Media files (PDF de constancias, etc.)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+
+MEDIA_ROOT = Path(
+    os.environ.get(
+        'MEDIA_ROOT',
+        str(BASE_DIR / 'media'),
+    )
+)
+
+# Proxy inverso (Nginx)
+USE_X_FORWARDED_HOST = env_bool('USE_X_FORWARDED_HOST', True)
+
+if env_bool('USE_X_FORWARDED_PROTO', False):
+    SECURE_PROXY_SSL_HEADER = (
+        'HTTP_X_FORWARDED_PROTO',
+        'https',
+    )
+
+SESSION_COOKIE_SECURE = env_bool('SESSION_COOKIE_SECURE', False)
+CSRF_COOKIE_SECURE = env_bool('CSRF_COOKIE_SECURE', False)

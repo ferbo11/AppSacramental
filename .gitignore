@@ -34,10 +34,17 @@ staticfiles/
 *.dump
 *.backup
 *.bak
+backups/
+
+# Datos persistidos por Docker (SQLite, respaldos locales)
+data/
 
 # Archivos SQL que contienen la base de datos
 Bd_Parroquia.sql
 *.sql
+docker/postgres/init/*.dump
+docker/postgres/init/*.backup
+docker/postgres/init/*.sql
 
 # ==========================================
 # VARIABLES DE ENTORNO Y CREDENCIALES

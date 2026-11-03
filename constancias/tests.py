@@ -247,7 +247,77 @@ class GeneradorMatrimonioTests(SimpleTestCase):
                 'madre_esposo': 'Marta Pérez',
                 'padre_esposa': 'Luis Morales',
                 'madre_esposa': 'Rosa García',
+                'testigo_1': 'Pedro López',
+                'testigo_2': 'María López',
+                'fecha_matrimonio': date(2024, 5, 18),
             },
             observacion='Expedida para trámite civil.',
             fecha_emision=fecha_emision,
         )
+
+    def test_incluye_todos_los_datos_del_matrimonio(self):
+        texto = extraer_texto(self.crear_pdf())
+
+        self.assertIn('Matrimonios No. 2', texto)
+        self.assertIn('folio 8', texto)
+        self.assertIn('año 2024', texto)
+        self.assertIn('José Ramírez', texto)
+        self.assertIn('32 años de edad', texto)
+        self.assertIn('Ana Morales', texto)
+        self.assertIn('29 años de edad', texto)
+        self.assertIn('Ramón Ramírez', texto)
+        self.assertIn('Marta Pérez', texto)
+        self.assertIn('Luis Morales', texto)
+        self.assertIn('Rosa García', texto)
+        self.assertIn('18 de mayo de 2024', texto)
+        self.assertIn('Pedro López', texto)
+        self.assertIn('María López', texto)
+        self.assertIn('Expedida para trámite civil.', texto)
+
+    def test_maneja_datos_vacios_sin_errores(self):
+        pdf = generar_constancia_matrimonio(
+            {
+                'nombre_esposo': 'Solo Esposo',
+            },
+            fecha_emision=date(2026, 10, 26),
+        )
+
+        texto = extraer_texto(pdf)
+
+        self.assertIn('Solo Esposo', texto)
+        self.assertIn('en fecha no registrada', texto)
+        self.assertIn('No se registraron testigos.', texto)
+        self.assertIn('N/A', texto)
+
+    def test_usa_mes_y_ano_si_no_hay_fecha_exacta(self):
+        pdf = generar_constancia_matrimonio(
+            {
+                'nombre_esposo': 'José Ramírez',
+                'nombre_esposa': 'Ana Morales',
+                'mes': 'Mayo',
+                'ano': 2012,
+            },
+            fecha_emision=date(2026, 10, 26),
+        )
+
+        texto = extraer_texto(pdf)
+
+        self.assertIn(
+            'Contrajeron matrimonio en el mes de mayo de 2012.',
+            texto,
+        )
+
+    def test_usa_un_solo_testigo_cuando_falta_el_otro(self):
+        pdf = generar_constancia_matrimonio(
+            {
+                'nombre_esposo': 'José Ramírez',
+                'nombre_esposa': 'Ana Morales',
+                'testigo_1': 'Pedro López',
+            },
+            fecha_emision=date(2026, 10, 26),
+        )
+
+        texto = extraer_texto(pdf)
+
+        self.assertIn('Fue testigo: Pedro López.', texto)
+        self.assertNotIn('Fueron testigos', texto)

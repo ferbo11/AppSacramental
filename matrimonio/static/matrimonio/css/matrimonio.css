@@ -347,9 +347,10 @@ body {
     display: grid;
 
     grid-template-columns:
-        1fr
-        1fr
-        auto;
+        repeat(
+            auto-fit,
+            minmax(180px, 1fr)
+        );
 
     align-items: end;
 
@@ -967,5 +968,388 @@ footer {
 .form-section .section-heading h2 i {
 
     color: var(--blue-dark);
+
+}
+
+
+/* =========================================================
+   MENSAJES Y ADVERTENCIAS
+   ========================================================= */
+
+.messages {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    margin-bottom: 25px;
+
+}
+
+
+.alert {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 12px;
+
+    padding: 14px 16px;
+
+    border: 1px solid transparent;
+
+    border-radius: 12px;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+}
+
+
+.alert i {
+
+    margin-top: 3px;
+
+    flex-shrink: 0;
+
+}
+
+
+.alert p {
+
+    margin: 0;
+
+}
+
+
+.alert-success {
+
+    background: #ecfdf5;
+
+    border-color: #a7f3d0;
+
+    color: #065f46;
+
+}
+
+
+.alert-info {
+
+    background: var(--blue-soft);
+
+    border-color: #bae6fd;
+
+    color: #075985;
+
+}
+
+
+.alert-warning {
+
+    background: #fffbeb;
+
+    border-color: #fde68a;
+
+    color: #92400e;
+
+}
+
+
+.alert-error {
+
+    background: #fef2f2;
+
+    border-color: #fecaca;
+
+    color: #991b1b;
+
+}
+
+
+/* =========================================================
+   RESULTADO / DATOS DEL MATRIMONIO
+   ========================================================= */
+
+.result-container {
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+    justify-content: flex-start;
+
+    gap: 18px;
+
+}
+
+
+.matrimonio-result {
+
+    width: 100%;
+
+    padding: 25px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+
+    background: var(--surface);
+
+    box-shadow: var(--shadow-sm);
+
+    text-align: left;
+
+    animation: cardAppear 0.45s ease both;
+
+}
+
+
+.result-title {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 16px;
+
+    margin-bottom: 18px;
+
+}
+
+
+.matrimonio-result h3 {
+
+    color: var(--navy);
+
+    font-size: 21px;
+
+    font-weight: 700;
+
+    line-height: 1.35;
+
+}
+
+
+.matrimonio-result h3 span {
+
+    color: var(--blue-dark);
+
+}
+
+
+.registro-id {
+
+    flex-shrink: 0;
+
+    padding: 6px 12px;
+
+    border-radius: 999px;
+
+    background: var(--blue-soft);
+
+    color: var(--blue-dark);
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+}
+
+
+.datos-matrimonio {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 12px 24px;
+
+    margin: 20px 0 22px;
+
+}
+
+
+.datos-matrimonio p {
+
+    margin: 0;
+
+    color: var(--text);
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+}
+
+
+.datos-matrimonio strong {
+
+    color: var(--navy);
+
+}
+
+
+/* =========================================================
+   FORMULARIO DE CONSTANCIA
+   ========================================================= */
+
+.form-constancia {
+
+    margin-top: 20px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid var(--border);
+
+}
+
+
+.confirmacion-datos {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 10px;
+
+    margin-bottom: 18px;
+
+    padding: 13px 15px;
+
+    border: 1px solid #fde68a;
+
+    border-radius: 10px;
+
+    background: #fffbeb;
+
+    color: #92400e;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    cursor: pointer;
+
+}
+
+
+.confirmacion-datos input {
+
+    margin-top: 2px;
+
+    width: 16px;
+
+    height: 16px;
+
+    flex-shrink: 0;
+
+    cursor: pointer;
+
+}
+
+
+.observaciones-container {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    margin-bottom: 16px;
+
+}
+
+
+.observaciones-container label {
+
+    color: var(--navy);
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+.observaciones-container textarea {
+
+    width: 100%;
+
+    min-height: 90px;
+
+    padding: 12px 14px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: var(--text);
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    resize: vertical;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+
+}
+
+
+.observaciones-container textarea::placeholder {
+
+    color: #94a3b8;
+
+}
+
+
+.observaciones-container textarea:focus {
+
+    border-color: var(--blue);
+
+    box-shadow:
+        0 0 0 4px
+        rgba(14, 165, 233, 0.10);
+
+}
+
+
+@media (max-width: 768px) {
+
+    .datos-matrimonio {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .result-title {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+    }
+
+
+    .matrimonio-result {
+
+        padding: 18px;
+
+    }
 
 }

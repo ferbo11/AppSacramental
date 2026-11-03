@@ -40,13 +40,26 @@
             </a>
         </div>
 
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        <i class="fas fa-circle-exclamation"></i>
+                        <span>{{ message }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         <!-- BÚSQUEDA DE MATRIMONIO -->
         <div class="card">
 
             <div class="card-header">
                 <div>
                     <h2>Buscar Matrimonio</h2>
-                    <p>Ingrese el nombre del esposo o esposa</p>
+                    <p>
+                        Busque por nombre, libro, folio o año del registro
+                    </p>
                 </div>
 
                 <div class="card-icon">
@@ -65,7 +78,7 @@
                         type="text"
                         id="esposo"
                         name="esposo"
-                        value="{{ esposo }}"
+                        value="{{ esposo|default:'' }}"
                         placeholder="Ingrese el nombre del esposo"
                         autocomplete="off">
                 </div>
@@ -76,8 +89,45 @@
                         type="text"
                         id="esposa"
                         name="esposa"
-                        value="{{ esposa }}"
+                        value="{{ esposa|default:'' }}"
                         placeholder="Ingrese el nombre de la esposa"
+                        autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="libro">Libro</label>
+                    <input
+                        type="text"
+                        id="libro"
+                        name="libro"
+                        value="{{ libro|default:'' }}"
+                        placeholder="Ingrese el libro"
+                        autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="folio">Folio</label>
+                    <input
+                        type="number"
+                        id="folio"
+                        name="folio"
+                        value="{{ folio|default:'' }}"
+                        placeholder="Ingrese el folio"
+                        min="0"
+                        step="1"
+                        autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="ano">Año</label>
+                    <input
+                        type="number"
+                        id="ano"
+                        name="ano"
+                        value="{{ ano|default:'' }}"
+                        placeholder="Ingrese el año"
+                        min="0"
+                        step="1"
                         autocomplete="off">
                 </div>
 
@@ -95,7 +145,7 @@
             <div class="card-header">
                 <div>
                     <h2>Emisión de Constancias de Matrimonio</h2>
-                    <p>Registro encontrado</p>
+                    <p>Registros encontrados</p>
                 </div>
 
                 <div class="card-icon">
@@ -108,29 +158,102 @@
 
                 {% if busqueda_realizada %}
 
-                    {% if resultados %}
+                    {% if errores_busqueda %}
+                        <div class="alert alert-error">
+                            <i class="fas fa-triangle-exclamation"></i>
+                            <div>
+                                {% for error in errores_busqueda %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% elif resultados %}
 
                         {% for matrimonio in resultados %}
 
                             <!-- DATOS DEL MATRIMONIO -->
-                            <div class="matrimonio-result">
+                            <div class="matrimonio-result"
+                                 id="matrimonio-{{ matrimonio.id }}">
 
-                                <h3>
-                                    {{ matrimonio.nombre_esposo }}
-                                    <span>&amp;</span>
-                                    {{ matrimonio.nombre_esposa }}
-                                </h3>
+                                <div class="result-title">
+                                    <h3>
+                                        {{ matrimonio.esposo|default:"Esposo no registrado" }}
+                                        <span>&amp;</span>
+                                        {{ matrimonio.esposa|default:"Esposa no registrada" }}
+                                    </h3>
+
+                                    <span class="registro-id">
+                                        Registro #{{ matrimonio.id }}
+                                    </span>
+                                </div>
+
+                                {% if matrimonio.requiere_revision %}
+                                    <div class="alert alert-warning">
+                                        <i class="fas fa-triangle-exclamation"></i>
+                                        <span>
+                                            Este matrimonio está marcado para
+                                            revisión. Verifique la información
+                                            antes de generar la constancia.
+                                        </span>
+                                    </div>
+                                {% endif %}
+
+                                {% if matrimonio.datos_faltantes %}
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-circle-info"></i>
+                                        <span>
+                                            Faltan datos importantes:
+                                            {{ matrimonio.datos_faltantes|join:", " }}.
+                                        </span>
+                                    </div>
+                                {% endif %}
 
                                 <div class="datos-matrimonio">
 
                                     <p>
                                         <strong>Esposo:</strong>
-                                        {{ matrimonio.nombre_esposo|default:"No registrado" }}
+                                        {{ matrimonio.esposo|default:"No registrado" }}
+                                        {% if matrimonio.edad_esposo is not None %}
+                                            ({{ matrimonio.edad_esposo }} años)
+                                        {% endif %}
                                     </p>
 
                                     <p>
                                         <strong>Esposa:</strong>
-                                        {{ matrimonio.nombre_esposa|default:"No registrada" }}
+                                        {{ matrimonio.esposa|default:"No registrada" }}
+                                        {% if matrimonio.edad_esposa is not None %}
+                                            ({{ matrimonio.edad_esposa }} años)
+                                        {% endif %}
+                                    </p>
+
+                                    <p>
+                                        <strong>Padre del esposo:</strong>
+                                        {{ matrimonio.padre_esposo|default:"No registrado" }}
+                                    </p>
+
+                                    <p>
+                                        <strong>Madre del esposo:</strong>
+                                        {{ matrimonio.madre_esposo|default:"No registrada" }}
+                                    </p>
+
+                                    <p>
+                                        <strong>Padre de la esposa:</strong>
+                                        {{ matrimonio.padre_esposa|default:"No registrado" }}
+                                    </p>
+
+                                    <p>
+                                        <strong>Madre de la esposa:</strong>
+                                        {{ matrimonio.madre_esposa|default:"No registrada" }}
+                                    </p>
+
+                                    <p>
+                                        <strong>Primer testigo:</strong>
+                                        {{ matrimonio.testigo_1|default:"No registrado" }}
+                                    </p>
+
+                                    <p>
+                                        <strong>Segundo testigo:</strong>
+                                        {{ matrimonio.testigo_2|default:"No registrado" }}
                                     </p>
 
                                     <p>
@@ -145,7 +268,26 @@
 
                                     <p>
                                         <strong>Año:</strong>
-                                        {{ matrimonio.anio|default:"No registrado" }}
+                                        {{ matrimonio.ano|default:"No registrado" }}
+                                    </p>
+
+                                    <p>
+                                        <strong>Mes:</strong>
+                                        {{ matrimonio.mes|default:"No registrado" }}
+                                    </p>
+
+                                    <p>
+                                        <strong>Día:</strong>
+                                        {{ matrimonio.dia|default:"No registrado" }}
+                                    </p>
+
+                                    <p>
+                                        <strong>Fecha del matrimonio:</strong>
+                                        {% if matrimonio.fecha_matrimonio %}
+                                            {{ matrimonio.fecha_matrimonio|date:"d/m/Y" }}
+                                        {% else %}
+                                            No registrada
+                                        {% endif %}
                                     </p>
 
                                 </div>
@@ -154,9 +296,36 @@
                                 <form
                                     method="POST"
                                     action="{% url 'generar_pdf_matrimonio' matrimonio.id %}"
-                                    class="form-constancia">
+                                    class="form-constancia"
+                                    onsubmit="return validarConstanciaMatrimonio(this, {{ matrimonio.requiere_revision|yesno:'true,false' }});">
 
                                     {% csrf_token %}
+
+                                    <input
+                                        type="hidden"
+                                        name="matrimonio_id"
+                                        value="{{ matrimonio.id }}">
+
+                                    <input
+                                        type="hidden"
+                                        name="volver"
+                                        value="{{ request.get_full_path }}">
+
+                                    {% if matrimonio.requiere_revision or matrimonio.datos_faltantes %}
+                                        <label class="confirmacion-datos">
+                                            <input
+                                                type="checkbox"
+                                                name="confirmar_datos"
+                                                value="1"
+                                                required>
+
+                                            <span>
+                                                Confirmo que revisé la información
+                                                del registro antes de emitir la
+                                                constancia.
+                                            </span>
+                                        </label>
+                                    {% endif %}
 
                                     <!-- OBSERVACIONES -->
                                     <div class="observaciones-container">
@@ -176,17 +345,17 @@
                                     <!-- BOTONES DE ACCIÓN -->
                                     <div class="acciones-constancia">
 
+                                        <button type="submit" class="btn-pdf">
+                                            <i class="fas fa-file-pdf"></i>
+                                            Emitir Constancia de Matrimonio
+                                        </button>
+
                                         <button
                                             type="button"
                                             class="btn-limpiar"
                                             onclick="limpiarMatrimonio()">
                                             <i class="fas fa-eraser"></i>
                                             Limpiar campos
-                                        </button>
-
-                                        <button type="submit" class="btn-pdf">
-                                            <i class="fas fa-file-pdf"></i>
-                                            Emitir Constancia de Matrimonio
                                         </button>
 
                                     </div>
@@ -203,8 +372,8 @@
                         <div class="empty-result">
                             <i class="fas fa-user-slash"></i>
                             <p>
-                                No se encontró ningún matrimonio
-                                con los datos ingresados.
+                                No se encontraron matrimonios con los
+                                datos ingresados.
                             </p>
                         </div>
 
@@ -216,8 +385,9 @@
                     <div class="empty-result">
                         <i class="fas fa-user-search"></i>
                         <p>
-                            Realice una búsqueda para consultar
-                            el registro del matrimonio.
+                            Realice una búsqueda por esposo, esposa,
+                            libro, folio o año para consultar el
+                            registro del matrimonio.
                         </p>
                     </div>
 

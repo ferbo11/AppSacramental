@@ -11,6 +11,8 @@ from constancias.pdf_utilidades import (
     dibujar_rectangulo_blanco,
 )
 from constancias.utilidades import (
+    MESES,
+    convertir_a_fecha,
     formatear_fecha_larga,
     numero_o_defecto,
     numero_o_na,
@@ -30,6 +32,72 @@ RUTA_PLANTILLA = os.path.join(
 NOMBRE_PENDIENTE = '____________________'
 FILIACION_PENDIENTE = '____________________'
 EDAD_PENDIENTE = '____'
+
+
+def _formatear_fecha_matrimonio(datos):
+    """Devuelve la fecha del matrimonio lista para la constancia."""
+
+    fecha = convertir_a_fecha(
+        obtener_dato(
+            datos,
+            ('fecha_matrimonio', 'fecha'),
+        )
+    )
+
+    if fecha is not None:
+        return (
+            f'el {fecha.day} de '
+            f'{MESES[fecha.month - 1]} de '
+            f'{fecha.year}'
+        )
+
+    mes = texto_o_defecto(
+        obtener_dato(datos, ('mes',)),
+        '',
+    )
+
+    dia = numero_o_defecto(
+        obtener_dato(datos, ('dia',)),
+        '',
+    )
+
+    anio = numero_o_defecto(
+        obtener_dato(datos, ('ano', 'anio')),
+        '',
+    )
+
+    if dia and mes and anio:
+        return f'el {dia} de {mes.lower()} de {anio}'
+
+    if mes and anio:
+        return f'en el mes de {mes.lower()} de {anio}'
+
+    if anio:
+        return f'en el año {anio}'
+
+    if dia and mes:
+        return f'el {dia} de {mes.lower()}'
+
+    return 'en fecha no registrada'
+
+
+def _testigos(datos):
+    testigos = [
+        str(testigo).strip()
+        for testigo in (
+            obtener_dato(datos, ('testigo_1',)),
+            obtener_dato(datos, ('testigo_2',)),
+        )
+        if testigo and str(testigo).strip()
+    ]
+
+    if not testigos:
+        return 'No se registraron testigos.'
+
+    if len(testigos) == 1:
+        return f'Fue testigo: {testigos[0]}.'
+
+    return f'Fueron testigos: {" y ".join(testigos)}.'
 
 
 def generar_constancia_matrimonio(
@@ -73,11 +141,24 @@ def generar_constancia_matrimonio(
         )
     )
 
-    anio = numero_o_na(
-        obtener_dato(
-            datos,
-            ('anio',),
+    anio_valor = obtener_dato(
+        datos,
+        ('anio', 'ano'),
+    )
+
+    if anio_valor is None:
+        fecha_registro = convertir_a_fecha(
+            obtener_dato(
+                datos,
+                ('fecha_matrimonio',),
+            )
         )
+
+        if fecha_registro is not None:
+            anio_valor = fecha_registro.year
+
+    anio = numero_o_na(
+        anio_valor
     )
 
     edad_esposo = texto_o_defecto(
@@ -128,6 +209,10 @@ def generar_constancia_matrimonio(
         FILIACION_PENDIENTE,
     )
 
+    fecha_matrimonio = _formatear_fecha_matrimonio(datos)
+
+    testigos = _testigos(datos)
+
     fecha_expedicion = formatear_fecha_larga(
         obtener_fecha_local(fecha_emision)
     )
@@ -152,6 +237,11 @@ def generar_constancia_matrimonio(
             f'{edad_esposa} años de edad, hija de '
             f'{padre_esposa} y de {madre_esposa}.'
         ),
+        (
+            'Contrajeron matrimonio '
+            f'{fecha_matrimonio}.'
+        ),
+        testigos,
         (
             'Para el uso que al interesado(a) convenga, '
             'se extiende en una hoja bond membretada '

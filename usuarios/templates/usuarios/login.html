@@ -75,5 +75,121 @@
 
     </main>
 
+    {% if messages %}
+        {% for message in messages %}
+            {% if 'error' in message.tags %}
+                <div
+                    class="login-modal is-open"
+                    id="login-error-modal-{{ forloop.counter }}"
+                    data-login-modal
+                    role="presentation">
+
+                    <div
+                        class="login-modal__backdrop"
+                        data-login-modal-close
+                        aria-hidden="true"></div>
+
+                    <div
+                        class="login-modal__dialog"
+                        role="alertdialog"
+                        aria-modal="true"
+                        aria-labelledby="login-error-title-{{ forloop.counter }}"
+                        aria-describedby="login-error-description-{{ forloop.counter }}">
+
+                        <div class="login-modal__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" focusable="false">
+                                <path
+                                    d="M12 8v5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"/>
+                                <circle
+                                    cx="12"
+                                    cy="16.5"
+                                    r="1.15"
+                                    fill="currentColor"/>
+                                <path
+                                    d="M10.3 3.9 2.7 17.1a2 2 0 0 0 1.7 3h15.2a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                    stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+
+                        <h2 id="login-error-title-{{ forloop.counter }}">
+                            {{ message }}
+                        </h2>
+
+                        <p id="login-error-description-{{ forloop.counter }}">
+                            Verifica tus datos e inténtalo nuevamente.
+                        </p>
+
+                        <button
+                            type="button"
+                            class="login-modal__button"
+                            data-login-modal-close>
+                            Entendido
+                        </button>
+
+                    </div>
+
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var modals = document.querySelectorAll('[data-login-modal]');
+
+            modals.forEach(function (modal) {
+                var closeButton = modal.querySelector('.login-modal__button');
+                var usernameInput = document.getElementById('username');
+
+                function closeModal() {
+                    if (modal.classList.contains('is-closing')) {
+                        return;
+                    }
+
+                    modal.classList.remove('is-open');
+                    modal.classList.add('is-closing');
+                    document.body.classList.remove('login-modal-open');
+
+                    window.setTimeout(function () {
+                        modal.hidden = true;
+                    }, 240);
+
+                    if (usernameInput) {
+                        usernameInput.focus();
+                    }
+                }
+
+                modal.querySelectorAll('[data-login-modal-close]')
+                    .forEach(function (element) {
+                        element.addEventListener('click', closeModal);
+                    });
+
+                modal.addEventListener('keydown', function (event) {
+                    if (event.key === 'Escape') {
+                        closeModal();
+                    }
+
+                    if (event.key === 'Tab' && closeButton) {
+                        event.preventDefault();
+                        closeButton.focus();
+                    }
+                });
+
+                document.body.classList.add('login-modal-open');
+
+                if (closeButton) {
+                    closeButton.focus();
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>

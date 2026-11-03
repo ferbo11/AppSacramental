@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import check_password
@@ -34,10 +35,9 @@ def login_view(request):
         except Usuario.DoesNotExist:
             pass
 
-        return render(
+        messages.error(
             request,
-            'usuarios/login.html',
-            {'error': 'Usuario o contraseña incorrectos.'}
+            'Usuario o contraseña incorrectos',
         )
 
     return render(request, 'usuarios/login.html')

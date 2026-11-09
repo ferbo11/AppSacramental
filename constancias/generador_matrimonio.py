@@ -2,13 +2,15 @@ import os
 
 from django.conf import settings
 
+from reportlab.pdfbase import pdfmetrics
+
 from constancias.pdf_utilidades import (
+    FUENTE_NOMBRE,
     crear_capa,
     cerrar_capa,
     combinar_con_plantilla,
     dibujar_bloque_ajustado,
     dibujar_multilinea_limitada,
-    dibujar_rectangulo_blanco,
 )
 from constancias.utilidades import (
     MESES,
@@ -29,9 +31,15 @@ RUTA_PLANTILLA = os.path.join(
     'Plantilla_Matrimonio.pdf',
 )
 
-NOMBRE_PENDIENTE = '____________________'
-FILIACION_PENDIENTE = '____________________'
-EDAD_PENDIENTE = '____'
+DATO_PENDIENTE = 'N/A'
+
+TAMANO_NOMBRE_CONTRAYENTE = 12.0
+TAMANO_MINIMO_CONTRAYENTE = 11.0
+TAMANO_EDAD = 10.5
+TAMANO_FILIACION = 10.5
+TAMANO_MINIMO_FILIACION = 10.5
+TAMANO_BLOQUE = 10.5
+TAMANO_OBSERVACION = 11.0
 
 
 def _formatear_fecha_matrimonio(datos):
@@ -100,6 +108,78 @@ def _testigos(datos):
     return f'Fueron testigos: {" y ".join(testigos)}.'
 
 
+def _dibujar_en_hueco(
+    pdf,
+    texto,
+    x,
+    y,
+    ancho,
+    tamano_max=12.0,
+    tamano_min=8.0,
+):
+    """Escribe un valor dentro del espacio libre de la plantilla."""
+
+    texto = str(texto).strip()
+
+    if not texto:
+        return
+
+    tamano = tamano_max
+
+    while (
+        tamano > tamano_min
+        and pdfmetrics.stringWidth(
+            texto,
+            FUENTE_NOMBRE,
+            tamano,
+        ) > ancho
+    ):
+        tamano -= 0.25
+
+    ancho_texto = pdfmetrics.stringWidth(
+        texto,
+        FUENTE_NOMBRE,
+        tamano,
+    )
+
+    escala = 100.0
+
+    if ancho_texto > ancho:
+        escala = max(
+            (ancho / ancho_texto) * 100.0,
+            55.0,
+        )
+
+        if ancho_texto * escala / 100.0 > ancho:
+            sufijo = '...'
+            recortado = texto
+
+            while (
+                len(recortado) > 1
+                and pdfmetrics.stringWidth(
+                    f'{recortado}{sufijo}',
+                    FUENTE_NOMBRE,
+                    tamano,
+                ) * escala / 100.0 > ancho
+            ):
+                recortado = recortado[:-1]
+
+            texto = (
+                f'{recortado}{sufijo}'
+                if recortado
+                else sufijo
+            )
+
+    texto_pdf = pdf.beginText(x, y)
+    texto_pdf.setFont(FUENTE_NOMBRE, tamano)
+
+    if escala < 100.0:
+        texto_pdf.setHorizScale(escala)
+
+    texto_pdf.textOut(texto)
+    pdf.drawText(texto_pdf)
+
+
 def generar_constancia_matrimonio(
     datos,
     observacion='',
@@ -113,7 +193,7 @@ def generar_constancia_matrimonio(
                 'esposo',
             ),
         ),
-        NOMBRE_PENDIENTE,
+        DATO_PENDIENTE,
     )
 
     esposa = texto_o_defecto(
@@ -124,7 +204,7 @@ def generar_constancia_matrimonio(
                 'esposa',
             ),
         ),
-        NOMBRE_PENDIENTE,
+        DATO_PENDIENTE,
     )
 
     libro = numero_o_na(
@@ -157,24 +237,20 @@ def generar_constancia_matrimonio(
         if fecha_registro is not None:
             anio_valor = fecha_registro.year
 
-    anio = numero_o_na(
-        anio_valor
-    )
+    anio = numero_o_na(anio_valor)
 
-    edad_esposo = texto_o_defecto(
+    edad_esposo = numero_o_na(
         obtener_dato(
             datos,
             ('edad_esposo',),
-        ),
-        EDAD_PENDIENTE,
+        )
     )
 
-    edad_esposa = texto_o_defecto(
+    edad_esposa = numero_o_na(
         obtener_dato(
             datos,
             ('edad_esposa',),
-        ),
-        EDAD_PENDIENTE,
+        )
     )
 
     padre_esposo = texto_o_defecto(
@@ -182,7 +258,7 @@ def generar_constancia_matrimonio(
             datos,
             ('padre_esposo',),
         ),
-        FILIACION_PENDIENTE,
+        DATO_PENDIENTE,
     )
 
     madre_esposo = texto_o_defecto(
@@ -190,7 +266,7 @@ def generar_constancia_matrimonio(
             datos,
             ('madre_esposo',),
         ),
-        FILIACION_PENDIENTE,
+        DATO_PENDIENTE,
     )
 
     padre_esposa = texto_o_defecto(
@@ -198,7 +274,7 @@ def generar_constancia_matrimonio(
             datos,
             ('padre_esposa',),
         ),
-        FILIACION_PENDIENTE,
+        DATO_PENDIENTE,
     )
 
     madre_esposa = texto_o_defecto(
@@ -206,7 +282,7 @@ def generar_constancia_matrimonio(
             datos,
             ('madre_esposa',),
         ),
-        FILIACION_PENDIENTE,
+        DATO_PENDIENTE,
     )
 
     fecha_matrimonio = _formatear_fecha_matrimonio(datos)
@@ -222,67 +298,124 @@ def generar_constancia_matrimonio(
         'NINGUNA',
     )
 
-    parrafos = [
-        (
-            'Datos del registro: Libro de Matrimonios '
-            f'No. {libro}, folio {folio}, año {anio}.'
-        ),
-        (
-            f'El MATRIMONIO DE: {esposo}, de '
-            f'{edad_esposo} años de edad, hijo de '
-            f'{padre_esposo} y de {madre_esposo}.'
-        ),
-        (
-            f'Con la señorita: {esposa}, de '
-            f'{edad_esposa} años de edad, hija de '
-            f'{padre_esposa} y de {madre_esposa}.'
-        ),
-        (
-            'Contrajeron matrimonio '
-            f'{fecha_matrimonio}.'
-        ),
-        testigos,
-        (
-            'Para el uso que al interesado(a) convenga, '
-            'se extiende en una hoja bond membretada '
-            'tamaño carta, '
-            f'{fecha_expedicion}, en la ciudad de '
-            'Cobán, Alta Verapaz.'
-        ),
-    ]
-
     buffer, pdf = crear_capa()
 
     pdf.setTitle(
         'Constancia de Matrimonio'
     )
 
-    dibujar_rectangulo_blanco(
+    # Datos dentro de los espacios libres de la plantilla oficial.
+    _dibujar_en_hueco(
         pdf,
-        30,
-        285,
-        552,
-        185,
+        esposo,
+        166.5,
+        445.75,
+        95.0,
+        tamano_max=TAMANO_NOMBRE_CONTRAYENTE,
+        tamano_min=TAMANO_MINIMO_CONTRAYENTE,
+    )
+    _dibujar_en_hueco(
+        pdf,
+        edad_esposo,
+        277.0,
+        445.75,
+        12.5,
+        tamano_max=TAMANO_EDAD,
+        tamano_min=TAMANO_EDAD,
     )
 
+    _dibujar_en_hueco(
+        pdf,
+        padre_esposo,
+        89.0,
+        429.65,
+        43.5,
+        tamano_max=TAMANO_FILIACION,
+        tamano_min=TAMANO_MINIMO_FILIACION,
+    )
+    _dibujar_en_hueco(
+        pdf,
+        madre_esposo,
+        162.0,
+        429.65,
+        405.0,
+        tamano_max=TAMANO_FILIACION,
+        tamano_min=TAMANO_MINIMO_FILIACION,
+    )
+
+    _dibujar_en_hueco(
+        pdf,
+        esposa,
+        139.5,
+        397.45,
+        127.0,
+        tamano_max=TAMANO_NOMBRE_CONTRAYENTE,
+        tamano_min=TAMANO_MINIMO_CONTRAYENTE,
+    )
+    _dibujar_en_hueco(
+        pdf,
+        edad_esposa,
+        281.5,
+        397.45,
+        12.5,
+        tamano_max=TAMANO_EDAD,
+        tamano_min=TAMANO_EDAD,
+    )
+
+    _dibujar_en_hueco(
+        pdf,
+        padre_esposa,
+        88.5,
+        381.35,
+        78.0,
+        tamano_max=TAMANO_FILIACION,
+        tamano_min=TAMANO_MINIMO_FILIACION,
+    )
+    _dibujar_en_hueco(
+        pdf,
+        madre_esposa,
+        200.0,
+        381.35,
+        368.0,
+        tamano_max=TAMANO_FILIACION,
+        tamano_min=TAMANO_MINIMO_FILIACION,
+    )
+
+    # Bloque de registro, fecha, testigos y expedición.
     dibujar_bloque_ajustado(
         pdf,
-        parrafos,
+        [
+            (
+                'Datos del registro: Libro de Matrimonios '
+                f'No. {libro}, folio {folio}, año {anio}.'
+            ),
+            f'Contrajeron matrimonio {fecha_matrimonio}.',
+            testigos,
+            (
+                'Para el uso que al interesado(a) convenga, '
+                'se extiende en una hoja bond membretada '
+                'tamaño carta, '
+                f'{fecha_expedicion}, en la ciudad de '
+                'Cobán, Alta Verapaz.'
+            ),
+        ],
         72,
-        540,
-        270,
+        365,
+        255,
         468,
-        tamano_max=13.0,
-        tamano_min=9.0,
+        tamano_max=TAMANO_BLOQUE,
+        tamano_min=TAMANO_BLOQUE,
+        interlineado_ratio=1.35,
+        separacion=4.0,
     )
 
     dibujar_multilinea_limitada(
         pdf,
         observacion,
-        150,
-        244,
-        380,
-        tamano=11.0,
+        137.5,
+        248.4,
+        430,
+        tamano=TAMANO_OBSERVACION,
         interlineado=14.0,
         max_lineas=2,
     )

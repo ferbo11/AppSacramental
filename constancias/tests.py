@@ -166,7 +166,7 @@ class GeneradorBautismoTests(SimpleTestCase):
         self.assertIn('Bautismos No. 4', texto)
         self.assertIn('folio 15', texto)
         self.assertIn('partida No. 7', texto)
-        self.assertIn('María López García', texto)
+        self.assertIn('MARÍA LÓPEZ GARCÍA', texto)
         self.assertIn('Juan López Pérez', texto)
         self.assertIn('Ana García Méndez', texto)
         self.assertIn('Carlos López', texto)
@@ -184,13 +184,13 @@ class GeneradorBautismoTests(SimpleTestCase):
             ),
             texto,
         )
-        self.assertIn(
-            (
-                'a los 26 días del mes de octubre del año '
-                'dos mil veintiséis, en la ciudad de '
-                'Cobán, Alta Verapaz.'
-            ),
+        self.assertRegex(
             texto,
+            (
+                r'a los 26 días del mes de octubre del año '
+                r'dos mil veintiséis\s*,\s*en la ciudad de '
+                r'Cobán, Alta Verapaz\.'
+            ),
         )
         self.assertIn(
             'Constancia solicitada por la interesada.',
@@ -258,13 +258,15 @@ class GeneradorMatrimonioTests(SimpleTestCase):
     def test_incluye_todos_los_datos_del_matrimonio(self):
         texto = extraer_texto(self.crear_pdf())
 
+        self.assertIn('El MATRIMONIO DE:', texto)
+        self.assertIn('Hijo de: y de:', texto)
+        self.assertIn('Con la señorita:', texto)
+        self.assertIn('Hija de: y de:', texto)
         self.assertIn('Matrimonios No. 2', texto)
         self.assertIn('folio 8', texto)
         self.assertIn('año 2024', texto)
-        self.assertIn('José Ramírez', texto)
-        self.assertIn('32 años de edad', texto)
-        self.assertIn('Ana Morales', texto)
-        self.assertIn('29 años de edad', texto)
+        self.assertIn('José Ramírez 32', texto)
+        self.assertIn('Ana Morales 29', texto)
         self.assertIn('Ramón Ramírez', texto)
         self.assertIn('Marta Pérez', texto)
         self.assertIn('Luis Morales', texto)
@@ -321,3 +323,35 @@ class GeneradorMatrimonioTests(SimpleTestCase):
 
         self.assertIn('Fue testigo: Pedro López.', texto)
         self.assertNotIn('Fueron testigos', texto)
+
+
+class GeneradorComunionTests(SimpleTestCase):
+
+    def test_toma_el_folio_desde_el_registro(self):
+        from types import SimpleNamespace
+
+        from constancias.generador_comunion import (
+            generar_constancia_comunion,
+        )
+
+        comunion = SimpleNamespace(
+            nombre='Ana López García',
+            nombre_padre='Juan López Pérez',
+            nombre_madre='Ana García Méndez',
+            fecha_sacramento=date(2020, 5, 10),
+            libro=2,
+            folio=314,
+        )
+
+        pdf = generar_constancia_comunion(
+            comunion,
+            7,
+            'NINGUNA',
+        )
+
+        texto = extraer_texto(pdf)
+
+        self.assertIn('folio 314', texto)
+        self.assertIn('partida No. 007', texto)
+        self.assertIn('No. 02', texto)
+        self.assertIn('ANA LÓPEZ GARCÍA', texto)

@@ -14,7 +14,10 @@ class RegistroEmisionComunionTests(SimpleTestCase):
         request = RequestFactory().post(
             '/comunion/generar-pdf/7/'
         )
-        request.session = {'username': 'secretaria'}
+        request.session = {
+            'usuario_id': 1,
+            'username': 'secretaria',
+        }
 
         persona = SimpleNamespace(
             id_comunion=7,
@@ -65,7 +68,7 @@ class RegistroEmisionComunionTests(SimpleTestCase):
         request = RequestFactory().post(
             '/comunion/generar-pdf/7/'
         )
-        request.session = {}
+        request.session = {'usuario_id': 1}
 
         persona = SimpleNamespace(
             id_comunion=7,

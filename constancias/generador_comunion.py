@@ -451,8 +451,10 @@ def generar_constancia_comunion(
         defecto='N/A'
     )
 
+    # La partida se obtiene del registro de Primera Comunión cargado
+    # desde PostgreSQL, no del parámetro externo numero_partida.
     partida_val = numero_o_na(
-        numero_partida,
+        getattr(comunion, 'partida', None),
         defecto='N/A'
     )
 

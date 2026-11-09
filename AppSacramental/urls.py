@@ -217,6 +217,12 @@ urlpatterns = [
         "configuracion/",
         include("configuracion.urls"),
     ),
+
+    # Respaldos de la base de datos
+    path(
+        "backups/",
+        include("respaldos.urls"),
+    ),
 ]
 
 

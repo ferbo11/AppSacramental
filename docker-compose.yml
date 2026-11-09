@@ -37,9 +37,12 @@ services:
       DB_NAME: ${POSTGRES_DB:-SACRANET_BD}
       DB_USER: ${POSTGRES_USER:-postgres}
       DB_PASSWORD: ${POSTGRES_PASSWORD}
+      BACKUP_DIR: /app/backups
+      BACKUP_RETENTION: ${BACKUP_RETENTION:-15}
     volumes:
       - static_data:/app/staticfiles
       - media_data:/app/media
+      - backup_data:/app/backups
       - sqlite_data:/data
     expose:
       - "8000"
@@ -89,6 +92,7 @@ volumes:
   postgres_data:
   static_data:
   media_data:
+  backup_data:
   sqlite_data:
 
 networks:

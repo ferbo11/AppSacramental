@@ -417,11 +417,14 @@ def dibujar_texto_con_estilos(
             )
 
             if numero < len(linea) - 1:
-                posicion_x += pdfmetrics.stringWidth(
-                    " ",
-                    fuente,
-                    tamano,
-                )
+                siguiente = linea[numero + 1][0]
+
+                if siguiente[:1] not in {',', '.', ';', ':', ')', ']'}:
+                    posicion_x += pdfmetrics.stringWidth(
+                        " ",
+                        fuente,
+                        tamano,
+                    )
 
 
 # ============================================================
@@ -548,7 +551,7 @@ def generar_constancia_bautismo(
     # El campo correcto para la partida es "partida".
     partida_valor = obtener_dato(
         datos,
-        ("partida",),
+        ("partida", "numero_partida"),
     )
 
     partida = numero_o_na(
@@ -714,7 +717,7 @@ def generar_constancia_bautismo(
             (mes, True),
             ("del año", False),
             (anio, True),
-            ("en la ciudad de Cobán, Alta Verapaz.", False),
+            (", en la ciudad de Cobán, Alta Verapaz.", False),
         ]
     else:
         segmentos_expedicion = [

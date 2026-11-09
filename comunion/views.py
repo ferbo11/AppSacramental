@@ -54,6 +54,7 @@ def buscar_comunion(request):
 # GENERAR PDF DE PRIMERA COMUNIÓN
 # ============================================================
 
+@usuario_requerido
 def generar_pdf_comunion(request, id_comunion):
 
     if request.method != 'POST':
@@ -139,6 +140,7 @@ def generar_pdf_comunion(request, id_comunion):
             request.session.get('username')
             or 'Desconocido'
         )[:150],
+        id_constancia=constancia.id_constancia,
     )
 
     # --------------------------------------------------------
@@ -150,19 +152,6 @@ def generar_pdf_comunion(request, id_comunion):
         as_attachment=False,
         filename=nombre_archivo,
         content_type='application/pdf'
-    )
-       # ========================================================
-    # REGISTRAR EN EL HISTORIAL (SQLite)
-    # ========================================================
-
-    ConstanciaEmitida.objects.using('historial').create(
-        nombre=comunion.nombre[:200],
-        sacramento='comunion',
-        usuario=(
-            request.session.get('username')
-            or 'Desconocido'
-        )[:150],
-        id_constancia=constancia.id_constancia,
     )
 
 # ============================================================

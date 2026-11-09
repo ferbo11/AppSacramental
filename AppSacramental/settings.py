@@ -43,6 +43,13 @@ def env_list(name, default=''):
     ]
 
 
+def env_int(name, default):
+    try:
+        return int(os.environ.get(name, default))
+    except (TypeError, ValueError):
+        return default
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
@@ -84,7 +91,8 @@ INSTALLED_APPS = [
     'agenda',
     'configuracion',
     'constancias',
-    'historial'
+    'historial',
+    'respaldos',
 ]
 
 MIDDLEWARE = [
@@ -282,6 +290,16 @@ MEDIA_ROOT = Path(
         str(BASE_DIR / 'media'),
     )
 )
+
+# Respaldos de PostgreSQL
+BACKUP_DIR = Path(
+    os.environ.get(
+        'BACKUP_DIR',
+        str(BASE_DIR / 'backups'),
+    )
+)
+
+BACKUP_RETENTION = env_int('BACKUP_RETENTION', 15)
 
 # Proxy inverso (Nginx)
 USE_X_FORWARDED_HOST = env_bool('USE_X_FORWARDED_HOST', True)

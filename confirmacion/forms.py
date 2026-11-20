@@ -36,7 +36,10 @@ class ConfirmacionForm(forms.ModelForm):
             'madre': forms.TextInput(attrs={'class': 'form-control'}),
             'padrino_1': forms.TextInput(attrs={'class': 'form-control'}),
             'padrino_2': forms.TextInput(attrs={'class': 'form-control'}),
-            'fecha_sacramento': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'fecha_sacramento': forms.DateInput(
+                attrs={'class': 'form-control', 'type': 'date'},
+                format='%Y-%m-%d',
+            ),
             'folio': forms.NumberInput(attrs={'class': 'form-control'}),
             'libro': forms.NumberInput(attrs={'class': 'form-control'}),
             'partida': forms.NumberInput(attrs={'class': 'form-control'}),

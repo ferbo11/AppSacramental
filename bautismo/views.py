@@ -1,3 +1,5 @@
+import logging
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import FileResponse
 from django.core.paginator import Paginator
@@ -9,6 +11,8 @@ from constancias.models import Constancia
 from constancias.generador_bautismo import generar_constancia_bautismo
 from historial.models import ConstanciaEmitida
 from AppSacramental.views import usuario_requerido
+
+logger = logging.getLogger(__name__)
 
 
 def buscar_bautismo(request):
@@ -169,6 +173,7 @@ def crear_bautismo(request):
                 )
                 return redirect('listar_bautismos')
             except Exception:
+                logger.exception('Error al crear el registro de bautismo.')
                 messages.error(
                     request,
                     'No se pudo crear el registro de bautismo.',
@@ -224,6 +229,7 @@ def editar_bautismo(request, pk):
                     pk=registro.pk,
                 )
             except Exception:
+                logger.exception('Error al actualizar el registro de bautismo.')
                 messages.error(
                     request,
                     'No se pudo actualizar el registro de bautismo.',

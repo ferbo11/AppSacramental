@@ -1,3 +1,5 @@
+import logging
+
 from django.shortcuts import redirect, render, get_object_or_404
 from django.http import FileResponse
 
@@ -131,6 +133,8 @@ from django.db.models import Q
 from AppSacramental.views import usuario_requerido
 from .forms import ConfirmacionForm
 
+logger = logging.getLogger(__name__)
+
 
 @usuario_requerido
 def listar_confirmaciones(request):
@@ -163,6 +167,9 @@ def crear_confirmacion(request):
                 messages.success(request, 'Registro de confirmación creado correctamente.')
                 return redirect('listar_confirmaciones')
             except Exception:
+                logger.exception(
+                    'Error al crear el registro de confirmación.'
+                )
                 messages.error(request, 'No se pudo crear el registro de confirmación.')
         else:
             messages.error(request, 'Revise los datos del formulario.')
@@ -188,6 +195,9 @@ def editar_confirmacion(request, pk):
                 messages.success(request, 'Registro de confirmación actualizado correctamente.')
                 return redirect('ver_confirmacion', pk=registro.pk)
             except Exception:
+                logger.exception(
+                    'Error al actualizar el registro de confirmación.'
+                )
                 messages.error(request, 'No se pudo actualizar el registro de confirmación.')
         else:
             messages.error(request, 'Revise los datos del formulario.')

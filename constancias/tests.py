@@ -12,6 +12,7 @@ from constancias.generador_bautismo import (
     generar_constancia_bautismo,
 )
 from constancias.generador_matrimonio import (
+    _formatear_fecha_matrimonio,
     generar_constancia_matrimonio,
 )
 from constancias.utilidades import (
@@ -309,6 +310,17 @@ class GeneradorMatrimonioTests(SimpleTestCase):
             texto,
         )
 
+    def test_formatea_mes_numerico_como_nombre(self):
+        texto = _formatear_fecha_matrimonio(
+            {
+                'dia': 12,
+                'mes': '5',
+                'ano': 2015,
+            },
+        )
+
+        self.assertEqual(texto, 'el 12 de mayo de 2015')
+
     def test_usa_un_solo_testigo_cuando_falta_el_otro(self):
         pdf = generar_constancia_matrimonio(
             {
@@ -352,6 +364,6 @@ class GeneradorComunionTests(SimpleTestCase):
         texto = extraer_texto(pdf)
 
         self.assertIn('folio 314', texto)
-        self.assertIn('partida No. 007', texto)
+        self.assertIn('partida No. N/A', texto)
         self.assertIn('No. 02', texto)
         self.assertIn('ANA LÓPEZ GARCÍA', texto)

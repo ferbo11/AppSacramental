@@ -64,6 +64,10 @@ def _formatear_fecha_matrimonio(datos):
         '',
     )
 
+    mes_texto = mes.strip().lower()
+    if mes_texto.isdigit() and 1 <= int(mes_texto) <= 12:
+        mes_texto = MESES[int(mes_texto) - 1]
+
     dia = numero_o_defecto(
         obtener_dato(datos, ('dia',)),
         '',
@@ -75,16 +79,16 @@ def _formatear_fecha_matrimonio(datos):
     )
 
     if dia and mes and anio:
-        return f'el {dia} de {mes.lower()} de {anio}'
+        return f'el {dia} de {mes_texto} de {anio}'
 
     if mes and anio:
-        return f'en el mes de {mes.lower()} de {anio}'
+        return f'en el mes de {mes_texto} de {anio}'
 
     if anio:
         return f'en el año {anio}'
 
     if dia and mes:
-        return f'el {dia} de {mes.lower()}'
+        return f'el {dia} de {mes_texto}'
 
     return 'en fecha no registrada'
 

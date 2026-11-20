@@ -1,3 +1,4 @@
+import logging
 import re
 
 from django.contrib import messages
@@ -14,6 +15,8 @@ from historial.models import ConstanciaEmitida
 
 from .forms import MatrimonioForm
 from .models import Matrimonio
+
+logger = logging.getLogger(__name__)
 
 
 def _texto(valor):
@@ -300,6 +303,7 @@ def crear_matrimonio(request):
                 )
                 return redirect('listar_matrimonios')
             except Exception:
+                logger.exception('Error al crear el registro de matrimonio.')
                 messages.error(
                     request,
                     'No se pudo crear el registro de matrimonio.',
@@ -355,6 +359,9 @@ def editar_matrimonio(request, pk):
                     pk=registro.pk,
                 )
             except Exception:
+                logger.exception(
+                    'Error al actualizar el registro de matrimonio.'
+                )
                 messages.error(
                     request,
                     'No se pudo actualizar el registro de matrimonio.',

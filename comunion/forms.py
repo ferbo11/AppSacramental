@@ -31,7 +31,10 @@ class PrimeraComunionForm(forms.ModelForm):
             'padre': forms.TextInput(attrs={'class': 'form-control'}),
             'madre': forms.TextInput(attrs={'class': 'form-control'}),
             'bautizado_en': forms.TextInput(attrs={'class': 'form-control'}),
-            'fecha_sacramento': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'fecha_sacramento': forms.DateInput(
+                attrs={'class': 'form-control', 'type': 'date'},
+                format='%Y-%m-%d',
+            ),
             'folio': forms.NumberInput(attrs={'class': 'form-control'}),
             'libro': forms.NumberInput(attrs={'class': 'form-control'}),
             'requiere_revision': forms.CheckboxInput(attrs={'class': 'form-check-input'}),

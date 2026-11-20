@@ -1,3 +1,5 @@
+import logging
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import FileResponse
 from django.core.paginator import Paginator
@@ -13,6 +15,8 @@ from constancias.models import Constancia
 from constancias.generador_comunion import generar_constancia_comunion
 
 from historial.models import ConstanciaEmitida
+
+logger = logging.getLogger(__name__)
 
 
 # ============================================================
@@ -211,6 +215,9 @@ def crear_comunion(request):
                 return redirect('listar_comuniones')
 
             except Exception:
+                logger.exception(
+                    'Error al crear el registro de primera comunión.'
+                )
                 messages.error(
                     request,
                     'No se pudo crear el registro de primera comunión.'
@@ -285,6 +292,9 @@ def editar_comunion(request, pk):
                 )
 
             except Exception:
+                logger.exception(
+                    'Error al actualizar el registro de primera comunión.'
+                )
                 messages.error(
                     request,
                     'No se pudo actualizar el registro de primera comunión.'
